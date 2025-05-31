@@ -15,6 +15,27 @@ and the Flutter guide for
 
 A Flutter widget that creates beautiful, customizable ticket-style UI components with various border patterns, dividers, and styling options.
 
+## Preview
+
+<div align="center">
+  <div style="display: inline-block; margin: 0 5px;">
+    <img src="screenshots/Example%201.jpeg" alt="Classic Ticket" width="200"/>
+    <p>Classic Ticket</p>
+  </div>
+  <div style="display: inline-block; margin: 0 5px;">
+    <img src="screenshots/Example%202.jpeg" alt="Gradient Ticket" width="200"/>
+    <p>Gradient Ticket</p>
+  </div>
+  <div style="display: inline-block; margin: 0 5px;">
+    <img src="screenshots/Example%203.jpeg" alt="Premium Ticket" width="200"/>
+    <p>Premium Ticket</p>
+  </div>
+  <div style="display: inline-block; margin: 0 5px;">
+    <img src="screenshots/Example%204.jpeg" alt="Minimalist Ticket" width="200"/>
+    <p>Minimalist Ticket</p>
+  </div>
+</div>
+
 ## Features
 
 ### Basic Usage
@@ -279,3 +300,23 @@ const like = 'sample';
 TODO: Tell users more about the package: where to find more information, how to
 contribute to the package, how to file issues, what response they can expect
 from the package authors, and more.
+
+## Visual Examples
+
+Here are some visual examples showcasing different styles and configurations of the Ticketcher widget:
+
+### Example 1: Classic Ticket Design
+![Classic Ticket Design](screenshots/Example%201.jpeg)
+A clean, classic ticket design featuring a solid background with rounded corners and a subtle divider between sections. Perfect for event tickets or vouchers.
+
+### Example 2: Gradient Ticket with Wave Pattern
+![Gradient Ticket with Wave Pattern](screenshots/Example%202.jpeg)
+A modern ticket design using a gradient background and a decorative wave pattern at the bottom. The design includes a dashed divider for added visual interest.
+
+### Example 3: Premium Ticket Style
+![Premium Ticket Style](screenshots/Example%203.jpeg)
+A premium-looking ticket with a sophisticated gradient background, sharp border pattern, and elegant typography. Ideal for high-end events or premium services.
+
+### Example 4: Minimalist Ticket Design
+![Minimalist Ticket Design](screenshots/Example%204.jpeg)
+A minimalist ticket design featuring a clean layout, subtle shadows, and a simple arc pattern. Perfect for modern, clean interfaces.
