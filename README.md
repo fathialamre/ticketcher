@@ -21,6 +21,10 @@ A Flutter widget that creates beautiful, customizable ticket-style UI components
 |:---:|:---:|:---:|:---:|
 | *Multi-section Flight Ticket* | *Gradient Color Ticket* | *Wave Border Ticket* | *Sharp Border Ticket* |
 
+| ![Circle Divider](screenshots/circle_divider.jpeg) | ![Wave Divider](screenshots/wave_divider.jpeg) | ![Smooth Wave Divider](screenshots/smooth_wave_divider.jpeg) |
+|:---:|:---:|:---:|
+| *Circle Divider* | *Wave Divider* | *Smooth Wave Divider* |
+
 ## Features
 
 ### Basic Usage
@@ -90,7 +94,7 @@ Available patterns:
 
 ### Dividers
 
-Add dividers between sections.
+Add dividers between sections with various styles.
 
 ```dart
 Ticketcher(
@@ -98,13 +102,25 @@ Ticketcher(
     divider: TicketDivider(
       color: Colors.grey,
       thickness: 1.0,
-      style: DividerStyle.solid, // or dashed, circles
+      style: DividerStyle.solid, // or dashed, circles, wave, smoothWave
     ),
   ),
 )
 ```
 
-For dashed dividers:
+#### Solid Divider
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.solid(
+      color: Colors.grey,
+      thickness: 1.0,
+    ),
+  ),
+)
+```
+
+#### Dashed Divider
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
@@ -118,7 +134,7 @@ Ticketcher(
 )
 ```
 
-For circle dividers:
+#### Circle Divider
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
@@ -131,6 +147,41 @@ Ticketcher(
   ),
 )
 ```
+
+#### Wave Divider
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.wave(
+      color: Colors.grey,
+      thickness: 2.0,
+      waveHeight: 6.0,
+      waveWidth: 12.0,
+    ),
+  ),
+)
+```
+
+#### Smooth Wave Divider
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.smoothWave(
+      color: Colors.grey,
+      thickness: 2.0,
+      waveHeight: 6.0,
+      waveWidth: 12.0,
+    ),
+  ),
+)
+```
+
+Available divider styles:
+- `DividerStyle.solid`: A simple straight line
+- `DividerStyle.dashed`: A dashed line with customizable dash width and spacing
+- `DividerStyle.circles`: A series of evenly distributed circles
+- `DividerStyle.wave`: A zigzag wave pattern
+- `DividerStyle.smoothWave`: A smooth curved wave pattern using Bezier curves
 
 ### Background Styling
 
