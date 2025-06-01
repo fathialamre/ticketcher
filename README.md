@@ -140,6 +140,7 @@ Ticketcher(
     divider: TicketDivider.solid(
       color: Colors.grey,
       thickness: 1.0,
+      padding: 16.0, // Add padding on both sides
     ),
   ),
 )
@@ -154,6 +155,7 @@ Ticketcher(
       thickness: 1.0,
       dashWidth: 10.0,
       dashSpace: 7.0,
+      padding: 16.0, // Add padding on both sides
     ),
   ),
 )
@@ -168,6 +170,7 @@ Ticketcher(
       thickness: 2.0,
       circleRadius: 4.0,
       circleSpacing: 8.0,
+      padding: 16.0, // Add padding on both sides
     ),
   ),
 )
@@ -182,6 +185,7 @@ Ticketcher(
       thickness: 2.0,
       waveHeight: 6.0,
       waveWidth: 12.0,
+      padding: 16.0, // Add padding on both sides
     ),
   ),
 )
@@ -196,10 +200,13 @@ Ticketcher(
       thickness: 2.0,
       waveHeight: 6.0,
       waveWidth: 12.0,
+      padding: 16.0, // Add padding on both sides
     ),
   ),
 )
 ```
+
+The `padding` property adds equal spacing on both sides of the divider. This is useful when you want to create some space between the divider and the edges of the ticket. The padding is applied symmetrically, meaning the same amount of space is added to both the left and right sides in vertical mode, or top and bottom sides in horizontal mode.
 
 ### Background Styling
 

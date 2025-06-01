@@ -359,8 +359,8 @@ class HTicketcherPainter extends CustomPainter {
 
       for (int i = 0; i < sectionWidths.length - 1; i++) {
         final x = cumulativeWidths[i];
-        final startY = notchRadius;
-        final endY = size.height - notchRadius;
+        final startY = notchRadius + (divider.padding ?? 0.0);
+        final endY = size.height - notchRadius - (divider.padding ?? 0.0);
 
         switch (divider.style) {
           case DividerStyle.solid:
@@ -393,17 +393,14 @@ class HTicketcherPainter extends CustomPainter {
           case DividerStyle.circles:
             final circleRadius = divider.circleRadius ?? 4.0;
             final circleSpacing = divider.circleSpacing ?? 8.0;
-            final padding = 6.0;
-            final startYWithPadding = startY + padding;
-            final endYWithPadding = endY - padding;
-            final availableHeight = endYWithPadding - startYWithPadding;
+            final availableHeight = endY - startY;
             final circleHeight = circleRadius * 2 + circleSpacing;
             final numCircles =
                 ((availableHeight + circleSpacing) / circleHeight).floor();
             final actualSpacing =
                 (availableHeight - (numCircles * circleRadius * 2)) /
                 (numCircles - 1);
-            var currentY = startYWithPadding + circleRadius;
+            var currentY = startY + circleRadius;
 
             for (int j = 0; j < numCircles; j++) {
               canvas.drawCircle(
