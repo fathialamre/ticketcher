@@ -113,8 +113,8 @@ class TicketcherPainter extends CustomPainter {
         final gapWidth = style.height; // Base gap width
 
         // Calculate how many complete arcs we can fit
-        final numArcs = ((availableWidth - gapWidth) / (arcWidth + gapWidth))
-            .floor();
+        final numArcs =
+            ((availableWidth - gapWidth) / (arcWidth + gapWidth)).floor();
 
         // Calculate the total width needed for the pattern
         final totalPatternWidth = (numArcs * (arcWidth + gapWidth)) + gapWidth;
@@ -236,10 +236,11 @@ class TicketcherPainter extends CustomPainter {
       final shadowPath = Path.from(path);
       shadowPath.shift(Offset(shadow.offset.dx, shadow.offset.dy));
 
-      final shadowPaint = Paint()
-        ..color = shadow.color
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius)
-        ..style = PaintingStyle.fill;
+      final shadowPaint =
+          Paint()
+            ..color = shadow.color
+            ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius)
+            ..style = PaintingStyle.fill;
 
       canvas.drawPath(shadowPath, shadowPaint);
     }
@@ -259,62 +260,87 @@ class TicketcherPainter extends CustomPainter {
 
     // Draw the border if specified
     if (decoration.border != null) {
-      final borderPaint = Paint()
-        ..color = decoration.border!.top.color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = decoration.border!.top.width
-        ..strokeJoin = StrokeJoin.round;
+      final borderPaint =
+          Paint()
+            ..color = decoration.border!.top.color
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = decoration.border!.top.width
+            ..strokeJoin = StrokeJoin.round;
       canvas.drawPath(path, borderPaint);
     }
 
     // Draw the dividers if specified
     if (decoration.divider != null) {
       final divider = decoration.divider!;
-      final dividerPaint = Paint()
-        ..color = divider.color ?? Colors.grey
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = divider.thickness ?? 1.0;
+      final dividerPaint =
+          Paint()
+            ..color = divider.color ?? Colors.grey
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = divider.thickness ?? 1.0;
 
-      // Draw dividers between sections
       for (int i = 0; i < sectionHeights.length - 1; i++) {
         final y = cumulativeHeights[i];
         final startX = notchRadius;
         final endX = size.width - notchRadius;
 
-        if (divider.style == DividerStyle.dashed) {
-          final dashWidth = divider.dashWidth ?? 5.0;
-          final dashSpace = divider.dashSpace ?? 5.0;
-          final totalWidth = endX - startX;
+        switch (divider.style) {
+          case DividerStyle.solid:
+            canvas.drawLine(Offset(startX, y), Offset(endX, y), dividerPaint);
+            break;
 
-          // Calculate the optimal number of segments
-          final segmentRatio = dashWidth / dashSpace;
-          final minSegments = 6;
-          final maxSegments = 20;
+          case DividerStyle.dashed:
+            final dashWidth = divider.dashWidth ?? 10.0;
+            final dashSpace = divider.dashSpace ?? 7.0;
+            var currentX = startX;
 
-          final idealSegments = (totalWidth / (dashWidth + dashSpace)).round();
-          final numSegments = idealSegments.clamp(minSegments, maxSegments);
-          final totalDashesWidth = numSegments * dashWidth;
-          final remainingSpace = totalWidth - totalDashesWidth;
-          final spaceBetweenDashes = remainingSpace / (numSegments - 1);
-          final totalPatternWidth =
-              totalDashesWidth + (spaceBetweenDashes * (numSegments - 1));
-          final startOffset = (totalWidth - totalPatternWidth) / 2;
-          var currentX = startX + startOffset;
-
-          for (int j = 0; j < numSegments; j++) {
-            final dashEnd = currentX + dashWidth;
-            canvas.drawLine(
-              Offset(currentX, y),
-              Offset(dashEnd, y),
-              dividerPaint,
-            );
-
-            if (j < numSegments - 1) {
-              currentX = dashEnd + spaceBetweenDashes;
+            while (currentX < endX) {
+              final nextX = (currentX + dashWidth).clamp(currentX, endX);
+              canvas.drawLine(
+                Offset(currentX, y),
+                Offset(nextX, y),
+                dividerPaint,
+              );
+              currentX = nextX + dashSpace;
             }
-          }
-        } else {
-          canvas.drawLine(Offset(startX, y), Offset(endX, y), dividerPaint);
+            break;
+
+          case DividerStyle.circles:
+            final circleRadius = divider.circleRadius ?? 4.0;
+            final circleSpacing = divider.circleSpacing ?? 8.0;
+
+            // Add 2px padding from both sides
+            final padding = 6.0;
+            final startXWithPadding = startX + padding;
+            final endXWithPadding = endX - padding;
+
+            // Calculate the available width for circles
+            final availableWidth = endXWithPadding - startXWithPadding;
+
+            // Calculate the total width needed for one circle (diameter + spacing)
+            final circleWidth = circleRadius * 2 + circleSpacing;
+
+            // Calculate how many complete circles we can fit
+            final numCircles =
+                ((availableWidth + circleSpacing) / circleWidth).floor();
+
+            // Calculate the actual spacing needed to distribute circles evenly
+            final actualSpacing =
+                (availableWidth - (numCircles * circleRadius * 2)) /
+                (numCircles - 1);
+
+            // Start from the left edge with padding
+            var currentX = startXWithPadding + circleRadius;
+
+            // Draw all circles
+            for (int i = 0; i < numCircles; i++) {
+              canvas.drawCircle(
+                Offset(currentX, y),
+                circleRadius,
+                dividerPaint,
+              );
+              currentX += circleRadius * 2 + actualSpacing;
+            }
+            break;
         }
       }
     }
