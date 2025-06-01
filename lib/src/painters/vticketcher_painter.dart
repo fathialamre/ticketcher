@@ -4,12 +4,43 @@ import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
 import '../models/ticket_divider.dart';
 
-class TicketcherPainter extends CustomPainter {
+/// A custom painter that draws a vertical ticket with customizable sections, borders, and dividers.
+///
+/// This painter is responsible for rendering the visual appearance of a vertical ticket,
+/// including its borders, corners, notches between sections, and dividers.
+/// It supports various border styles, corner rounding, and divider patterns.
+///
+/// Example:
+/// ```dart
+/// CustomPaint(
+///   painter: VTicketcherPainter(
+///     notchRadius: 10.0,
+///     sectionHeights: [100.0, 100.0],
+///     decoration: TicketcherDecoration(
+///       borderRadius: TicketRadius.all(8.0),
+///       // ... other decoration properties
+///     ),
+///   ),
+///   child: YourTicketContent(),
+/// )
+/// ```
+class VTicketcherPainter extends CustomPainter {
+  /// The radius of the notches between ticket sections.
   final double notchRadius;
+
+  /// The heights of each section in the ticket.
   final List<double> sectionHeights;
+
+  /// The decoration properties for the ticket.
   final TicketcherDecoration decoration;
 
-  TicketcherPainter({
+  /// Creates a new [VTicketcherPainter].
+  ///
+  /// Parameters:
+  /// - [notchRadius]: The radius of the notches between sections
+  /// - [sectionHeights]: The heights of each section in the ticket
+  /// - [decoration]: The decoration properties for the ticket
+  VTicketcherPainter({
     required this.notchRadius,
     required this.sectionHeights,
     required this.decoration,
@@ -22,7 +53,14 @@ class TicketcherPainter extends CustomPainter {
     final direction = decoration.borderRadius.direction;
     final corner = decoration.borderRadius.corner;
 
-    // Helper function to determine if a corner should be rounded
+    /// Determines if a specific corner should be rounded based on the decoration settings.
+    ///
+    /// Parameters:
+    /// - [targetCorner]: The corner to check
+    ///
+    /// Returns:
+    /// - `true` if the corner should be rounded
+    /// - `false` if the corner should be sharp
     bool shouldRoundCorner(TicketCorner targetCorner) {
       switch (corner) {
         case TicketCorner.all:
@@ -248,29 +286,48 @@ class TicketcherPainter extends CustomPainter {
     // Fill the background
     final backgroundPaint = Paint()..style = PaintingStyle.fill;
 
-    if (decoration.gradient != null) {
-      backgroundPaint.shader = decoration.gradient!.createShader(
-        Rect.fromLTWH(0, 0, size.width, size.height),
-      );
-    } else {
-      backgroundPaint.color = decoration.backgroundColor;
+    /// Draws the background of the ticket with the specified decoration.
+    ///
+    /// This method handles both solid colors and gradients for the ticket background.
+    void drawBackground() {
+      if (decoration.gradient != null) {
+        backgroundPaint.shader = decoration.gradient!.createShader(
+          Rect.fromLTWH(0, 0, size.width, size.height),
+        );
+      } else {
+        backgroundPaint.color = decoration.backgroundColor;
+      }
+      canvas.drawPath(path, backgroundPaint);
     }
 
-    canvas.drawPath(path, backgroundPaint);
-
-    // Draw the border if specified
-    if (decoration.border != null) {
-      final borderPaint =
-          Paint()
-            ..color = decoration.border!.top.color
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = decoration.border!.top.width
-            ..strokeJoin = StrokeJoin.round;
-      canvas.drawPath(path, borderPaint);
+    /// Draws the border of the ticket with the specified decoration.
+    ///
+    /// This method handles both solid colors and gradients for the ticket border.
+    void drawBorder() {
+      if (decoration.border != null) {
+        final borderPaint =
+            Paint()
+              ..color = decoration.border!.top.color
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = decoration.border!.top.width
+              ..strokeJoin = StrokeJoin.round;
+        canvas.drawPath(path, borderPaint);
+      }
     }
 
-    // Draw the dividers if specified
-    if (decoration.divider != null) {
+    /// Draws the dividers between ticket sections.
+    ///
+    /// This method handles all divider styles:
+    /// - Solid lines
+    /// - Dashed lines
+    /// - Circles
+    /// - Wave patterns
+    /// - Smooth wave patterns
+    /// - Dotted lines
+    /// - Double lines
+    void drawDividers() {
+      if (decoration.divider == null) return;
+
       final divider = decoration.divider!;
       final dividerPaint =
           Paint()
@@ -477,11 +534,17 @@ class TicketcherPainter extends CustomPainter {
         }
       }
     }
+
+    // Draw the ticket components in the correct order
+    drawBackground();
+    drawBorder();
+    drawDividers();
   }
 
   @override
-  bool shouldRepaint(TicketcherPainter oldDelegate) {
-    return oldDelegate.sectionHeights != sectionHeights ||
+  bool shouldRepaint(VTicketcherPainter oldDelegate) {
+    return oldDelegate.notchRadius != notchRadius ||
+        oldDelegate.sectionHeights != sectionHeights ||
         oldDelegate.decoration != decoration;
   }
 }

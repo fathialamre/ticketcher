@@ -3,6 +3,32 @@ import 'border_pattern.dart';
 import 'ticket_divider.dart';
 import 'ticket_radius.dart';
 
+/// A decoration class for customizing the appearance of a ticket widget.
+///
+/// Example:
+/// ```dart
+/// TicketcherDecoration(
+///   borderRadius: TicketRadius(radius: 12.0),
+///   backgroundColor: Colors.blue,
+///   divider: TicketDivider(
+///     height: 2.0,
+///     color: Colors.white,
+///     pattern: DashPattern(dashLength: 5, gapLength: 3),
+///   ),
+///   bottomBorderStyle: BorderPattern.zigzag(
+///     amplitude: 8,
+///     wavelength: 16,
+///   ),
+/// )
+/// ```
+///
+/// The decoration allows customization of:
+/// * Border radius at corners using [borderRadius]
+/// * Background color or gradient using [backgroundColor] or [gradient]
+/// * Custom border patterns on bottom/left/right using [bottomBorderStyle], etc.
+/// * Optional divider line with custom pattern using [divider]
+/// * Border and shadow effects using [border] and [shadow]
+
 class TicketcherDecoration {
   final TicketRadius borderRadius;
   final Border? border;

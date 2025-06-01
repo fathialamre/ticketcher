@@ -121,6 +121,15 @@ Available patterns:
 
 Add dividers between sections with various styles.
 
+Available divider styles:
+- `DividerStyle.solid` - A simple straight line
+- `DividerStyle.dashed` - A line made of dashes
+- `DividerStyle.circles` - A series of circles
+- `DividerStyle.wave` - A zigzag wave pattern
+- `DividerStyle.smoothWave` - A smooth curved wave pattern
+- `DividerStyle.dotted` - A series of evenly spaced dots
+- `DividerStyle.doubleLine` - Two parallel lines
+
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(

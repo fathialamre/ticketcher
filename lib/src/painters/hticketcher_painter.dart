@@ -3,13 +3,64 @@ import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
 import '../models/ticket_divider.dart';
 import '../models/border_shape.dart';
-import '../models/border_pattern.dart';
 
+/// A custom painter that draws a horizontal ticket with customizable sections, borders, and dividers.
+///
+/// This painter is responsible for rendering the visual appearance of a horizontal ticket,
+/// including its borders, corners, notches between sections, and dividers. It supports
+/// various border styles, corner rounding, and divider patterns.
+///
+/// The painter handles:
+/// - Drawing the ticket outline with rounded corners
+/// - Creating notches between sections
+/// - Applying border patterns (wave, sharp, arc)
+/// - Rendering dividers between sections
+/// - Drawing shadows and backgrounds
+///
+/// Example:
+/// ```dart
+/// CustomPaint(
+///   painter: HTicketcherPainter(
+///     notchRadius: 10.0,
+///     sectionWidths: [100.0, 100.0],
+///     decoration: TicketcherDecoration(
+///       borderRadius: TicketRadius.all(8.0),
+///       backgroundColor: Colors.white,
+///       border: Border.all(color: Colors.grey),
+///       divider: TicketDivider.doubleLine(
+///         color: Colors.grey,
+///         thickness: 1.0,
+///         lineSpacing: 4.0,
+///       ),
+///     ),
+///   ),
+///   child: YourTicketContent(),
+/// )
+/// ```
 class HTicketcherPainter extends CustomPainter {
+  /// The radius of the notches between ticket sections.
+  ///
+  /// This determines how rounded the cutouts between sections will be.
   final double notchRadius;
+
+  /// The widths of each section in the ticket.
+  ///
+  /// These widths are used to calculate the positions of notches and dividers
+  /// between sections.
   final List<double> sectionWidths;
+
+  /// The decoration properties for the ticket.
+  ///
+  /// This includes properties like border radius, background color,
+  /// border style, and divider style.
   final TicketcherDecoration decoration;
 
+  /// Creates a new [HTicketcherPainter].
+  ///
+  /// Parameters:
+  /// - [notchRadius]: The radius of the notches between sections
+  /// - [sectionWidths]: The widths of each section in the ticket
+  /// - [decoration]: The decoration properties for the ticket
   HTicketcherPainter({
     required this.notchRadius,
     required this.sectionWidths,
@@ -23,7 +74,14 @@ class HTicketcherPainter extends CustomPainter {
     final direction = decoration.borderRadius.direction;
     final corner = decoration.borderRadius.corner;
 
-    // Helper function to determine if a corner should be rounded
+    /// Determines if a specific corner should be rounded based on the decoration settings.
+    ///
+    /// Parameters:
+    /// - [targetCorner]: The corner to check
+    ///
+    /// Returns:
+    /// - `true` if the corner should be rounded
+    /// - `false` if the corner should be sharp
     bool shouldRoundCorner(TicketCorner targetCorner) {
       switch (corner) {
         case TicketCorner.all:
@@ -95,6 +153,7 @@ class HTicketcherPainter extends CustomPainter {
           (shouldRoundCorner(TicketCorner.bottomRight) ? radius : 0);
 
       if (style.shape == BorderShape.arc) {
+        // Calculate dimensions for arc pattern
         final arcHeight = style.height * 2;
         final gapHeight = style.height;
         final numArcs =
@@ -135,6 +194,7 @@ class HTicketcherPainter extends CustomPainter {
           );
         }
       } else {
+        // Calculate dimensions for wave/sharp patterns
         final numSegments = (availableHeight / style.height).floor();
         final adjustedHeight = availableHeight / numSegments;
         var currentY = shouldRoundCorner(TicketCorner.topRight) ? radius : 0;
@@ -227,6 +287,7 @@ class HTicketcherPainter extends CustomPainter {
           (shouldRoundCorner(TicketCorner.bottomLeft) ? radius : 0);
 
       if (style.shape == BorderShape.arc) {
+        // Calculate dimensions for arc pattern
         final arcHeight = style.height * 2;
         final gapHeight = style.height;
         final numArcs =
@@ -263,6 +324,7 @@ class HTicketcherPainter extends CustomPainter {
           path.lineTo(0, shouldRoundCorner(TicketCorner.topLeft) ? radius : 0);
         }
       } else {
+        // Calculate dimensions for wave/sharp patterns
         final numSegments = (availableHeight / style.height).floor();
         final adjustedHeight = availableHeight / numSegments;
         var currentY =
@@ -306,7 +368,7 @@ class HTicketcherPainter extends CustomPainter {
       );
     }
 
-    // Close the path
+    // Close the path to ensure a smooth connection
     path.close();
 
     // Draw shadow if specified
@@ -327,29 +389,48 @@ class HTicketcherPainter extends CustomPainter {
     // Fill the background
     final backgroundPaint = Paint()..style = PaintingStyle.fill;
 
-    if (decoration.gradient != null) {
-      backgroundPaint.shader = decoration.gradient!.createShader(
-        Rect.fromLTWH(0, 0, size.width, size.height),
-      );
-    } else {
-      backgroundPaint.color = decoration.backgroundColor;
+    /// Draws the background of the ticket with the specified decoration.
+    ///
+    /// This method handles both solid colors and gradients for the ticket background.
+    void drawBackground() {
+      if (decoration.gradient != null) {
+        backgroundPaint.shader = decoration.gradient!.createShader(
+          Rect.fromLTWH(0, 0, size.width, size.height),
+        );
+      } else {
+        backgroundPaint.color = decoration.backgroundColor;
+      }
+      canvas.drawPath(path, backgroundPaint);
     }
 
-    canvas.drawPath(path, backgroundPaint);
-
-    // Draw the border if specified
-    if (decoration.border != null) {
-      final borderPaint =
-          Paint()
-            ..color = decoration.border!.top.color
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = decoration.border!.top.width
-            ..strokeJoin = StrokeJoin.round;
-      canvas.drawPath(path, borderPaint);
+    /// Draws the border of the ticket with the specified decoration.
+    ///
+    /// This method handles both solid colors and gradients for the ticket border.
+    void drawBorder() {
+      if (decoration.border != null) {
+        final borderPaint =
+            Paint()
+              ..color = decoration.border!.top.color
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = decoration.border!.top.width
+              ..strokeJoin = StrokeJoin.round;
+        canvas.drawPath(path, borderPaint);
+      }
     }
 
-    // Draw the dividers if specified
-    if (decoration.divider != null) {
+    /// Draws the dividers between ticket sections.
+    ///
+    /// This method handles all divider styles:
+    /// - Solid lines
+    /// - Dashed lines
+    /// - Circles
+    /// - Wave patterns
+    /// - Smooth wave patterns
+    /// - Dotted lines
+    /// - Double lines
+    void drawDividers() {
+      if (decoration.divider == null) return;
+
       final divider = decoration.divider!;
       final dividerPaint =
           Paint()
@@ -370,16 +451,27 @@ class HTicketcherPainter extends CustomPainter {
           case DividerStyle.dashed:
             final dashHeight = divider.dashWidth ?? 10.0;
             final dashSpace = divider.dashSpace ?? 7.0;
+
+            // Calculate the available height for dashes
             final availableHeight = endY - startY;
+
+            // Calculate the total height needed for one dash segment (dash + space)
             final segmentHeight = dashHeight + dashSpace;
+
+            // Calculate how many complete segments we can fit
             final numSegments =
                 ((availableHeight + dashSpace) / segmentHeight).floor();
+
+            // Calculate the actual spacing needed to distribute dashes evenly
             final actualSpacing =
                 (availableHeight - (numSegments * dashHeight)) /
                 (numSegments - 1);
+
+            // Start from the top edge
             var currentY = startY;
 
-            for (int j = 0; j < numSegments; j++) {
+            // Draw all dashes
+            for (int i = 0; i < numSegments; i++) {
               final nextY = currentY + dashHeight;
               canvas.drawLine(
                 Offset(x, currentY),
@@ -393,16 +485,27 @@ class HTicketcherPainter extends CustomPainter {
           case DividerStyle.circles:
             final circleRadius = divider.circleRadius ?? 4.0;
             final circleSpacing = divider.circleSpacing ?? 8.0;
+
+            // Calculate the available height for circles
             final availableHeight = endY - startY;
+
+            // Calculate the total height needed for one circle (diameter + spacing)
             final circleHeight = circleRadius * 2 + circleSpacing;
+
+            // Calculate how many complete circles we can fit
             final numCircles =
                 ((availableHeight + circleSpacing) / circleHeight).floor();
+
+            // Calculate the actual spacing needed to distribute circles evenly
             final actualSpacing =
                 (availableHeight - (numCircles * circleRadius * 2)) /
                 (numCircles - 1);
+
+            // Start from the top edge
             var currentY = startY + circleRadius;
 
-            for (int j = 0; j < numCircles; j++) {
+            // Draw all circles
+            for (int i = 0; i < numCircles; i++) {
               canvas.drawCircle(
                 Offset(x, currentY),
                 circleRadius,
@@ -413,17 +516,27 @@ class HTicketcherPainter extends CustomPainter {
             break;
 
           case DividerStyle.wave:
-            final waveWidth = divider.waveHeight ?? 4.0;
-            final waveHeight = divider.waveWidth ?? 8.0;
+            final waveWidth = divider.waveWidth ?? 4.0;
+            final waveHeight = divider.waveHeight ?? 8.0;
+
+            // Calculate the available height for waves
             final availableHeight = endY - startY;
+
+            // Calculate how many complete waves we can fit
             final numWaves = (availableHeight / waveHeight).floor();
+
+            // Calculate the actual wave height to distribute evenly
             final actualWaveHeight = availableHeight / numWaves;
+
+            // Start from the top edge
             var currentY = startY;
 
-            for (int j = 0; j < numWaves; j++) {
+            // Draw the wave pattern
+            for (int i = 0; i < numWaves; i++) {
               final nextY = currentY + actualWaveHeight;
               final midY = (currentY + nextY) / 2;
 
+              // Draw a single wave segment
               canvas.drawLine(
                 Offset(x, currentY),
                 Offset(x + waveWidth, midY),
@@ -440,17 +553,27 @@ class HTicketcherPainter extends CustomPainter {
             break;
 
           case DividerStyle.smoothWave:
-            final waveWidth = divider.waveHeight ?? 4.0;
-            final waveHeight = divider.waveWidth ?? 8.0;
+            final waveWidth = divider.waveWidth ?? 4.0;
+            final waveHeight = divider.waveHeight ?? 8.0;
+
+            // Calculate the available height for waves
             final availableHeight = endY - startY;
+
+            // Calculate how many complete waves we can fit
             final numWaves = (availableHeight / waveHeight).floor();
+
+            // Calculate the actual wave height to distribute evenly
             final actualWaveHeight = availableHeight / numWaves;
+
+            // Start from the top edge
             var currentY = startY;
 
-            for (int j = 0; j < numWaves; j++) {
+            // Draw the smooth wave pattern
+            for (int i = 0; i < numWaves; i++) {
               final nextY = currentY + actualWaveHeight;
               final midY = (currentY + nextY) / 2;
 
+              // Draw a smooth wave segment using quadratic Bezier curve
               final path =
                   Path()
                     ..moveTo(x, currentY)
@@ -483,7 +606,7 @@ class HTicketcherPainter extends CustomPainter {
             var currentY = startY;
 
             // Draw all dots
-            for (int j = 0; j < numSegments; j++) {
+            for (int i = 0; i < numSegments; i++) {
               canvas.drawCircle(
                 Offset(x, currentY + dotSize / 2),
                 dotSize / 2,
@@ -514,11 +637,17 @@ class HTicketcherPainter extends CustomPainter {
         }
       }
     }
+
+    // Draw the ticket components in the correct order
+    drawBackground();
+    drawBorder();
+    drawDividers();
   }
 
   @override
   bool shouldRepaint(HTicketcherPainter oldDelegate) {
-    return oldDelegate.sectionWidths != sectionWidths ||
+    return oldDelegate.notchRadius != notchRadius ||
+        oldDelegate.sectionWidths != sectionWidths ||
         oldDelegate.decoration != decoration;
   }
 }
