@@ -2,81 +2,183 @@ import 'package:flutter/material.dart';
 
 enum DividerStyle { solid, dashed, circles, wave, smoothWave }
 
-class TicketDivider {
+abstract class BaseDividerStyle {
   final Color? color;
   final double? thickness;
-  final DividerStyle style;
-  final double? dashWidth;
-  final double? dashSpace;
-  final double? circleRadius;
-  final double? circleSpacing;
-  final double? waveHeight;
-  final double? waveWidth;
 
-  const TicketDivider({
-    this.color,
-    this.thickness,
-    this.style = DividerStyle.solid,
-    this.dashWidth,
-    this.dashSpace,
-    this.circleRadius,
-    this.circleSpacing,
-    this.waveHeight,
-    this.waveWidth,
-  });
+  const BaseDividerStyle({this.color, this.thickness});
 
-  const TicketDivider.solid({this.color, this.thickness})
-    : style = DividerStyle.solid,
-      dashWidth = null,
-      dashSpace = null,
-      circleRadius = null,
-      circleSpacing = null,
-      waveHeight = null,
-      waveWidth = null;
+  DividerStyle get style;
+}
 
-  const TicketDivider.dashed({
-    this.color,
-    this.thickness,
+class SolidDividerStyle extends BaseDividerStyle {
+  const SolidDividerStyle({super.color, super.thickness});
+
+  @override
+  DividerStyle get style => DividerStyle.solid;
+}
+
+class DashedDividerStyle extends BaseDividerStyle {
+  final double dashWidth;
+  final double dashSpace;
+
+  const DashedDividerStyle({
+    super.color,
+    super.thickness,
     this.dashWidth = 10.0,
     this.dashSpace = 7.0,
-  }) : style = DividerStyle.dashed,
-       circleRadius = null,
-       circleSpacing = null,
-       waveHeight = null,
-       waveWidth = null;
+  });
 
-  const TicketDivider.circles({
-    this.color,
-    this.thickness,
+  @override
+  DividerStyle get style => DividerStyle.dashed;
+}
+
+class CirclesDividerStyle extends BaseDividerStyle {
+  final double circleRadius;
+  final double circleSpacing;
+
+  const CirclesDividerStyle({
+    super.color,
+    super.thickness,
     this.circleRadius = 4.0,
     this.circleSpacing = 8.0,
-  }) : style = DividerStyle.circles,
-       dashWidth = null,
-       dashSpace = null,
-       waveHeight = null,
-       waveWidth = null;
+  });
 
-  const TicketDivider.wave({
-    this.color,
-    this.thickness,
+  @override
+  DividerStyle get style => DividerStyle.circles;
+}
+
+class WaveDividerStyle extends BaseDividerStyle {
+  final double waveHeight;
+  final double waveWidth;
+
+  const WaveDividerStyle({
+    super.color,
+    super.thickness,
     this.waveHeight = 4.0,
     this.waveWidth = 8.0,
-  }) : style = DividerStyle.wave,
-       dashWidth = null,
-       dashSpace = null,
-       circleRadius = null,
-       circleSpacing = null;
+  });
 
-  const TicketDivider.smoothWave({
-    this.color,
-    this.thickness,
+  @override
+  DividerStyle get style => DividerStyle.wave;
+}
+
+class SmoothWaveDividerStyle extends BaseDividerStyle {
+  final double waveHeight;
+  final double waveWidth;
+
+  const SmoothWaveDividerStyle({
+    super.color,
+    super.thickness,
     this.waveHeight = 4.0,
     this.waveWidth = 8.0,
-  }) : style = DividerStyle.smoothWave,
-       dashWidth = null,
-       dashSpace = null,
-       circleRadius = null,
-       circleSpacing = null;
+  });
+
+  @override
+  DividerStyle get style => DividerStyle.smoothWave;
+}
+
+class TicketDivider {
+  final BaseDividerStyle _style;
+
+  const TicketDivider._(this._style);
+
+  Color? get color => _style.color;
+  double? get thickness => _style.thickness;
+  DividerStyle get style => _style.style;
+
+  // Style-specific getters
+  double? get dashWidth =>
+      _style is DashedDividerStyle ? (_style).dashWidth : null;
+  double? get dashSpace =>
+      _style is DashedDividerStyle ? (_style).dashSpace : null;
+  double? get circleRadius =>
+      _style is CirclesDividerStyle ? (_style).circleRadius : null;
+  double? get circleSpacing =>
+      _style is CirclesDividerStyle ? (_style).circleSpacing : null;
+  double? get waveHeight =>
+      _style is WaveDividerStyle || _style is SmoothWaveDividerStyle
+          ? (_style is WaveDividerStyle
+              ? (_style).waveHeight
+              : (_style as SmoothWaveDividerStyle).waveHeight)
+          : null;
+  double? get waveWidth =>
+      _style is WaveDividerStyle || _style is SmoothWaveDividerStyle
+          ? (_style is WaveDividerStyle
+              ? (_style).waveWidth
+              : (_style as SmoothWaveDividerStyle).waveWidth)
+          : null;
+
+  // Factory constructors
+  factory TicketDivider.solid({Color? color, double? thickness}) {
+    return TicketDivider._(
+      SolidDividerStyle(color: color, thickness: thickness),
+    );
+  }
+
+  factory TicketDivider.dashed({
+    Color? color,
+    double? thickness,
+    double dashWidth = 10.0,
+    double dashSpace = 7.0,
+  }) {
+    return TicketDivider._(
+      DashedDividerStyle(
+        color: color,
+        thickness: thickness,
+        dashWidth: dashWidth,
+        dashSpace: dashSpace,
+      ),
+    );
+  }
+
+  factory TicketDivider.circles({
+    Color? color,
+    double? thickness,
+    double circleRadius = 4.0,
+    double circleSpacing = 8.0,
+  }) {
+    return TicketDivider._(
+      CirclesDividerStyle(
+        color: color,
+        thickness: thickness,
+        circleRadius: circleRadius,
+        circleSpacing: circleSpacing,
+      ),
+    );
+  }
+
+  factory TicketDivider.wave({
+    Color? color,
+    double? thickness,
+    double waveHeight = 4.0,
+    double waveWidth = 8.0,
+  }) {
+    return TicketDivider._(
+      WaveDividerStyle(
+        color: color,
+        thickness: thickness,
+        waveHeight: waveHeight,
+        waveWidth: waveWidth,
+      ),
+    );
+  }
+
+  factory TicketDivider.smoothWave({
+    Color? color,
+    double? thickness,
+    double waveHeight = 4.0,
+    double waveWidth = 8.0,
+  }) {
+    return TicketDivider._(
+      SmoothWaveDividerStyle(
+        color: color,
+        thickness: thickness,
+        waveHeight: waveHeight,
+        waveWidth: waveWidth,
+      ),
+    );
+  }
 
   TicketDivider copyWith({
     Color? color,
@@ -89,16 +191,78 @@ class TicketDivider {
     double? waveHeight,
     double? waveWidth,
   }) {
-    return TicketDivider(
-      color: color ?? this.color,
-      thickness: thickness ?? this.thickness,
-      style: style ?? this.style,
-      dashWidth: dashWidth ?? this.dashWidth,
-      dashSpace: dashSpace ?? this.dashSpace,
-      circleRadius: circleRadius ?? this.circleRadius,
-      circleSpacing: circleSpacing ?? this.circleSpacing,
-      waveHeight: waveHeight ?? this.waveHeight,
-      waveWidth: waveWidth ?? this.waveWidth,
-    );
+    if (style != null && style != this.style) {
+      switch (style) {
+        case DividerStyle.solid:
+          return TicketDivider.solid(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+          );
+        case DividerStyle.dashed:
+          return TicketDivider.dashed(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+            dashWidth: dashWidth ?? this.dashWidth ?? 10.0,
+            dashSpace: dashSpace ?? this.dashSpace ?? 7.0,
+          );
+        case DividerStyle.circles:
+          return TicketDivider.circles(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+            circleRadius: circleRadius ?? this.circleRadius ?? 4.0,
+            circleSpacing: circleSpacing ?? this.circleSpacing ?? 8.0,
+          );
+        case DividerStyle.wave:
+          return TicketDivider.wave(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+            waveHeight: waveHeight ?? this.waveHeight ?? 4.0,
+            waveWidth: waveWidth ?? this.waveWidth ?? 8.0,
+          );
+        case DividerStyle.smoothWave:
+          return TicketDivider.smoothWave(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+            waveHeight: waveHeight ?? this.waveHeight ?? 4.0,
+            waveWidth: waveWidth ?? this.waveWidth ?? 8.0,
+          );
+      }
+    }
+
+    // If style hasn't changed, update the current style
+    if (_style is SolidDividerStyle) {
+      return TicketDivider.solid(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+      );
+    } else if (_style is DashedDividerStyle) {
+      return TicketDivider.dashed(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+        dashWidth: dashWidth ?? this.dashWidth ?? 10.0,
+        dashSpace: dashSpace ?? this.dashSpace ?? 7.0,
+      );
+    } else if (_style is CirclesDividerStyle) {
+      return TicketDivider.circles(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+        circleRadius: circleRadius ?? this.circleRadius ?? 4.0,
+        circleSpacing: circleSpacing ?? this.circleSpacing ?? 8.0,
+      );
+    } else if (_style is WaveDividerStyle) {
+      return TicketDivider.wave(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+        waveHeight: waveHeight ?? this.waveHeight ?? 4.0,
+        waveWidth: waveWidth ?? this.waveWidth ?? 8.0,
+      );
+    } else {
+      return TicketDivider.smoothWave(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+        waveHeight: waveHeight ?? this.waveHeight ?? 4.0,
+        waveWidth: waveWidth ?? this.waveWidth ?? 8.0,
+      );
+    }
   }
 }
