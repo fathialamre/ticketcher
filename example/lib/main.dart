@@ -38,102 +38,132 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Ticketcher Examples')),
       body: ListView(
+        padding: const EdgeInsets.all(16),
         children: [
-          ListTile(
-            leading: const Icon(Icons.flight),
-            title: const Text('Flight Card'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const FlightCard()),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.flight),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Flight Card'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FlightCard()),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.flight_takeoff),
-            title: const Text('Flight Card with Multiple Sections'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const FlightCardMultiSection(),
-                ),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.flight_takeoff),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Flight Card with Multiple Sections'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FlightCardMultiSection(),
+                  ),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.gradient_outlined),
-            title: const Text('Gradient Card'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const GradientCard()),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.gradient_outlined),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Gradient Card'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GradientCard()),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.people_outline),
-            title: const Text('Social Media Card'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SocialMedia()),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.people_outline),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Social Media Card'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SocialMedia()),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.local_offer_outlined),
-            title: const Text('Sales Offer Card'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SalesOffer()),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.local_offer_outlined),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Sales Offer Card'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SalesOffer()),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.circle_outlined),
-            title: const Text('Circle Divider Card'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CircleDivider()),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.circle_outlined),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Circle Divider Card'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CircleDivider(),
+                  ),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.waves),
-            title: const Text('Wave Divider Card'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const WaveDivider()),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.waves),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Wave Divider Card'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WaveDivider()),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.waves_outlined),
-            title: const Text('Smooth Wave Divider Card'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SmoothWaveDivider(),
-                ),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.waves_outlined),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Smooth Wave Divider Card'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SmoothWaveDivider(),
+                  ),
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.receipt_long),
-            title: const Text('Horizontal Ticket'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HorizontalTicket(),
-                ),
-              );
-            },
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.receipt_long),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Horizontal Ticket'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HorizontalTicket(),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
