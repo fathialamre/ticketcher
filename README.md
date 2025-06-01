@@ -17,9 +17,9 @@ A Flutter widget that creates beautiful, customizable ticket-style UI components
 
 ## Preview
 
-| ![Classic Ticket](screenshots/Example%201.jpeg) | ![Gradient Ticket](screenshots/Example%202.jpeg) | ![Premium Ticket](screenshots/Example%203.jpeg) | ![Minimalist Ticket](screenshots/Example%204.jpeg) |
+| ![Multi-section Ticket](screenshots/multiple_sections.jpeg) | ![Gradient Ticket](screenshots/gradient.jpeg) | ![Wave Border Ticket](screenshots/wave_border.jpeg) | ![Sharp Border Ticket](screenshots/sharp_border.jpeg) |
 |:---:|:---:|:---:|:---:|
-| *Classic Ticket* | *Gradient Ticket* | *Premium Ticket* | *Minimalist Ticket* |
+| *Multi-section Flight Ticket* | *Gradient Color Ticket* | *Wave Border Ticket* | *Sharp Border Ticket* |
 
 ## Features
 
@@ -27,12 +27,17 @@ A Flutter widget that creates beautiful, customizable ticket-style UI components
 
 ```dart
 Ticketcher(
-  primarySection: Section(
-    child: Text('Primary Content'),
-  ),
-  secondarySection: Section(
-    child: Text('Secondary Content'),
-  ),
+  sections: [
+    Section(
+      child: Text('First Section'),
+    ),
+    Section(
+      child: Text('Second Section'),
+    ),
+    Section(
+      child: Text('Third Section'),
+    ),
+  ],
 )
 ```
 
@@ -85,7 +90,7 @@ Available patterns:
 
 ### Dividers
 
-Add a divider between the primary and secondary sections.
+Add dividers between sections.
 
 ```dart
 Ticketcher(
@@ -170,18 +175,24 @@ Ticketcher(
 
 ### Section Padding
 
-Customize the padding for both primary and secondary sections.
+Customize the padding for each section.
 
 ```dart
 Ticketcher(
-  primarySection: Section(
-    child: Text('Primary Content'),
-    padding: EdgeInsets.all(16.0),
-  ),
-  secondarySection: Section(
-    child: Text('Secondary Content'),
-    padding: EdgeInsets.all(16.0),
-  ),
+  sections: [
+    Section(
+      child: Text('First Section'),
+      padding: EdgeInsets.all(16.0),
+    ),
+    Section(
+      child: Text('Second Section'),
+      padding: EdgeInsets.all(16.0),
+    ),
+    Section(
+      child: Text('Third Section'),
+      padding: EdgeInsets.all(16.0),
+    ),
+  ],
 )
 ```
 
@@ -198,7 +209,7 @@ Ticketcher(
 
 ### Notch Radius
 
-Customize the radius of the notches that connect the primary and secondary sections.
+Customize the radius of the notches that connect the sections.
 
 ```dart
 Ticketcher(
@@ -209,20 +220,26 @@ Ticketcher(
 
 ## Complete Example
 
-Here's a complete example showcasing multiple features:
+Here's a complete example showcasing multiple features with three sections:
 
 ```dart
 Ticketcher(
   width: 300.0,
   notchRadius: 10.0,
-  primarySection: Section(
-    child: Text('Primary Content'),
-    padding: EdgeInsets.all(16.0),
-  ),
-  secondarySection: Section(
-    child: Text('Secondary Content'),
-    padding: EdgeInsets.all(16.0),
-  ),
+  sections: [
+    Section(
+      child: Text('Header Section'),
+      padding: EdgeInsets.all(16.0),
+    ),
+    Section(
+      child: Text('Content Section'),
+      padding: EdgeInsets.all(16.0),
+    ),
+    Section(
+      child: Text('Footer Section'),
+      padding: EdgeInsets.all(16.0),
+    ),
+  ],
   decoration: TicketcherDecoration(
     borderRadius: TicketRadius(
       radius: 8.0,
@@ -254,6 +271,93 @@ Ticketcher(
 )
 ```
 
+## Real-world Example
+
+Here's a practical example of a flight ticket with multiple sections:
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    borderRadius: TicketRadius(radius: 20, corner: TicketCorner.all),
+    backgroundColor: Colors.grey.shade50,
+    border: Border.all(color: Colors.grey.shade200, width: 2),
+    divider: TicketDivider.dashed(
+      color: Colors.grey.shade300,
+      thickness: 1,
+      dashWidth: 8,
+      dashSpace: 0.01,
+    ),
+  ),
+  sections: [
+    // Header section with airline info
+    Section(
+      padding: EdgeInsets.all(4),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              color: Colors.grey.shade200,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.airplanemode_active),
+                  SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Airline Name"),
+                      Text("Flight Details"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+    // Flight details section
+    Section(
+      padding: EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Text("Departure"),
+              Text("Time"),
+            ],
+          ),
+          Column(
+            children: [
+              Text("Arrival"),
+              Text("Time"),
+            ],
+          ),
+        ],
+      ),
+    ),
+    // Footer section with price and action
+    Section(
+      padding: EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Price"),
+          FilledButton(
+            onPressed: () {},
+            child: Text("Book Now"),
+          ),
+        ],
+      ),
+    ),
+  ],
+)
+```
+
 ## Best Practices
 
 1. **Gradient Usage**: When using gradients, ensure good contrast with your content text.
@@ -266,46 +370,21 @@ Ticketcher(
 
 Feel free to contribute to this project by submitting issues or pull requests.
 
-## Getting started
+## Getting Started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add this to your package's `pubspec.yaml` file:
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  ticketcher: ^1.0.0
 ```
 
-## Additional information
+You can then import the package:
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+import 'package:ticketcher/ticketcher.dart';
+```
 
-## Visual Examples
+## Additional Information
 
-Here are some visual examples showcasing different styles and configurations of the Ticketcher widget:
-
-### Example 1: Classic Ticket Design
-![Classic Ticket Design](screenshots/Example%201.jpeg)
-
-A clean, classic ticket design featuring a solid background with rounded corners and a subtle divider between sections. Perfect for event tickets or vouchers.
-
-### Example 2: Gradient Ticket with Wave Pattern
-![Gradient Ticket with Wave Pattern](screenshots/Example%202.jpeg)
-
-A modern ticket design using a gradient background and a decorative wave pattern at the bottom. The design includes a dashed divider for added visual interest.
-
-### Example 3: Premium Ticket Style
-![Premium Ticket Style](screenshots/Example%203.jpeg)
-
-A premium-looking ticket with a sophisticated gradient background, sharp border pattern, and elegant typography. Ideal for high-end events or premium services.
-
-### Example 4: Minimalist Ticket Design
-![Minimalist Ticket Design](screenshots/Example%204.jpeg)
-
-A minimalist ticket design featuring a clean layout, subtle shadows, and a simple arc pattern. Perfect for modern, clean interfaces.
+For more examples and use cases, check out the `example` directory in the package repository.

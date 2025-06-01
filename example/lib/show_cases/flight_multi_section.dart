@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
-class FlightCard extends StatelessWidget {
-  const FlightCard({super.key});
+class FlightCardMultiSection extends StatelessWidget {
+  const FlightCardMultiSection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flight Card')),
+      appBar: AppBar(title: const Text('Flight Card with multiple sections')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -100,43 +100,81 @@ class FlightWidget extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.access_time_outlined,
+                                  size: 14,
+                                  color: Colors.grey.shade500,
+                                ),
+                                SizedBox(width: 4),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "12:00 PM",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey.shade500,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                      child: VerticalDivider(
+                                        color: Colors.grey.shade400,
+                                        thickness: 1,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Economy - Y",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey.shade500,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ],
+            ),
+          ),
+          // Flight details section
+          Section(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        Text("MJI"),
-                        Text(
-                          "12:00",
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                    Text("MJI"),
+                    Text(
+                      "12:00",
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Text("MJI"),
-                          Text(
-                            "12:00",
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text("MJI"),
+                    Text(
+                      "12:00",
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
