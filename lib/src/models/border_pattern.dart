@@ -1,5 +1,4 @@
-
-enum BorderShape { wave, sharp, arc }
+import 'border_shape.dart';
 
 class BorderPattern {
   final BorderShape shape;

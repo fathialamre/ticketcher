@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ticketcher/src/models/border_shape.dart';
 import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
-import '../models/border_pattern.dart';
 import '../models/ticket_divider.dart';
 
 class TicketcherPainter extends CustomPainter {
