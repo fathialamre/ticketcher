@@ -280,8 +280,8 @@ class TicketcherPainter extends CustomPainter {
 
       for (int i = 0; i < sectionHeights.length - 1; i++) {
         final y = cumulativeHeights[i];
-        final startX = notchRadius;
-        final endX = size.width - notchRadius;
+        final startX = notchRadius + (divider.padding ?? 0.0);
+        final endX = size.width - notchRadius - (divider.padding ?? 0.0);
 
         switch (divider.style) {
           case DividerStyle.solid:
@@ -326,13 +326,8 @@ class TicketcherPainter extends CustomPainter {
             final circleRadius = divider.circleRadius ?? 4.0;
             final circleSpacing = divider.circleSpacing ?? 8.0;
 
-            // Add 6px padding from both sides
-            final padding = 6.0;
-            final startXWithPadding = startX + padding;
-            final endXWithPadding = endX - padding;
-
             // Calculate the available width for circles
-            final availableWidth = endXWithPadding - startXWithPadding;
+            final availableWidth = endX - startX;
 
             // Calculate the total width needed for one circle (diameter + spacing)
             final circleWidth = circleRadius * 2 + circleSpacing;
@@ -346,8 +341,8 @@ class TicketcherPainter extends CustomPainter {
                 (availableWidth - (numCircles * circleRadius * 2)) /
                 (numCircles - 1);
 
-            // Start from the left edge with padding
-            var currentX = startXWithPadding + circleRadius;
+            // Start from the left edge
+            var currentX = startX + circleRadius;
 
             // Draw all circles
             for (int i = 0; i < numCircles; i++) {

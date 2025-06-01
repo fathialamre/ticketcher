@@ -48,6 +48,7 @@ class FlightWidget extends StatelessWidget {
             thickness: 1,
             dashWidth: 8,
             dashSpace: 6,
+            padding: 10,
           ),
           bottomBorderStyle: BorderPattern(height: 10, shape: BorderShape.wave),
         ),
