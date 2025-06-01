@@ -31,7 +31,7 @@ class HorizontalTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 5,
                   ),
-                  divider: const TicketDivider.dashed(
+                  divider: TicketDivider.dashed(
                     color: Colors.grey,
                     thickness: 1,
                   ),
@@ -200,7 +200,7 @@ class HorizontalTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 6,
                   ),
-                  divider: const TicketDivider.solid(
+                  divider: TicketDivider.solid(
                     color: Colors.green,
                     thickness: 1,
                   ),
