@@ -291,16 +291,34 @@ class TicketcherPainter extends CustomPainter {
           case DividerStyle.dashed:
             final dashWidth = divider.dashWidth ?? 10.0;
             final dashSpace = divider.dashSpace ?? 7.0;
+
+            // Calculate the available width for dashes
+            final availableWidth = endX - startX;
+
+            // Calculate the total width needed for one dash segment (dash + space)
+            final segmentWidth = dashWidth + dashSpace;
+
+            // Calculate how many complete segments we can fit
+            final numSegments =
+                ((availableWidth + dashSpace) / segmentWidth).floor();
+
+            // Calculate the actual spacing needed to distribute dashes evenly
+            final actualSpacing =
+                (availableWidth - (numSegments * dashWidth)) /
+                (numSegments - 1);
+
+            // Start from the left edge
             var currentX = startX;
 
-            while (currentX < endX) {
-              final nextX = (currentX + dashWidth).clamp(currentX, endX);
+            // Draw all dashes
+            for (int i = 0; i < numSegments; i++) {
+              final nextX = currentX + dashWidth;
               canvas.drawLine(
                 Offset(currentX, y),
                 Offset(nextX, y),
                 dividerPaint,
               );
-              currentX = nextX + dashSpace;
+              currentX = nextX + actualSpacing;
             }
             break;
 
@@ -308,7 +326,7 @@ class TicketcherPainter extends CustomPainter {
             final circleRadius = divider.circleRadius ?? 4.0;
             final circleSpacing = divider.circleSpacing ?? 8.0;
 
-            // Add 2px padding from both sides
+            // Add 6px padding from both sides
             final padding = 6.0;
             final startXWithPadding = startX + padding;
             final endXWithPadding = endX - padding;
@@ -339,6 +357,75 @@ class TicketcherPainter extends CustomPainter {
                 dividerPaint,
               );
               currentX += circleRadius * 2 + actualSpacing;
+            }
+            break;
+
+          case DividerStyle.wave:
+            final waveHeight = divider.waveHeight ?? 4.0;
+            final waveWidth = divider.waveWidth ?? 8.0;
+
+            // Calculate the available width for waves
+            final availableWidth = endX - startX;
+
+            // Calculate how many complete waves we can fit
+            final numWaves = (availableWidth / waveWidth).floor();
+
+            // Calculate the actual wave width to distribute evenly
+            final actualWaveWidth = availableWidth / numWaves;
+
+            // Start from the left edge
+            var currentX = startX;
+
+            // Draw the wave pattern
+            for (int i = 0; i < numWaves; i++) {
+              final nextX = currentX + actualWaveWidth;
+              final midX = (currentX + nextX) / 2;
+
+              // Draw a single wave segment
+              canvas.drawLine(
+                Offset(currentX, y),
+                Offset(midX, y + waveHeight),
+                dividerPaint,
+              );
+              canvas.drawLine(
+                Offset(midX, y + waveHeight),
+                Offset(nextX, y),
+                dividerPaint,
+              );
+
+              currentX = nextX;
+            }
+            break;
+
+          case DividerStyle.smoothWave:
+            final waveHeight = divider.waveHeight ?? 4.0;
+            final waveWidth = divider.waveWidth ?? 8.0;
+
+            // Calculate the available width for waves
+            final availableWidth = endX - startX;
+
+            // Calculate how many complete waves we can fit
+            final numWaves = (availableWidth / waveWidth).floor();
+
+            // Calculate the actual wave width to distribute evenly
+            final actualWaveWidth = availableWidth / numWaves;
+
+            // Start from the left edge
+            var currentX = startX;
+
+            // Draw the smooth wave pattern
+            for (int i = 0; i < numWaves; i++) {
+              final nextX = currentX + actualWaveWidth;
+              final midX = (currentX + nextX) / 2;
+
+              // Draw a smooth wave segment using quadratic Bezier curve
+              final path =
+                  Path()
+                    ..moveTo(currentX, y)
+                    ..quadraticBezierTo(midX, y + waveHeight, nextX, y);
+
+              canvas.drawPath(path, dividerPaint);
+              currentX = nextX;
             }
             break;
         }

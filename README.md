@@ -98,7 +98,7 @@ Ticketcher(
     divider: TicketDivider(
       color: Colors.grey,
       thickness: 1.0,
-      style: DividerStyle.solid, // or dashed
+      style: DividerStyle.solid, // or dashed, circles
     ),
   ),
 )
@@ -113,6 +113,20 @@ Ticketcher(
       thickness: 1.0,
       dashWidth: 10.0,
       dashSpace: 7.0,
+    ),
+  ),
+)
+```
+
+For circle dividers:
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.circles(
+      color: Colors.grey,
+      thickness: 2.0,
+      circleRadius: 4.0,
+      circleSpacing: 8.0,
     ),
   ),
 )

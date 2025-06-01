@@ -31,6 +31,7 @@ class FlightWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, left: 4, right: 4, top: 4),
       child: Ticketcher(
+        notchRadius: 9,
         decoration: TicketcherDecoration(
           borderRadius: TicketRadius(radius: 20, corner: TicketCorner.all),
           backgroundColor: Colors.grey.shade50,
@@ -39,13 +40,14 @@ class FlightWidget extends StatelessWidget {
             color: Colors.grey.shade300,
             thickness: 1,
             dashWidth: 8,
-            dashSpace: 0.01,
+            dashSpace: 8,
           ),
         ),
         sections: [
           // Header section
           Section(
             padding: EdgeInsets.all(4),
+
             child: Column(
               children: [
                 Container(

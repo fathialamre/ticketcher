@@ -39,7 +39,7 @@ class FlightWidget extends StatelessWidget {
             color: Colors.grey.shade300,
             thickness: 1,
             dashWidth: 8,
-            dashSpace: 0.01,
+            dashSpace: 6,
           ),
         ),
         sections: [

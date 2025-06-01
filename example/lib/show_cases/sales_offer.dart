@@ -13,7 +13,7 @@ class SalesOffer extends StatelessWidget {
         child: Column(
           children: [
             Ticketcher(
-              notchRadius: 18,
+              notchRadius: 0,
               decoration: TicketcherDecoration(
                 borderRadius: TicketRadius(
                   radius: 20,
