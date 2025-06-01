@@ -15,15 +15,15 @@ and the Flutter guide for
 
 A Flutter package for creating beautiful ticket-style cards with customizable borders, dividers, and patterns.
 
-| ![Horizontal Ticket](screenshots/horizontal.jpeg) | ![Circle Divider](screenshots/circle_divider.jpeg) | ![Wave Divider](screenshots/wave_divider.jpeg) | ![Smooth Wave](screenshots/smooth_wave_divider.jpeg) | ![Flight Ticket](screenshots/flight.jpeg) |
+| ![Concert Ticket](screenshots/horizontal_1.jpeg) | ![Flight Ticket](screenshots/flight.jpeg) | ![Gradient](screenshots/gradient.jpeg) | ![Train Ticket](screenshots/horizontal_2.jpeg) | ![Circle Divider](screenshots/circle_divider.jpeg) |
 |:---:|:---:|:---:|:---:|:---:|
-| ![Multiple Sections](screenshots/flight_multiple_section.jpeg) | ![Gradient](screenshots/gradient.jpeg) | ![Social Media](screenshots/social_media.jpeg) | ![Coffee Sales](screenshots/coffer_sales.jpeg) |
+| ![Wave Divider](screenshots/wave_divider.jpeg) | ![Smooth Wave](screenshots/smooth_wave_divider.jpeg) | ![Multiple Sections](screenshots/flight_multiple_section.jpeg) | ![Social Media](screenshots/social_media.jpeg) | ![Coffee Sales](screenshots/coffer_sales.jpeg) |
 
 ## Features
 
 - Create both vertical and horizontal ticket layouts
 - Customizable border patterns (wave, arc, sharp)
-- Multiple divider styles (solid, dashed, circles, wave, smooth wave)
+- Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line)
 - Gradient backgrounds
 - Custom border radius for any corner
 - Shadow effects
@@ -127,7 +127,7 @@ Ticketcher(
     divider: TicketDivider(
       color: Colors.grey,
       thickness: 1.0,
-      style: DividerStyle.solid, // or dashed, circles, wave, smoothWave
+      style: DividerStyle.solid, // or dashed, circles, wave, smoothWave, dotted, doubleLine
     ),
   ),
 )
@@ -140,7 +140,7 @@ Ticketcher(
     divider: TicketDivider.solid(
       color: Colors.grey,
       thickness: 1.0,
-      padding: 16.0, // Add padding on both sides
+      padding: 8.0, // Add padding on both sides
     ),
   ),
 )
@@ -155,7 +155,7 @@ Ticketcher(
       thickness: 1.0,
       dashWidth: 10.0,
       dashSpace: 7.0,
-      padding: 16.0, // Add padding on both sides
+      padding: 8.0, // Add padding on both sides
     ),
   ),
 )
@@ -170,7 +170,7 @@ Ticketcher(
       thickness: 2.0,
       circleRadius: 4.0,
       circleSpacing: 8.0,
-      padding: 16.0, // Add padding on both sides
+      padding: 8.0, // Add padding on both sides
     ),
   ),
 )
@@ -185,7 +185,7 @@ Ticketcher(
       thickness: 2.0,
       waveHeight: 6.0,
       waveWidth: 12.0,
-      padding: 16.0, // Add padding on both sides
+      padding: 8.0, // Add padding on both sides
     ),
   ),
 )
@@ -200,7 +200,36 @@ Ticketcher(
       thickness: 2.0,
       waveHeight: 6.0,
       waveWidth: 12.0,
-      padding: 16.0, // Add padding on both sides
+      padding: 8.0, // Add padding on both sides
+    ),
+  ),
+)
+```
+
+#### Dotted Divider
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.dotted(
+      color: Colors.grey,
+      thickness: 2.0,
+      dotSize: 2.0,
+      dotSpacing: 8.0,
+      padding: 8.0, // Add padding on both sides
+    ),
+  ),
+)
+```
+
+#### Double Line Divider
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.doubleLine(
+      color: Colors.grey,
+      thickness: 1.5,
+      lineSpacing: 4.0,
+      padding: 8.0, // Add padding on both sides
     ),
   ),
 )

@@ -423,6 +423,57 @@ class TicketcherPainter extends CustomPainter {
               currentX = nextX;
             }
             break;
+
+          case DividerStyle.dotted:
+            final dotSize = divider.dotSize ?? 4.0;
+            final dotSpacing = divider.dotSpacing ?? 8.0;
+
+            // Calculate the available width for dots
+            final availableWidth = endX - startX;
+
+            // Calculate the total width needed for one dot segment (dot + spacing)
+            final segmentWidth = dotSize + dotSpacing;
+
+            // Calculate how many complete segments we can fit
+            final numSegments =
+                ((availableWidth + dotSpacing) / segmentWidth).floor();
+
+            // Calculate the actual spacing needed to distribute dots evenly
+            final actualSpacing =
+                (availableWidth - (numSegments * dotSize)) / (numSegments - 1);
+
+            // Start from the left edge
+            var currentX = startX;
+
+            // Draw all dots
+            for (int i = 0; i < numSegments; i++) {
+              canvas.drawCircle(
+                Offset(currentX + dotSize / 2, y),
+                dotSize / 2,
+                dividerPaint,
+              );
+              currentX += dotSize + actualSpacing;
+            }
+            break;
+
+          case DividerStyle.doubleLine:
+            final lineSpacing = divider.lineSpacing ?? 4.0;
+            final halfSpacing = lineSpacing / 2;
+
+            // Draw the top line
+            canvas.drawLine(
+              Offset(startX, y - halfSpacing),
+              Offset(endX, y - halfSpacing),
+              dividerPaint,
+            );
+
+            // Draw the bottom line
+            canvas.drawLine(
+              Offset(startX, y + halfSpacing),
+              Offset(endX, y + halfSpacing),
+              dividerPaint,
+            );
+            break;
         }
       }
     }

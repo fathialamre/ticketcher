@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
-enum DividerStyle { solid, dashed, circles, wave, smoothWave }
+enum DividerStyle {
+  solid,
+  dashed,
+  circles,
+  wave,
+  smoothWave,
+  dotted,
+  doubleLine,
+}
 
 abstract class BaseDividerStyle {
   final Color? color;
@@ -83,6 +91,36 @@ class SmoothWaveDividerStyle extends BaseDividerStyle {
   DividerStyle get style => DividerStyle.smoothWave;
 }
 
+class DottedDividerStyle extends BaseDividerStyle {
+  final double dotSize;
+  final double dotSpacing;
+
+  const DottedDividerStyle({
+    super.color,
+    super.thickness,
+    super.padding,
+    this.dotSize = 4.0,
+    this.dotSpacing = 8.0,
+  });
+
+  @override
+  DividerStyle get style => DividerStyle.dotted;
+}
+
+class DoubleLineDividerStyle extends BaseDividerStyle {
+  final double lineSpacing;
+
+  const DoubleLineDividerStyle({
+    super.color,
+    super.thickness,
+    super.padding,
+    this.lineSpacing = 4.0,
+  });
+
+  @override
+  DividerStyle get style => DividerStyle.doubleLine;
+}
+
 class TicketDivider {
   final BaseDividerStyle _style;
 
@@ -114,6 +152,11 @@ class TicketDivider {
               ? (_style).waveWidth
               : (_style as SmoothWaveDividerStyle).waveWidth)
           : null;
+  double? get dotSize => _style is DottedDividerStyle ? (_style).dotSize : null;
+  double? get dotSpacing =>
+      _style is DottedDividerStyle ? (_style).dotSpacing : null;
+  double? get lineSpacing =>
+      _style is DoubleLineDividerStyle ? (_style).lineSpacing : null;
 
   // Factory constructors
   factory TicketDivider.solid({
@@ -198,6 +241,40 @@ class TicketDivider {
     );
   }
 
+  factory TicketDivider.dotted({
+    Color? color,
+    double? thickness,
+    double? padding,
+    double dotSize = 4.0,
+    double dotSpacing = 8.0,
+  }) {
+    return TicketDivider._(
+      DottedDividerStyle(
+        color: color,
+        thickness: thickness,
+        padding: padding,
+        dotSize: dotSize,
+        dotSpacing: dotSpacing,
+      ),
+    );
+  }
+
+  factory TicketDivider.doubleLine({
+    Color? color,
+    double? thickness,
+    double? padding,
+    double lineSpacing = 4.0,
+  }) {
+    return TicketDivider._(
+      DoubleLineDividerStyle(
+        color: color,
+        thickness: thickness,
+        padding: padding,
+        lineSpacing: lineSpacing,
+      ),
+    );
+  }
+
   TicketDivider copyWith({
     Color? color,
     double? thickness,
@@ -209,6 +286,9 @@ class TicketDivider {
     double? circleSpacing,
     double? waveHeight,
     double? waveWidth,
+    double? dotSize,
+    double? dotSpacing,
+    double? lineSpacing,
   }) {
     if (style != null && style != this.style) {
       switch (style) {
@@ -250,6 +330,21 @@ class TicketDivider {
             waveHeight: waveHeight ?? this.waveHeight ?? 4.0,
             waveWidth: waveWidth ?? this.waveWidth ?? 8.0,
           );
+        case DividerStyle.dotted:
+          return TicketDivider.dotted(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+            padding: padding ?? this.padding,
+            dotSize: dotSize ?? this.dotSize ?? 4.0,
+            dotSpacing: dotSpacing ?? this.dotSpacing ?? 8.0,
+          );
+        case DividerStyle.doubleLine:
+          return TicketDivider.doubleLine(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+            padding: padding ?? this.padding,
+            lineSpacing: lineSpacing ?? this.lineSpacing ?? 4.0,
+          );
       }
     }
 
@@ -284,13 +379,28 @@ class TicketDivider {
         waveHeight: waveHeight ?? this.waveHeight ?? 4.0,
         waveWidth: waveWidth ?? this.waveWidth ?? 8.0,
       );
-    } else {
+    } else if (_style is SmoothWaveDividerStyle) {
       return TicketDivider.smoothWave(
         color: color ?? this.color,
         thickness: thickness ?? this.thickness,
         padding: padding ?? this.padding,
         waveHeight: waveHeight ?? this.waveHeight ?? 4.0,
         waveWidth: waveWidth ?? this.waveWidth ?? 8.0,
+      );
+    } else if (_style is DottedDividerStyle) {
+      return TicketDivider.dotted(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+        padding: padding ?? this.padding,
+        dotSize: dotSize ?? this.dotSize ?? 4.0,
+        dotSpacing: dotSpacing ?? this.dotSpacing ?? 8.0,
+      );
+    } else {
+      return TicketDivider.doubleLine(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+        padding: padding ?? this.padding,
+        lineSpacing: lineSpacing ?? this.lineSpacing ?? 4.0,
       );
     }
   }
