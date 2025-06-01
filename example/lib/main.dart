@@ -1,6 +1,7 @@
 import 'package:example/show_cases/flight.dart';
 import 'package:example/show_cases/flight_multi_section.dart';
 import 'package:example/show_cases/gradient_card.dart';
+import 'package:example/show_cases/horizontal_ticket.dart';
 import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/social_media.dart';
 import 'package:flutter/material.dart';
@@ -118,6 +119,18 @@ class MyHomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const SmoothWaveDivider(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.receipt_long),
+            title: const Text('Horizontal Ticket'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HorizontalTicket(),
                 ),
               );
             },
