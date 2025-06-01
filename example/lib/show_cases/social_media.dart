@@ -24,25 +24,23 @@ class SocialMedia extends StatelessWidget {
                   shape: BorderShape.sharp,
                 ),
                 shadow: BoxShadow(
-                  color: Colors.grey.shade200,
-                  blurRadius: 10,
+                  color: Theme.of(context).colorScheme.primary,
+                  blurRadius: 4,
                   offset: Offset(0, 10),
                 ),
-                divider: TicketDivider.dashed(
-                  color: Colors.grey.shade200,
-                  thickness: 3,
-                  dashWidth: 8,
-                  dashSpace: 0.01,
-                ),
-                backgroundColor: Colors.white,
+
+                backgroundColor: Theme.of(context).cardColor,
                 border: Border.fromBorderSide(
-                  BorderSide(color: Colors.grey.shade100, width: 2),
+                  BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
+                  ),
                 ),
               ),
 
               sections: [
                 Section(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Row(
                     children: [
                       Row(
@@ -51,7 +49,7 @@ class SocialMedia extends StatelessWidget {
                             radius: 20,
                             backgroundColor: Theme.of(
                               context,
-                            ).colorScheme.secondary,
+                            ).colorScheme.primary,
                             child: Icon(
                               Icons.person,
                               color: Theme.of(context).colorScheme.onSecondary,
@@ -88,7 +86,7 @@ class SocialMedia extends StatelessWidget {
                         Icon(
                           Icons.qr_code,
                           size: 200,
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         Text('Scan to follow', style: TextStyle(fontSize: 12)),
                         Text('@john_doe', style: TextStyle(fontSize: 12)),

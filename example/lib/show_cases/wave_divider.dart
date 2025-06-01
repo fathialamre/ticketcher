@@ -15,19 +15,18 @@ class WaveDivider extends StatelessWidget {
             children: List.generate(
               3,
               (index) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Ticketcher(
-                  notchRadius: 18,
+                  notchRadius: 12,
                   decoration: TicketcherDecoration(
                     borderRadius: TicketRadius(
                       radius: 20,
                       corner: TicketCorner.all,
                     ),
-
                     shadow: BoxShadow(
-                      color: Colors.grey.shade200,
-                      blurRadius: 10,
-                      offset: Offset(0, 10),
+                      color: Theme.of(context).colorScheme.primary,
+                      blurRadius: 3,
+                      offset: Offset(12, 10),
                     ),
                     divider: TicketDivider.wave(
                       color: Theme.of(context).colorScheme.primary,
@@ -35,9 +34,7 @@ class WaveDivider extends StatelessWidget {
                       waveHeight: 6,
                       waveWidth: 12,
                     ),
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.inversePrimary,
+                    backgroundColor: Theme.of(context).cardColor,
                     border: Border.fromBorderSide(
                       BorderSide(
                         color: Theme.of(context).primaryColor,
@@ -52,7 +49,7 @@ class WaveDivider extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Wave Divider Example',
+                            'Circle Divider Example',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -60,7 +57,7 @@ class WaveDivider extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'This example shows how to use wave dividers between sections.',
+                            'This example shows how to use circle dividers between sections.',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -82,7 +79,7 @@ class WaveDivider extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            '• Customizable wave height\n• Adjustable wave width\n• Smooth integration with other ticket features',
+                            '• Customizable circle radius\n• Adjustable spacing between circles\n• Smooth integration with other ticket features',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -104,7 +101,7 @@ class WaveDivider extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'Use TicketDivider.wave() to create beautiful wave dividers between sections.',
+                            'Use TicketDivider.circles() to create beautiful circle dividers between sections.',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                             ),

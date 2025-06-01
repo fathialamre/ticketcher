@@ -29,18 +29,27 @@ class FlightWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10, left: 4, right: 4, top: 4),
+      padding: const EdgeInsets.only(bottom: 18, left: 4, right: 4, top: 4),
       child: Ticketcher(
         decoration: TicketcherDecoration(
-          borderRadius: TicketRadius(radius: 20, corner: TicketCorner.all),
-          backgroundColor: Colors.grey.shade50,
-          border: Border.all(color: Colors.grey.shade200, width: 2),
+          borderRadius: TicketRadius(radius: 20, corner: TicketCorner.top),
+          backgroundColor: Theme.of(context).cardColor,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+          ),
+          shadow: BoxShadow(
+            color: Theme.of(context).colorScheme.primary,
+            blurRadius: 3,
+            offset: Offset(0, 10),
+          ),
           divider: TicketDivider.dashed(
-            color: Colors.grey.shade300,
+            color: Theme.of(context).colorScheme.inversePrimary,
             thickness: 1,
             dashWidth: 8,
             dashSpace: 6,
           ),
+          bottomBorderStyle: BorderPattern(height: 10, shape: BorderShape.wave),
         ),
         sections: [
           // Header section
@@ -51,7 +60,7 @@ class FlightWidget extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
-                    color: Colors.grey.shade200,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -62,13 +71,20 @@ class FlightWidget extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Libyan Airways"),
+                            Text(
+                              "Libyan Airways",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             Row(
                               children: [
                                 Icon(
                                   Icons.access_time_outlined,
                                   size: 14,
-                                  color: Colors.grey.shade500,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 SizedBox(width: 4),
                                 Row(
@@ -77,14 +93,18 @@ class FlightWidget extends StatelessWidget {
                                       "12:00 PM",
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.grey.shade500,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     SizedBox(
                                       height: 10,
                                       child: VerticalDivider(
-                                        color: Colors.grey.shade400,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
                                         thickness: 1,
                                       ),
                                     ),
@@ -92,7 +112,9 @@ class FlightWidget extends StatelessWidget {
                                       "Economy - Y",
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.grey.shade500,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -110,18 +132,21 @@ class FlightWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      children: [
-                        Text("MJI"),
-                        Text(
-                          "12:00",
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Column(
+                        children: [
+                          Text("MJI"),
+                          Text(
+                            "12:00",
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10),
@@ -144,10 +169,9 @@ class FlightWidget extends StatelessWidget {
               ],
             ),
           ),
-
           // Footer section
           Section(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

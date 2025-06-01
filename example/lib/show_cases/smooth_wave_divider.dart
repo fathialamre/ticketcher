@@ -15,9 +15,9 @@ class SmoothWaveDivider extends StatelessWidget {
             children: List.generate(
               10,
               (index) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Ticketcher(
-                  notchRadius: 18,
+                  notchRadius: 12,
                   decoration: TicketcherDecoration(
                     borderRadius: TicketRadius(
                       radius: 20,
@@ -25,9 +25,9 @@ class SmoothWaveDivider extends StatelessWidget {
                     ),
 
                     shadow: BoxShadow(
-                      color: Colors.grey.shade200,
-                      blurRadius: 10,
-                      offset: Offset(0, 10),
+                      color: Theme.of(context).colorScheme.primary,
+                      blurRadius: 3,
+                      offset: Offset(12, 10),
                     ),
                     divider: TicketDivider.smoothWave(
                       color: Theme.of(context).colorScheme.primary,
@@ -35,9 +35,7 @@ class SmoothWaveDivider extends StatelessWidget {
                       waveHeight: 6,
                       waveWidth: 12,
                     ),
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.inversePrimary,
+                    backgroundColor: Theme.of(context).cardColor,
                     border: Border.fromBorderSide(
                       BorderSide(
                         color: Theme.of(context).primaryColor,
@@ -52,7 +50,7 @@ class SmoothWaveDivider extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Smooth Wave Divider Example',
+                            'Circle Divider Example',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -60,7 +58,7 @@ class SmoothWaveDivider extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'This example shows how to use smooth wave dividers between sections.',
+                            'This example shows how to use circle dividers between sections.',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -82,7 +80,7 @@ class SmoothWaveDivider extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            '• Smooth curved waves using Bezier curves\n• Customizable wave height and width\n• Perfect distribution across the width',
+                            '• Customizable circle radius\n• Adjustable spacing between circles\n• Smooth integration with other ticket features',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -104,7 +102,7 @@ class SmoothWaveDivider extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'Use TicketDivider.smoothWave() to create beautiful smooth wave dividers between sections.',
+                            'Use TicketDivider.circles() to create beautiful circle dividers between sections.',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                             ),

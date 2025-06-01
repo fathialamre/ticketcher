@@ -28,21 +28,24 @@ class SalesOffer extends StatelessWidget {
                   blurRadius: 10,
                   offset: Offset(0, 10),
                 ),
-                divider: TicketDivider.dashed(
-                  color: Colors.grey.shade100,
+                divider: TicketDivider.wave(
+                  color: Theme.of(context).colorScheme.primary,
                   thickness: 1.8,
-                  dashWidth: 8,
-                  dashSpace: 0.01,
+                  waveHeight: 10,
+                  waveWidth: 20,
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).cardColor,
                 border: Border.fromBorderSide(
-                  BorderSide(color: Colors.grey.shade100, width: 2),
+                  BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
+                  ),
                 ),
               ),
 
               sections: [
                 Section(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -62,9 +65,7 @@ class SalesOffer extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.inversePrimary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           Icon(
@@ -108,13 +109,13 @@ class SalesOffer extends StatelessWidget {
                 Section(
                   padding: EdgeInsets.all(4),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 20, top: 20),
                     child: Column(
                       children: [
                         Icon(
                           Icons.timer_outlined,
                           size: 180,
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         Text(
                           'Don\'t miss out!',

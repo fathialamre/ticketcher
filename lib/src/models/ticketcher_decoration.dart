@@ -10,6 +10,8 @@ class TicketcherDecoration {
   final Gradient? gradient;
   final TicketDivider? divider;
   final BorderPattern? bottomBorderStyle;
+  final BorderPattern? leftBorderStyle;
+  final BorderPattern? rightBorderStyle;
   final BoxShadow? shadow;
 
   const TicketcherDecoration({
@@ -19,6 +21,8 @@ class TicketcherDecoration {
     this.gradient,
     this.divider,
     this.bottomBorderStyle,
+    this.leftBorderStyle,
+    this.rightBorderStyle,
     this.shadow,
   });
 
@@ -29,6 +33,8 @@ class TicketcherDecoration {
     Gradient? gradient,
     TicketDivider? divider,
     BorderPattern? bottomBorderStyle,
+    BorderPattern? leftBorderStyle,
+    BorderPattern? rightBorderStyle,
     BoxShadow? shadow,
   }) {
     return TicketcherDecoration(
@@ -38,6 +44,8 @@ class TicketcherDecoration {
       gradient: gradient ?? this.gradient,
       divider: divider ?? this.divider,
       bottomBorderStyle: bottomBorderStyle ?? this.bottomBorderStyle,
+      leftBorderStyle: leftBorderStyle ?? this.leftBorderStyle,
+      rightBorderStyle: rightBorderStyle ?? this.rightBorderStyle,
       shadow: shadow ?? this.shadow,
     );
   }

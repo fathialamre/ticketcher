@@ -15,9 +15,9 @@ class CircleDivider extends StatelessWidget {
             children: List.generate(
               3,
               (index) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Ticketcher(
-                  notchRadius: 18,
+                  notchRadius: 12,
                   decoration: TicketcherDecoration(
                     borderRadius: TicketRadius(
                       radius: 20,
@@ -25,19 +25,17 @@ class CircleDivider extends StatelessWidget {
                     ),
 
                     shadow: BoxShadow(
-                      color: Colors.grey.shade200,
-                      blurRadius: 10,
-                      offset: Offset(0, 10),
+                      color: Theme.of(context).colorScheme.primary,
+                      blurRadius: 3,
+                      offset: Offset(12, 10),
                     ),
                     divider: TicketDivider.circles(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.inversePrimary,
                       thickness: 2,
-                      circleRadius: 4,
-                      circleSpacing: 12,
+                      circleRadius: 2,
+                      circleSpacing: 10,
                     ),
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.inversePrimary,
+                    backgroundColor: Theme.of(context).cardColor,
                     border: Border.fromBorderSide(
                       BorderSide(
                         color: Theme.of(context).primaryColor,
