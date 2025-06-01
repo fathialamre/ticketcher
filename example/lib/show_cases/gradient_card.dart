@@ -44,86 +44,133 @@ class GradientCard extends StatelessWidget {
                   BorderSide(color: Colors.grey.shade100, width: 2),
                 ),
               ),
-
-              primarySection: Section(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Coffee Shop',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          '10% off on all orders',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Icon(
-                          Icons.coffee_rounded,
-                          size: 100,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Valid until 31/05/2025',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Icon(Icons.pin_drop, size: 16, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              '1000 Main St, Abu-Salim, Libya',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              secondarySection: Section(
-                padding: EdgeInsets.all(4),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Column(
+              sections: [
+                Section(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.timer_outlined,
-                        size: 180,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'Don\'t miss out!',
-                        style: TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                      Text(
-                        'Offer ends in 2 days',
-                        style: TextStyle(fontSize: 12, color: Colors.white),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Coffee Shop',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            '10% off on all orders',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            Icons.coffee_rounded,
+                            size: 100,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Valid until 31/05/2025',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-              ),
+                Section(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Coffee Shop',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            '10% off on all orders',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            Icons.coffee_rounded,
+                            size: 100,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Valid until 31/05/2025',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.pin_drop,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                '1000 Main St, Abu-Salim, Libya',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Section(
+                  padding: EdgeInsets.all(4),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.timer_outlined,
+                          size: 180,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          'Don\'t miss out!',
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
+                        Text(
+                          'Offer ends in 2 days',
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -1,9 +1,9 @@
 import 'package:example/show_cases/flight.dart';
+import 'package:example/show_cases/flight_multi_section.dart';
 import 'package:example/show_cases/gradient_card.dart';
 import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/social_media.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketcher/ticketcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +44,15 @@ class ExampleScreen extends StatelessWidget {
                 );
               },
               child: const Text('Flight Card'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FlightCardMultiSection()),
+                );
+              },
+              child: const Text('Flight Card with multiple sections'),
             ),
             ElevatedButton(
               onPressed: () {

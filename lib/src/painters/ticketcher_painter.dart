@@ -6,19 +6,18 @@ import '../models/ticket_divider.dart';
 
 class TicketcherPainter extends CustomPainter {
   final double notchRadius;
-  final double primaryHeight;
+  final List<double> sectionHeights;
   final TicketcherDecoration decoration;
 
   TicketcherPainter({
     required this.notchRadius,
-    required this.primaryHeight,
+    required this.sectionHeights,
     required this.decoration,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path();
-    final notchY = primaryHeight;
     final radius = decoration.borderRadius.radius;
     final direction = decoration.borderRadius.direction;
     final corner = decoration.borderRadius.corner;
@@ -60,15 +59,28 @@ class TicketcherPainter extends CustomPainter {
       path.lineTo(size.width, 0);
     }
 
-    // Right edge to notch
-    path.lineTo(size.width, notchY - notchRadius);
+    // Calculate cumulative heights for each section
+    List<double> cumulativeHeights = [];
+    double currentHeight = 0;
+    for (double height in sectionHeights) {
+      currentHeight += height;
+      cumulativeHeights.add(currentHeight);
+    }
 
-    // Right notch
-    path.arcToPoint(
-      Offset(size.width, notchY + notchRadius),
-      radius: Radius.circular(notchRadius),
-      clockwise: false,
-    );
+    // Draw right edge with notches
+    for (int i = 0; i < sectionHeights.length - 1; i++) {
+      final notchY = cumulativeHeights[i];
+
+      // Line to notch
+      path.lineTo(size.width, notchY - notchRadius);
+
+      // Right notch
+      path.arcToPoint(
+        Offset(size.width, notchY + notchRadius),
+        radius: Radius.circular(notchRadius),
+        clockwise: false,
+      );
+    }
 
     // Right edge to bottom
     path.lineTo(
@@ -188,15 +200,20 @@ class TicketcherPainter extends CustomPainter {
       );
     }
 
-    // Left edge to notch
-    path.lineTo(0, notchY + notchRadius);
+    // Draw left edge with notches
+    for (int i = sectionHeights.length - 2; i >= 0; i--) {
+      final notchY = cumulativeHeights[i];
 
-    // Left notch
-    path.arcToPoint(
-      Offset(0, notchY - notchRadius),
-      radius: Radius.circular(notchRadius),
-      clockwise: false,
-    );
+      // Line to notch
+      path.lineTo(0, notchY + notchRadius);
+
+      // Left notch
+      path.arcToPoint(
+        Offset(0, notchY - notchRadius),
+        radius: Radius.circular(notchRadius),
+        clockwise: false,
+      );
+    }
 
     // Left edge to top-left corner
     path.lineTo(0, shouldRoundCorner(TicketCorner.topLeft) ? radius : 0);
@@ -250,7 +267,7 @@ class TicketcherPainter extends CustomPainter {
       canvas.drawPath(path, borderPaint);
     }
 
-    // Draw the divider if specified
+    // Draw the dividers if specified
     if (decoration.divider != null) {
       final divider = decoration.divider!;
       final dividerPaint = Paint()
@@ -258,70 +275,54 @@ class TicketcherPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = divider.thickness ?? 1.0;
 
-      // Calculate the divider's start and end points
-      final startX = notchRadius;
-      final endX = size.width - notchRadius;
-      final y = notchY;
+      // Draw dividers between sections
+      for (int i = 0; i < sectionHeights.length - 1; i++) {
+        final y = cumulativeHeights[i];
+        final startX = notchRadius;
+        final endX = size.width - notchRadius;
 
-      if (divider.style == DividerStyle.dashed) {
-        final dashWidth = divider.dashWidth ?? 5.0;
-        final dashSpace = divider.dashSpace ?? 5.0;
-        final totalWidth = endX - startX;
+        if (divider.style == DividerStyle.dashed) {
+          final dashWidth = divider.dashWidth ?? 5.0;
+          final dashSpace = divider.dashSpace ?? 5.0;
+          final totalWidth = endX - startX;
 
-        // Calculate the optimal number of segments
-        // We want the ratio of dash width to space to be maintained
-        // while ensuring we have enough segments for a good pattern
-        final segmentRatio = dashWidth / dashSpace;
-        final minSegments = 6; // Minimum number of segments for a good pattern
-        final maxSegments =
-            20; // Maximum number of segments to avoid overcrowding
+          // Calculate the optimal number of segments
+          final segmentRatio = dashWidth / dashSpace;
+          final minSegments = 6;
+          final maxSegments = 20;
 
-        // Calculate how many segments would fit with the desired ratio
-        final idealSegments = (totalWidth / (dashWidth + dashSpace)).round();
+          final idealSegments = (totalWidth / (dashWidth + dashSpace)).round();
+          final numSegments = idealSegments.clamp(minSegments, maxSegments);
+          final totalDashesWidth = numSegments * dashWidth;
+          final remainingSpace = totalWidth - totalDashesWidth;
+          final spaceBetweenDashes = remainingSpace / (numSegments - 1);
+          final totalPatternWidth =
+              totalDashesWidth + (spaceBetweenDashes * (numSegments - 1));
+          final startOffset = (totalWidth - totalPatternWidth) / 2;
+          var currentX = startX + startOffset;
 
-        // Clamp the number of segments between min and max
-        final numSegments = idealSegments.clamp(minSegments, maxSegments);
+          for (int j = 0; j < numSegments; j++) {
+            final dashEnd = currentX + dashWidth;
+            canvas.drawLine(
+              Offset(currentX, y),
+              Offset(dashEnd, y),
+              dividerPaint,
+            );
 
-        // Calculate the total width needed for all dashes
-        final totalDashesWidth = numSegments * dashWidth;
-
-        // Calculate the remaining space to distribute
-        final remainingSpace = totalWidth - totalDashesWidth;
-
-        // Calculate the space between dashes
-        final spaceBetweenDashes = remainingSpace / (numSegments - 1);
-
-        // Calculate the starting point to center the pattern
-        final totalPatternWidth =
-            totalDashesWidth + (spaceBetweenDashes * (numSegments - 1));
-        final startOffset = (totalWidth - totalPatternWidth) / 2;
-        var currentX = startX + startOffset;
-
-        // Draw all segments with precise spacing
-        for (int i = 0; i < numSegments; i++) {
-          // Draw the dash
-          final dashEnd = currentX + dashWidth;
-          canvas.drawLine(
-            Offset(currentX, y),
-            Offset(dashEnd, y),
-            dividerPaint,
-          );
-
-          // Move to the next segment, adding the calculated space
-          if (i < numSegments - 1) {
-            currentX = dashEnd + spaceBetweenDashes;
+            if (j < numSegments - 1) {
+              currentX = dashEnd + spaceBetweenDashes;
+            }
           }
+        } else {
+          canvas.drawLine(Offset(startX, y), Offset(endX, y), dividerPaint);
         }
-      } else {
-        // Draw the solid divider line
-        canvas.drawLine(Offset(startX, y), Offset(endX, y), dividerPaint);
       }
     }
   }
 
   @override
   bool shouldRepaint(TicketcherPainter oldDelegate) {
-    return oldDelegate.primaryHeight != primaryHeight ||
+    return oldDelegate.sectionHeights != sectionHeights ||
         oldDelegate.decoration != decoration;
   }
 }
