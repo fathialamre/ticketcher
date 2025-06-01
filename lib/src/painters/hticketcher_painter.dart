@@ -460,6 +460,57 @@ class HTicketcherPainter extends CustomPainter {
               currentY = nextY;
             }
             break;
+
+          case DividerStyle.dotted:
+            final dotSize = divider.dotSize ?? 4.0;
+            final dotSpacing = divider.dotSpacing ?? 8.0;
+
+            // Calculate the available height for dots
+            final availableHeight = endY - startY;
+
+            // Calculate the total height needed for one dot segment (dot + spacing)
+            final segmentHeight = dotSize + dotSpacing;
+
+            // Calculate how many complete segments we can fit
+            final numSegments =
+                ((availableHeight + dotSpacing) / segmentHeight).floor();
+
+            // Calculate the actual spacing needed to distribute dots evenly
+            final actualSpacing =
+                (availableHeight - (numSegments * dotSize)) / (numSegments - 1);
+
+            // Start from the top edge
+            var currentY = startY;
+
+            // Draw all dots
+            for (int j = 0; j < numSegments; j++) {
+              canvas.drawCircle(
+                Offset(x, currentY + dotSize / 2),
+                dotSize / 2,
+                dividerPaint,
+              );
+              currentY += dotSize + actualSpacing;
+            }
+            break;
+
+          case DividerStyle.doubleLine:
+            final lineSpacing = divider.lineSpacing ?? 4.0;
+            final halfSpacing = lineSpacing / 2;
+
+            // Draw the left line
+            canvas.drawLine(
+              Offset(x - halfSpacing, startY),
+              Offset(x - halfSpacing, endY),
+              dividerPaint,
+            );
+
+            // Draw the right line
+            canvas.drawLine(
+              Offset(x + halfSpacing, startY),
+              Offset(x + halfSpacing, endY),
+              dividerPaint,
+            );
+            break;
         }
       }
     }

@@ -338,6 +338,162 @@ class HorizontalTicket extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
+
+              // Fourth Ticket - Concert Ticket with Dotted Divider
+              Ticketcher.horizontal(
+                height: 140,
+                notchRadius: 10,
+                decoration: TicketcherDecoration(
+                  borderRadius: const TicketRadius(radius: 14),
+                  backgroundColor: Colors.white,
+                  border: Border.all(color: Colors.purple.shade300, width: 1.5),
+                  shadow: BoxShadow(
+                    color: Colors.black.withAlpha(20),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                  rightBorderStyle: BorderPattern(
+                    shape: BorderShape.arc,
+                    height: 6,
+                  ),
+                  divider: TicketDivider.dotted(
+                    color: Colors.purple,
+                    thickness: 2,
+                    dotSize: 2,
+                    dotSpacing: 8,
+                    padding: 8,
+                  ),
+                ),
+                sections: [
+                  Section(
+                    widthFactor: 1,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'ROCK FEST',
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: Colors.purple.shade800,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Summer Tour 2024',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.purple.shade700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Section(
+                    widthFactor: 2,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'VIP Access',
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                color: Colors.purple.shade800,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Backstage Pass',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.purple.shade700),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Fifth Ticket - Train Ticket with Double Line Divider
+              Ticketcher.horizontal(
+                height: 140,
+                notchRadius: 10,
+                decoration: TicketcherDecoration(
+                  borderRadius: const TicketRadius(radius: 14),
+                  backgroundColor: Colors.white,
+                  border: Border.all(color: Colors.blue.shade300, width: 1.5),
+                  shadow: BoxShadow(
+                    color: Colors.black.withAlpha(20),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                  rightBorderStyle: BorderPattern(
+                    shape: BorderShape.arc,
+                    height: 6,
+                  ),
+                  divider: TicketDivider.doubleLine(
+                    color: Colors.blue,
+                    thickness: 1.5,
+                    lineSpacing: 4,
+                    padding: 8,
+                  ),
+                ),
+                sections: [
+                  Section(
+                    widthFactor: 1,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'EXPRESS',
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: Colors.blue.shade800,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'First Class',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.blue.shade700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Section(
+                    widthFactor: 2,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Platform 9¾',
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                color: Colors.blue.shade800,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Departure: 11:00 AM',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.blue.shade700),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
