@@ -13,21 +13,38 @@ and the Flutter guide for
 
 # Ticketcher
 
-A Flutter widget that creates beautiful, customizable ticket-style UI components with various border patterns, dividers, and styling options.
+A Flutter package for creating beautiful ticket-style cards with customizable borders, dividers, and patterns.
 
-## Preview
-
-| ![Multi-section Ticket](screenshots/multiple_sections.jpeg) | ![Gradient Ticket](screenshots/gradient.jpeg) | ![Wave Border Ticket](screenshots/wave_border.jpeg) | ![Sharp Border Ticket](screenshots/sharp_border.jpeg) |
-|:---:|:---:|:---:|:---:|
-| *Multi-section Flight Ticket* | *Gradient Color Ticket* | *Wave Border Ticket* | *Sharp Border Ticket* |
-
-| ![Circle Divider](screenshots/circle_divider.jpeg) | ![Wave Divider](screenshots/wave_divider.jpeg) | ![Smooth Wave Divider](screenshots/smooth_wave_divider.jpeg) |
-|:---:|:---:|:---:|
-| *Circle Divider* | *Wave Divider* | *Smooth Wave Divider* |
+| ![Horizontal Ticket](screenshots/horizontal.jpeg) | ![Circle Divider](screenshots/circle_divider.jpeg) | ![Wave Divider](screenshots/wave_divider.jpeg) | ![Smooth Wave](screenshots/smooth_wave_divider.jpeg) | ![Flight Ticket](screenshots/flight.jpeg) |
+|:---:|:---:|:---:|:---:|:---:|
+| ![Multiple Sections](screenshots/flight_multiple_section.jpeg) | ![Gradient](screenshots/gradient.jpeg) | ![Social Media](screenshots/social_media.jpeg) | ![Coffee Sales](screenshots/coffer_sales.jpeg) |
 
 ## Features
 
+- Create both vertical and horizontal ticket layouts
+- Customizable border patterns (wave, arc, sharp)
+- Multiple divider styles (solid, dashed, circles, wave, smooth wave)
+- Gradient backgrounds
+- Custom border radius for any corner
+- Shadow effects
+- Section padding control
+- Width and height control
+- Notch radius customization
+
+## Installation
+
+Add this to your package's `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  ticketcher: ^1.0.0
+```
+
+## Usage
+
 ### Basic Usage
+
+The default mode is vertical. Here's a basic example:
 
 ```dart
 Ticketcher(
@@ -38,42 +55,50 @@ Ticketcher(
     Section(
       child: Text('Second Section'),
     ),
+  ],
+)
+```
+
+### Horizontal Mode
+
+For horizontal layout, use the `horizontal` constructor:
+
+```dart
+Ticketcher.horizontal(
+  height: 160,
+  sections: [
     Section(
-      child: Text('Third Section'),
+      widthFactor: 1,
+      child: Text('Left Section'),
+    ),
+    Section(
+      widthFactor: 2,
+      child: Text('Right Section'),
     ),
   ],
 )
 ```
 
-### Border Radius
+### Vertical Mode
 
-Customize the corners of your ticket with different radius styles and directions.
+For vertical layout, you can use either the default constructor or the explicit `vertical` constructor:
 
 ```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    borderRadius: TicketRadius(
-      radius: 8.0,
-      direction: RadiusDirection.inward, // or outward
-      corner: TicketCorner.all, // or specific corners
+Ticketcher.vertical(
+  sections: [
+    Section(
+      child: Text('Top Section'),
     ),
-  ),
+    Section(
+      child: Text('Bottom Section'),
+    ),
+  ],
 )
 ```
 
-Available corner options:
-- `TicketCorner.all`: Rounds all corners
-- `TicketCorner.top`: Rounds only top corners
-- `TicketCorner.bottom`: Rounds only bottom corners
-- `TicketCorner.topLeft`: Rounds only top-left corner
-- `TicketCorner.topRight`: Rounds only top-right corner
-- `TicketCorner.bottomLeft`: Rounds only bottom-left corner
-- `TicketCorner.bottomRight`: Rounds only bottom-right corner
-- `TicketCorner.none`: No rounded corners
-
 ### Border Patterns
 
-Add decorative patterns to the bottom edge of your ticket.
+Add decorative patterns to the edges of your ticket.
 
 ```dart
 Ticketcher(
@@ -176,13 +201,6 @@ Ticketcher(
 )
 ```
 
-Available divider styles:
-- `DividerStyle.solid`: A simple straight line
-- `DividerStyle.dashed`: A dashed line with customizable dash width and spacing
-- `DividerStyle.circles`: A series of evenly distributed circles
-- `DividerStyle.wave`: A zigzag wave pattern
-- `DividerStyle.smoothWave`: A smooth curved wave pattern using Bezier curves
-
 ### Background Styling
 
 #### Solid Color
@@ -253,10 +271,6 @@ Ticketcher(
       child: Text('Second Section'),
       padding: EdgeInsets.all(16.0),
     ),
-    Section(
-      child: Text('Third Section'),
-      padding: EdgeInsets.all(16.0),
-    ),
   ],
 )
 ```
@@ -278,178 +292,56 @@ Customize the radius of the notches that connect the sections.
 
 ```dart
 Ticketcher(
-  notchRadius: 10.0,
+  notchRadius: 12.0,
   // ... other properties
 )
 ```
 
-## Complete Example
+## Important Usage Notes
 
-Here's a complete example showcasing multiple features with three sections:
+### Assertions
 
-```dart
-Ticketcher(
-  width: 300.0,
-  notchRadius: 10.0,
-  sections: [
-    Section(
-      child: Text('Header Section'),
-      padding: EdgeInsets.all(16.0),
-    ),
-    Section(
-      child: Text('Content Section'),
-      padding: EdgeInsets.all(16.0),
-    ),
-    Section(
-      child: Text('Footer Section'),
-      padding: EdgeInsets.all(16.0),
-    ),
-  ],
-  decoration: TicketcherDecoration(
-    borderRadius: TicketRadius(
-      radius: 8.0,
-      direction: RadiusDirection.inward,
-      corner: TicketCorner.all,
-    ),
-    gradient: LinearGradient(
-      colors: [Colors.blue, Colors.purple],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    divider: TicketDivider.dashed(
-      color: Colors.white,
-      thickness: 1.0,
-      dashWidth: 10.0,
-      dashSpace: 7.0,
-    ),
-    bottomBorderStyle: BorderPattern(
-      shape: BorderShape.wave,
-      height: 8.0,
-      width: 20.0,
-    ),
-    shadow: BoxShadow(
-      color: Colors.black.withOpacity(0.2),
-      blurRadius: 4.0,
-      offset: Offset(0, 2),
-    ),
-  ),
-)
-```
+The package includes several assertions to prevent invalid configurations:
 
-## Real-world Example
+1. **Minimum Sections**
+   - Both vertical and horizontal tickets must have at least 2 sections
+   - Error message: "Vertical/Horizontal Ticketcher must have at least 2 sections"
 
-Here's a practical example of a flight ticket with multiple sections:
+2. **Border Style and Radius Conflicts**
+   - In vertical mode, you cannot use `bottomBorderStyle` when there's a bottom border radius
+   - Error message: "Cannot use bottomBorderStyle when there is a bottom border radius"
+   - This applies to any bottom corner radius (bottom, bottomLeft, bottomRight, or all corners)
 
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    borderRadius: TicketRadius(radius: 20, corner: TicketCorner.all),
-    backgroundColor: Colors.grey.shade50,
-    border: Border.all(color: Colors.grey.shade200, width: 2),
-    divider: TicketDivider.dashed(
-      color: Colors.grey.shade300,
-      thickness: 1,
-      dashWidth: 8,
-      dashSpace: 0.01,
-    ),
-  ),
-  sections: [
-    // Header section with airline info
-    Section(
-      padding: EdgeInsets.all(4),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              color: Colors.grey.shade200,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(Icons.airplanemode_active),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Airline Name"),
-                      Text("Flight Details"),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-    // Flight details section
-    Section(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              Text("Departure"),
-              Text("Time"),
-            ],
-          ),
-          Column(
-            children: [
-              Text("Arrival"),
-              Text("Time"),
-            ],
-          ),
-        ],
-      ),
-    ),
-    // Footer section with price and action
-    Section(
-      padding: EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Price"),
-          FilledButton(
-            onPressed: () {},
-            child: Text("Book Now"),
-          ),
-        ],
-      ),
-    ),
-  ],
-)
-```
+### Best Practices
 
-## Best Practices
+1. **Section Width Factors**
+   - In horizontal mode, use `widthFactor` to control section widths
+   - The total of all width factors determines the relative sizes
+   - Example: `widthFactor: 1` and `widthFactor: 2` creates a 1:2 ratio
 
-1. **Gradient Usage**: When using gradients, ensure good contrast with your content text.
-2. **Border Patterns**: Choose border patterns that complement your overall design.
-3. **Notch Radius**: Keep the notch radius proportional to your ticket's size.
-4. **Padding**: Use consistent padding values for a polished look.
-5. **Shadow**: Use subtle shadows to create depth without overwhelming the design.
+2. **Border Patterns**
+   - Border patterns work best with straight edges
+   - Avoid using border patterns on edges with rounded corners
+   - For best results, use patterns on edges without radius
+
+3. **Dividers**
+   - Choose divider styles that complement your border patterns
+   - Consider using matching colors for borders and dividers
+   - Adjust thickness and spacing for better visual balance
+
+4. **Performance**
+   - Use `width` and `height` properties when you know the exact dimensions
+   - This helps avoid unnecessary layout calculations
+   - For dynamic content, let the widget calculate its own size
+
+## Examples
+
+Check out the [example](example) directory for more detailed examples of different ticket styles and configurations.
 
 ## Contributing
 
-Feel free to contribute to this project by submitting issues or pull requests.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Getting Started
+## License
 
-Add this to your package's `pubspec.yaml` file:
-
-```yaml
-dependencies:
-  ticketcher: ^1.0.0
-```
-
-You can then import the package:
-
-```dart
-import 'package:ticketcher/ticketcher.dart';
-```
-
-## Additional Information
-
-For more examples and use cases, check out the `example` directory in the package repository.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
