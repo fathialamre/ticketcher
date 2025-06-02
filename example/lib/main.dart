@@ -98,7 +98,7 @@ class MyHomePage extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.local_offer_outlined),
               trailing: const Icon(Icons.arrow_forward_ios, size: 14),
-              title: const Text('Sales Offer Card'),
+              title: const Text('Sales Offer'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -111,7 +111,7 @@ class MyHomePage extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.circle_outlined),
               trailing: const Icon(Icons.arrow_forward_ios, size: 14),
-              title: const Text('Circle Divider Card'),
+              title: const Text('Circle Divider'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -126,7 +126,7 @@ class MyHomePage extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.waves),
               trailing: const Icon(Icons.arrow_forward_ios, size: 14),
-              title: const Text('Wave Divider Card'),
+              title: const Text('Wave Divider'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -139,7 +139,7 @@ class MyHomePage extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.waves_outlined),
               trailing: const Icon(Icons.arrow_forward_ios, size: 14),
-              title: const Text('Smooth Wave Divider Card'),
+              title: const Text('Smooth Wave Divider'),
               onTap: () {
                 Navigator.push(
                   context,
