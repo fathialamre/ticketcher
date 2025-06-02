@@ -87,7 +87,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^0.0.5
+  ticketcher: ^0.0.6
 ```
 
 ## Usage
