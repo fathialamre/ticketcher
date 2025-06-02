@@ -1,6 +1,6 @@
 name: ticketcher
 description: "A Flutter package for creating customizable and animated ticket-style widgets with tear-off effects, perforated edges, and various ticket designs. Perfect for event tickets, boarding passes, and coupon interfaces."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/yourusername/ticketcher
 
 environment:
