@@ -15,9 +15,9 @@ and the Flutter guide for
 
 A Flutter package for creating beautiful ticket-style cards with customizable borders, dividers, and patterns.
 
-| ![Concert Ticket](screenshots/horizontal_1.jpeg) | ![Flight Ticket](screenshots/flight.jpeg) | ![Gradient](screenshots/gradient.jpeg) | ![Train Ticket](screenshots/horizontal_2.jpeg) | ![Circle Divider](screenshots/circle_divider.jpeg) |
+| ![Concert Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg) | ![Flight Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight.jpeg) | ![Gradient](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg) | ![Train Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg) | ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg) |
 |:---:|:---:|:---:|:---:|:---:|
-| ![Wave Divider](screenshots/wave_divider.jpeg) | ![Smooth Wave](screenshots/smooth_wave_divider.jpeg) | ![Multiple Sections](screenshots/flight_multiple_section.jpeg) | ![Social Media](screenshots/social_media.jpeg) | ![Coffee Sales](screenshots/coffer_sales.jpeg) |
+| ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg) | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg) | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg) | ![Social Media](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/social_media.jpeg) | ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg) |
 
 ## Features
 
