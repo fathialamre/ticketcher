@@ -37,7 +37,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^1.0.0
+  ticketcher: ^0.0.3
 ```
 
 ## Usage
