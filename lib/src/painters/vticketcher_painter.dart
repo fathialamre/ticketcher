@@ -46,8 +46,46 @@ class VTicketcherPainter extends CustomPainter {
     required this.decoration,
   });
 
+  void drawStackedLayers(Canvas canvas, Size size) {
+    if (decoration.stackEffect.count <= 0) return;
+
+    final stackPaint =
+        Paint()
+          ..style = PaintingStyle.fill
+          ..color = decoration.stackEffect.color ?? Colors.grey[200]!;
+
+    // Calculate the start position from last section
+    final lastSectionStart =
+        sectionHeights.length > 1
+            ? sectionHeights
+                .sublist(0, sectionHeights.length - 1)
+                .reduce((a, b) => a + b)
+            : 0.0;
+
+    for (int i = decoration.stackEffect.count; i > 0; i--) {
+      final offset = decoration.stackEffect.offset * i;
+      final widthStep = decoration.stackEffect.widthStep * i;
+      final rect = Rect.fromLTWH(
+        widthStep / 2,
+        lastSectionStart + offset,
+        size.width - widthStep,
+        size.height - lastSectionStart,
+      );
+
+      final path = Path();
+      final radius = decoration.borderRadius.radius;
+
+      // Draw rounded rectangle for stacked layer
+      path.addRRect(RRect.fromRectAndRadius(rect, Radius.circular(radius)));
+      canvas.drawPath(path, stackPaint);
+    }
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
+    // Draw stacked layers first
+    drawStackedLayers(canvas, size);
+
     final path = Path();
     final radius = decoration.borderRadius.radius;
     final direction = decoration.borderRadius.direction;
@@ -542,7 +580,7 @@ class VTicketcherPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(VTicketcherPainter oldDelegate) {
+  bool shouldRepaint(covariant VTicketcherPainter oldDelegate) {
     return oldDelegate.notchRadius != notchRadius ||
         oldDelegate.sectionHeights != sectionHeights ||
         oldDelegate.decoration != decoration;
