@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 /// A widget that wraps its child with padding and optional width constraints.
 ///
 /// Example:
