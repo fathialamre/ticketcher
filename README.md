@@ -30,9 +30,10 @@ apps with just a few lines of
 code.
 
 
-| ![Concert Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg) | ![Flight Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight.jpeg) | ![Gradient](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg) | ![Train Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg) | ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg) |
-|:---:|:---:|:---:|:---:|:---:|
-| ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg) | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg) | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg) | ![Social Media](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/social_media.jpeg) | ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg) |
+| ![Concert Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg)<br>Concert<br>Wave Divider | ![Flight Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight.jpeg)<br>Flight<br>Dashed Divider | ![Gradient](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg)<br>Gradient<br>Background | ![Train Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg)<br>Train<br>Solid Divider |
+|:---:|:---:|:---:|:---:|
+| ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg)<br>Circle<br>Pattern | ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg)<br>Wave<br>Pattern | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg)<br>Smooth<br>Wave | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg)<br>Multiple<br>Sections |
+| ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg)<br>Coffee<br>Sales | ![Stacked Effect](https://raw.githubusercontent.com/fathialamre/ticketcher/feature/stacked-tickets/screenshots/stacked_effect.jpeg)<br>Stacked<br>Layers | | |
 
 ## Table of Contents
 
@@ -56,6 +57,7 @@ code.
     - [Gradient](#gradient)
   - [Border](#border)
   - [Shadow](#shadow)
+  - [Stacked Effect](#stacked-effect)
   - [Section Padding](#section-padding)
   - [Width Control](#width-control)
   - [Notch Radius](#notch-radius)
@@ -77,6 +79,7 @@ code.
 - Section padding control
 - Width and height control
 - Notch radius customization
+- Stacked effect for vertical tickets (creates a layered appearance in the last section)
 
 ## Installation
 
@@ -347,6 +350,45 @@ Ticketcher(
   ),
 )
 ```
+
+### Stacked Effect
+
+Add a stacked effect to your vertical ticket's last section. This creates a layered appearance that adds depth to your ticket design.
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    stackEffect: StackEffect(
+      count: 2, // Number of stacked layers
+      offset: 8.0, // Vertical offset between layers
+      widthStep: 4.0, // Width reduction for each layer
+      color: Colors.grey.withOpacity(0.2), // Color of the stacked layers
+    ),
+  ),
+)
+```
+
+The stacked effect is only supported in vertical tickets and will be applied to the last section. You can customize:
+- `count`: Number of stacked layers (1-3)
+- `offset`: Vertical offset between each layer
+- `widthStep`: How much each layer is reduced in width
+- `color`: Color of the stacked layers (defaults to a light grey if not specified)
+
+Example with a more pronounced effect:
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    stackEffect: StackEffect(
+      count: 3,
+      offset: 12.0,
+      widthStep: 8.0,
+      color: Colors.blue.withOpacity(0.1),
+    ),
+  ),
+)
+```
+
+Note: The stacked effect is only available in vertical tickets and will be ignored in horizontal tickets.
 
 ### Section Padding
 

@@ -6,18 +6,19 @@ import '../models/border_shape.dart';
 
 /// A custom painter that draws a horizontal ticket with customizable sections, borders, and dividers.
 ///
-/// This painter is responsible for rendering the visual appearance of a horizontal ticket,
-/// including its borders, corners, notches between sections, and dividers. It supports
-/// various border styles, corner rounding, and divider patterns.
+/// This painter renders a horizontal ticket with customizable visual elements including:
+/// - Rounded corners with configurable radius and direction
+/// - Notches between sections
+/// - Border patterns (wave, sharp, arc)
+/// - Section dividers with various styles (solid, dashed, dotted, etc.)
+/// - Background colors/gradients
+/// - Drop shadows
+/// - Stack effects
 ///
-/// The painter handles:
-/// - Drawing the ticket outline with rounded corners
-/// - Creating notches between sections
-/// - Applying border patterns (wave, sharp, arc)
-/// - Rendering dividers between sections
-/// - Drawing shadows and backgrounds
+/// The ticket can be divided into multiple sections of specified widths, with
+/// dividers and notches automatically placed between them.
 ///
-/// Example:
+/// Example usage:
 /// ```dart
 /// CustomPaint(
 ///   painter: HTicketcherPainter(
@@ -40,35 +41,50 @@ import '../models/border_shape.dart';
 class HTicketcherPainter extends CustomPainter {
   /// The radius of the notches between ticket sections.
   ///
-  /// This determines how rounded the cutouts between sections will be.
+  /// Controls the curvature of the cutouts between each section.
+  /// A larger value creates more rounded notches.
   final double notchRadius;
 
   /// The widths of each section in the ticket.
   ///
-  /// These widths are used to calculate the positions of notches and dividers
-  /// between sections.
+  /// Each value represents the width of one section from left to right.
+  /// The number of sections is determined by the length of this list.
+  /// Dividers and notches are automatically placed between sections.
   final List<double> sectionWidths;
 
   /// The decoration properties for the ticket.
   ///
-  /// This includes properties like border radius, background color,
-  /// border style, and divider style.
+  /// Controls the visual appearance including:
+  /// - Border radius and direction
+  /// - Background color/gradient
+  /// - Border style and pattern
+  /// - Divider style and appearance
+  /// - Shadow effects
+  /// - Stack effects
   final TicketcherDecoration decoration;
 
   /// Creates a new [HTicketcherPainter].
   ///
-  /// Parameters:
-  /// - [notchRadius]: The radius of the notches between sections
-  /// - [sectionWidths]: The widths of each section in the ticket
-  /// - [decoration]: The decoration properties for the ticket
+  /// All parameters are required:
+  /// - [notchRadius]: Controls the roundness of notches between sections
+  /// - [sectionWidths]: Defines the width of each ticket section
+  /// - [decoration]: Specifies all visual styling properties
   HTicketcherPainter({
     required this.notchRadius,
     required this.sectionWidths,
     required this.decoration,
   });
 
+  void drawStackedLayers(Canvas canvas, Size size) {
+    // Stack effect is only supported in vertical tickets
+    return;
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
+    // Draw stacked layers first
+    drawStackedLayers(canvas, size);
+
     final path = Path();
     final radius = decoration.borderRadius.radius;
     final direction = decoration.borderRadius.direction;
@@ -391,7 +407,9 @@ class HTicketcherPainter extends CustomPainter {
 
     /// Draws the background of the ticket with the specified decoration.
     ///
-    /// This method handles both solid colors and gradients for the ticket background.
+    /// Handles both solid colors and gradients. For gradients, creates a shader
+    /// that fills the entire ticket area. For solid colors, uses the specified
+    /// background color.
     void drawBackground() {
       if (decoration.gradient != null) {
         backgroundPaint.shader = decoration.gradient!.createShader(
@@ -405,7 +423,9 @@ class HTicketcherPainter extends CustomPainter {
 
     /// Draws the border of the ticket with the specified decoration.
     ///
-    /// This method handles both solid colors and gradients for the ticket border.
+    /// If a border is specified in the decoration, draws it using the configured
+    /// color and width. The border follows the entire ticket path including
+    /// corners, notches, and any border patterns.
     void drawBorder() {
       if (decoration.border != null) {
         final borderPaint =
@@ -418,16 +438,16 @@ class HTicketcherPainter extends CustomPainter {
       }
     }
 
-    /// Draws the dividers between ticket sections.
+    /// Draws dividers between ticket sections using the specified style.
     ///
-    /// This method handles all divider styles:
-    /// - Solid lines
-    /// - Dashed lines
-    /// - Circles
-    /// - Wave patterns
-    /// - Smooth wave patterns
-    /// - Dotted lines
-    /// - Double lines
+    /// Supports multiple divider styles:
+    /// - Solid: Single continuous line
+    /// - Dashed: Series of dashes with configurable length and spacing
+    /// - Circles: Series of circles with configurable size and spacing
+    /// - Wave: Zigzag pattern with configurable width and height
+    /// - Smooth Wave: Curved wave pattern using Bezier curves
+    /// - Dotted: Series of dots with configurable size and spacing
+    /// - Double Line: Two parallel lines with configurable spacing
     void drawDividers() {
       if (decoration.divider == null) return;
 
@@ -645,7 +665,7 @@ class HTicketcherPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(HTicketcherPainter oldDelegate) {
+  bool shouldRepaint(covariant HTicketcherPainter oldDelegate) {
     return oldDelegate.notchRadius != notchRadius ||
         oldDelegate.sectionWidths != sectionWidths ||
         oldDelegate.decoration != decoration;
