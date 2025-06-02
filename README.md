@@ -13,11 +13,60 @@ and the Flutter guide for
 
 # Ticketcher
 
-A Flutter package for creating beautiful ticket-style cards with customizable borders, dividers, and patterns.
+Ticketcher is a powerful Flutter 
+package for creating beautiful, 
+highly customizable ticket-style 
+cards and widgets. Effortlessly 
+design event tickets, boarding 
+passes, coupons, and more with 
+support for unique border 
+patterns, animated dividers, 
+gradient backgrounds, custom 
+notches, and flexible section 
+layouts. Ticketcher makes it easy 
+to add professional, interactive 
+ticket designs to your Flutter 
+apps with just a few lines of 
+code.
+
 
 | ![Concert Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg) | ![Flight Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight.jpeg) | ![Gradient](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg) | ![Train Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg) | ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg) |
 |:---:|:---:|:---:|:---:|:---:|
 | ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg) | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg) | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg) | ![Social Media](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/social_media.jpeg) | ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg) |
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Basic Usage](#basic-usage)
+  - [Horizontal Mode](#horizontal-mode)
+  - [Vertical Mode](#vertical-mode)
+  - [Border Patterns](#border-patterns)
+  - [Dividers](#dividers)
+    - [Solid Divider](#solid-divider)
+    - [Dashed Divider](#dashed-divider)
+    - [Circle Divider](#circle-divider)
+    - [Wave Divider](#wave-divider)
+    - [Smooth Wave Divider](#smooth-wave-divider)
+    - [Dotted Divider](#dotted-divider)
+    - [Double Line Divider](#double-line-divider)
+  - [Background Styling](#background-styling)
+    - [Solid Color](#solid-color)
+    - [Gradient](#gradient)
+  - [Border](#border)
+  - [Shadow](#shadow)
+  - [Section Padding](#section-padding)
+  - [Width Control](#width-control)
+  - [Notch Radius](#notch-radius)
+- [Important Usage Notes](#important-usage-notes)
+  - [Assertions](#assertions)
+  - [Best Practices](#best-practices)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+
+Ticketcher is a powerful Flutter package for creating beautiful, highly customizable ticket-style cards and widgets. Effortlessly design event tickets, boarding passes, coupons, and more with support for unique border patterns, animated dividers, gradient backgrounds, custom notches, and flexible section layouts. Ticketcher makes it easy to add professional, interactive ticket designs to your Flutter apps with just a few lines of code.
 
 ## Features
 
@@ -37,7 +86,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^0.0.3
+  ticketcher: ^0.0.4
 ```
 
 ## Usage
