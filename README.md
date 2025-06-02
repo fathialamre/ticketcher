@@ -20,7 +20,7 @@ cards and widgets. Effortlessly
 design event tickets, boarding 
 passes, coupons, and more with 
 support for unique border 
-patterns, animated dividers, 
+patterns, 
 gradient backgrounds, custom 
 notches, and flexible section 
 layouts. Ticketcher makes it easy 
@@ -66,8 +66,6 @@ code.
 - [Contributing](#contributing)
 - [License](#license)
 
-Ticketcher is a powerful Flutter package for creating beautiful, highly customizable ticket-style cards and widgets. Effortlessly design event tickets, boarding passes, coupons, and more with support for unique border patterns, animated dividers, gradient backgrounds, custom notches, and flexible section layouts. Ticketcher makes it easy to add professional, interactive ticket designs to your Flutter apps with just a few lines of code.
-
 ## Features
 
 - Create both vertical and horizontal ticket layouts
@@ -86,7 +84,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^0.0.4
+  ticketcher: ^0.0.5
 ```
 
 ## Usage
