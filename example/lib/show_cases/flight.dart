@@ -46,14 +46,9 @@ class FlightWidget extends StatelessWidget {
           divider: TicketDivider.dashed(
             color: Theme.of(context).colorScheme.inversePrimary,
             thickness: 1,
-            dashWidth: 8,
-            dashSpace: 6,
-            padding: 10,
+            padding: 8,
           ),
-          bottomBorderStyle: BorderPattern(
-            height: 10,
-            shape: BorderShape.sharp,
-          ),
+          bottomBorderStyle: BorderPattern(height: 10, shape: BorderShape.wave),
         ),
         sections: [
           // Header section
