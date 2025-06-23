@@ -22,7 +22,10 @@ class HorizontalTicket extends StatelessWidget {
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 16),
                   backgroundColor: Colors.white,
-                  border: Border.all(color: Colors.red.shade300, width: 2),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 1,
+                  ),
                   shadow: BoxShadow(
                     color: Colors.black.withAlpha(22),
                     blurRadius: 8,
@@ -32,13 +35,14 @@ class HorizontalTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 5,
                   ),
-                  divider: TicketDivider.dashed(
-                    color: Colors.grey,
+                  divider: TicketDivider.solid(
+                    color: Theme.of(context).colorScheme.primary,
                     thickness: 1,
                   ),
                 ),
                 sections: [
                   Section(
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     widthFactor: 1,
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -49,7 +53,7 @@ class HorizontalTicket extends StatelessWidget {
                           '50% OFF',
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Colors.red,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
@@ -63,6 +67,7 @@ class HorizontalTicket extends StatelessWidget {
                     ),
                   ),
                   Section(
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                     widthFactor: 2,
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -93,7 +98,9 @@ class HorizontalTicket extends StatelessWidget {
                 notchRadius: 8,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 12),
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainer,
                   gradient: LinearGradient(
                     colors: [
                       Color(0xFF1a2a6c),
@@ -113,11 +120,9 @@ class HorizontalTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 4,
                   ),
-                  divider: TicketDivider.circles(
+                  divider: TicketDivider.smoothWave(
                     color: Colors.white,
                     thickness: 1,
-                    circleRadius: 3,
-                    circleSpacing: 8,
                   ),
                 ),
                 sections: [
@@ -358,11 +363,11 @@ class HorizontalTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 6,
                   ),
-                  divider: TicketDivider.dotted(
+                  divider: TicketDivider.circles(
                     color: Colors.purple,
                     thickness: 2,
-                    dotSize: 2,
-                    dotSpacing: 8,
+                    circleRadius: 2,
+                    circleSpacing: 8,
                     padding: 8,
                   ),
                 ),
@@ -436,10 +441,9 @@ class HorizontalTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 6,
                   ),
-                  divider: TicketDivider.doubleLine(
+                  divider: TicketDivider.solid(
                     color: Colors.blue,
                     thickness: 1.5,
-                    lineSpacing: 4,
                     padding: 8,
                   ),
                 ),
