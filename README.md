@@ -12,7 +12,7 @@ and the Flutter guide for
 -->
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/ticketcher-logo.png" width="200" alt="Ticketcher Logo">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/ticketcher.png" width="300" alt="Ticketcher Logo">
 </p>
 
 <p align="center">
