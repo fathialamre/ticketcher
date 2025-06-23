@@ -11,6 +11,10 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/to/develop-packages).
 -->
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/ticketcher-logo.png" width="200" alt="Ticketcher Logo">
+</p>
+
 # Ticketcher
 
 Ticketcher is a powerful Flutter 
