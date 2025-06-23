@@ -15,6 +15,13 @@ and the Flutter guide for
   <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/ticketcher-logo.png" width="200" alt="Ticketcher Logo">
 </p>
 
+<p align="center">
+  <a href="https://pub.dev/packages/ticketcher"><img src="https://img.shields.io/pub/v/ticketcher.svg" alt="Pub Version"></a>
+  <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/points/ticketcher.svg" alt="Pub Points"></a>
+  <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/likes/ticketcher.svg" alt="Pub Likes"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+</p>
+
 # Ticketcher
 
 Ticketcher is a powerful Flutter 
@@ -37,7 +44,7 @@ code.
 | ![Concert Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg)<br>Concert<br>Wave Divider | ![Flight Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight.jpeg)<br>Flight<br>Dashed Divider | ![Gradient](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg)<br>Gradient<br>Background | ![Train Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg)<br>Train<br>Solid Divider |
 |:---:|:---:|:---:|:---:|
 | ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg)<br>Circle<br>Pattern | ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg)<br>Wave<br>Pattern | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg)<br>Smooth<br>Wave | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg)<br>Multiple<br>Sections |
-| ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg)<br>Coffee<br>Sales | ![Stacked Effect](https://raw.githubusercontent.com/fathialamre/ticketcher/feature/stacked-tickets/screenshots/stacked_effect.jpeg)<br>Stacked<br>Layers | ![Colored Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/colored-sections/screenshots/colored_sections.jpeg)<br>Colored<br>Sections | |
+| ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg)<br>Coffee<br>Sales | ![Stacked Effect](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stacked_effect.jpeg)<br>Stacked<br>Layers | ![Colored Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/colored_sections.jpeg)<br>Colored<br>Sections | |
 
 ## Table of Contents
 
