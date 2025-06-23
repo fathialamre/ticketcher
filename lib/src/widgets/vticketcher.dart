@@ -139,6 +139,7 @@ class _VTicketcherState extends State<VTicketcher> {
                 notchRadius: widget.notchRadius,
                 decoration: widget.decoration,
                 sectionHeights: _sectionHeights,
+                sections: widget.sections,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

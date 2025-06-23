@@ -130,6 +130,7 @@ class _HTicketcherState extends State<HTicketcher> {
                 notchRadius: widget.notchRadius,
                 decoration: widget.decoration,
                 sectionWidths: _sectionWidths,
+                sections: widget.sections,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

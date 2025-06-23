@@ -45,6 +45,7 @@ class CircleDivider extends StatelessWidget {
                   ),
                   sections: [
                     Section(
+                      color: Colors.red,
                       padding: EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,6 +68,7 @@ class CircleDivider extends StatelessWidget {
                       ),
                     ),
                     Section(
+                      color: Colors.green,
                       padding: EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,6 +91,7 @@ class CircleDivider extends StatelessWidget {
                       ),
                     ),
                     Section(
+                      color: Colors.blue,
                       padding: EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

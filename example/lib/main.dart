@@ -1,3 +1,4 @@
+import 'package:example/show_cases/colored_ticket.dart';
 import 'package:example/show_cases/flight.dart';
 import 'package:example/show_cases/flight_multi_section.dart';
 import 'package:example/show_cases/gradient_card.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'show_cases/circle_divider.dart';
 import 'show_cases/wave_divider.dart';
 import 'show_cases/smooth_wave_divider.dart';
-import 'show_cases/stacked_effect.dart';
 
 void main() {
   runApp(const MyApp());
@@ -169,14 +169,14 @@ class MyHomePage extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: const Icon(Icons.stacked_line_chart),
+              leading: const Icon(Icons.color_lens_outlined),
               trailing: const Icon(Icons.arrow_forward_ios, size: 14),
-              title: const Text('Stacked Ticket'),
+              title: const Text('Colored Sections Ticket'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const StackedTicket(),
+                    builder: (context) => const ColoredTicket(),
                   ),
                 );
               },
@@ -186,15 +186,12 @@ class MyHomePage extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.stacked_line_chart),
               trailing: const Icon(Icons.arrow_forward_ios, size: 14),
-              title: const Text('Stacked Effect'),
-              subtitle: const Text(
-                'Vertical ticket with stacked layers in the last section',
-              ),
+              title: const Text('Stacked Ticket'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const StackedEffect(),
+                    builder: (context) => const StackedTicket(),
                   ),
                 );
               },

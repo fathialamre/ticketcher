@@ -33,7 +33,7 @@ code.
 | ![Concert Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg)<br>Concert<br>Wave Divider | ![Flight Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight.jpeg)<br>Flight<br>Dashed Divider | ![Gradient](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg)<br>Gradient<br>Background | ![Train Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg)<br>Train<br>Solid Divider |
 |:---:|:---:|:---:|:---:|
 | ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg)<br>Circle<br>Pattern | ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg)<br>Wave<br>Pattern | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg)<br>Smooth<br>Wave | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg)<br>Multiple<br>Sections |
-| ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg)<br>Coffee<br>Sales | ![Stacked Effect](https://raw.githubusercontent.com/fathialamre/ticketcher/feature/stacked-tickets/screenshots/stacked_effect.jpeg)<br>Stacked<br>Layers | | |
+| ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg)<br>Coffee<br>Sales | ![Stacked Effect](https://raw.githubusercontent.com/fathialamre/ticketcher/feature/stacked-tickets/screenshots/stacked_effect.jpeg)<br>Stacked<br>Layers | ![Colored Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/colored-sections/screenshots/colored_sections.jpeg)<br>Colored<br>Sections | |
 
 ## Table of Contents
 
@@ -55,6 +55,7 @@ code.
   - [Background Styling](#background-styling)
     - [Solid Color](#solid-color)
     - [Gradient](#gradient)
+  - [Colored Sections](#colored-sections)
   - [Border](#border)
   - [Shadow](#shadow)
   - [Stacked Effect](#stacked-effect)
@@ -80,6 +81,7 @@ code.
 - Width and height control
 - Notch radius customization
 - Stacked effect for vertical tickets (creates a layered appearance in the last section)
+- Individual background colors for each section
 
 ## Installation
 
@@ -87,7 +89,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^0.0.6
+  ticketcher: ^0.1.0
 ```
 
 ## Usage
@@ -317,6 +319,25 @@ Ticketcher(
       end: Alignment.bottomRight,
     ),
   ),
+)
+```
+
+### Colored Sections
+
+Customize the background color of individual sections. If a section `color` is provided, it overrides the `backgroundColor` and `gradient` from `TicketcherDecoration` for that specific section. This allows for creating tickets with multi-colored parts.
+
+```dart
+Ticketcher(
+  sections: [
+    Section(
+      color: Colors.blue.shade100,
+      child: Text('First Section'),
+    ),
+    Section(
+      color: Colors.green.shade100,
+      child: Text('Second Section'),
+    ),
+  ],
 )
 ```
 
