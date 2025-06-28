@@ -2,6 +2,8 @@ import 'package:example/show_cases/colored_ticket.dart';
 import 'package:example/show_cases/flight.dart';
 import 'package:example/show_cases/flight_multi_section.dart';
 import 'package:example/show_cases/gradient_card.dart';
+import 'package:example/show_cases/gradient_variations.dart';
+import 'package:example/show_cases/hologram_ticket.dart';
 import 'package:example/show_cases/horizontal_ticket.dart';
 import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/social_media.dart';
@@ -79,6 +81,21 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const GradientCard()),
+                );
+              },
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.auto_awesome),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Holographic Ticket'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HologramTicket(),
+                  ),
                 );
               },
             ),
@@ -192,6 +209,36 @@ class MyHomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const StackedTicket(),
+                  ),
+                );
+              },
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.auto_awesome),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Holographic Ticket'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const GradientVariations(),
+                  ),
+                );
+              },
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.auto_awesome),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Holographic Ticket'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HologramTicket(),
                   ),
                 );
               },
