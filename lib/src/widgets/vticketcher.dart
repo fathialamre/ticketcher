@@ -143,14 +143,17 @@ class _VTicketcherState extends State<VTicketcher> {
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: List.generate(
-                  widget.sections.length,
-                  (index) => Container(
-                    key: _sectionKeys[index],
-                    padding: widget.sections[index].padding,
-                    child: widget.sections[index].child,
-                  ),
-                ),
+                children: List.generate(widget.sections.length, (index) {
+                  final section = widget.sections[index];
+                  return GestureDetector(
+                    onTap: section.onTap,
+                    child: Container(
+                      key: _sectionKeys[index],
+                      padding: section.padding,
+                      child: section.child,
+                    ),
+                  );
+                }),
               ),
             ),
           );

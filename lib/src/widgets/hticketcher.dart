@@ -138,10 +138,13 @@ class _HTicketcherState extends State<HTicketcher> {
                   final section = widget.sections[index];
                   return Expanded(
                     flex: (section.widthFactor ?? 1.0).round(),
-                    child: Container(
-                      key: _sectionKeys[index],
-                      padding: section.padding,
-                      child: section.child,
+                    child: GestureDetector(
+                      onTap: section.onTap,
+                      child: Container(
+                        key: _sectionKeys[index],
+                        padding: section.padding,
+                        child: section.child,
+                      ),
                     ),
                   );
                 }),
