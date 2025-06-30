@@ -54,6 +54,7 @@ code.
   - [Basic Usage](#basic-usage)
   - [Horizontal Mode](#horizontal-mode)
   - [Vertical Mode](#vertical-mode)
+  - [Interactive Sections](#interactive-sections)
   - [Border Patterns](#border-patterns)
   - [Dividers](#dividers)
     - [Solid Divider](#solid-divider)
@@ -83,6 +84,7 @@ code.
 ## Features
 
 - Create both vertical and horizontal ticket layouts
+- Interactive sections with individual tap callbacks
 - Customizable border patterns (wave, arc, sharp)
 - Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line)
 - Gradient backgrounds
@@ -158,6 +160,93 @@ Ticketcher.vertical(
   ],
 )
 ```
+
+### Interactive Sections
+
+Make your tickets interactive by adding tap callbacks to individual sections. Each section can have its own `onTap` function that gets called when the user taps on that specific section.
+
+```dart
+Ticketcher(
+  sections: [
+    Section(
+      child: Text('Header Section'),
+      onTap: () {
+        print('Header tapped!');
+        // Handle header tap
+      },
+    ),
+    Section(
+      child: Text('Content Section'),
+      onTap: () {
+        print('Content tapped!');
+        // Handle content tap
+      },
+    ),
+    Section(
+      child: Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          'TAP TO CHECK-IN',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      onTap: () {
+        // Handle check-in action
+        _performCheckIn();
+      },
+    ),
+  ],
+)
+```
+
+#### Interactive Examples
+
+**Flight Ticket with Check-in:**
+```dart
+Ticketcher(
+  sections: [
+    Section(
+      child: FlightHeader(),
+      onTap: () => _showFlightDetails(),
+    ),
+    Section(
+      child: FlightInfo(),
+      onTap: () => _showRouteMap(),
+    ),
+    Section(
+      child: CheckInButton(),
+      onTap: () => _performCheckIn(),
+    ),
+  ],
+)
+```
+
+**Event Ticket with QR Code:**
+```dart
+Ticketcher.horizontal(
+  height: 200,
+  sections: [
+    Section(
+      widthFactor: 2,
+      child: EventDetails(),
+      onTap: () => _showEventInfo(),
+    ),
+    Section(
+      child: QRCodeWidget(),
+      onTap: () => _showQRCode(),
+    ),
+  ],
+)
+```
+
+The `onTap` callback is completely optional. Sections without an `onTap` callback will not respond to taps, while sections with `onTap` will show a subtle tap effect and call your function when pressed.
 
 ### Border Patterns
 
