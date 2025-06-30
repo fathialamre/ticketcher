@@ -5,6 +5,7 @@ import 'package:example/show_cases/gradient_card.dart';
 import 'package:example/show_cases/gradient_variations.dart';
 import 'package:example/show_cases/hologram_ticket.dart';
 import 'package:example/show_cases/horizontal_ticket.dart';
+import 'package:example/show_cases/interactive_ticket.dart';
 import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/social_media.dart';
 import 'package:example/show_cases/stacked_ticket.dart';
@@ -44,6 +45,22 @@ class MyHomePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.touch_app),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+              title: const Text('Interactive Ticket (NEW)'),
+              subtitle: const Text('Tap sections for interactions'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const InteractiveTicket(),
+                  ),
+                );
+              },
+            ),
+          ),
           Card(
             child: ListTile(
               leading: const Icon(Icons.flight),
