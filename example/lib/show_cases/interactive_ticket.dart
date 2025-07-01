@@ -44,11 +44,7 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Interactive Ticket'),
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
-      ),
+      appBar: AppBar(title: const Text('Interactive Ticket')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
