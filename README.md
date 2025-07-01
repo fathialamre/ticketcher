@@ -69,6 +69,8 @@ code.
     - [Gradient](#gradient)
   - [Colored Sections](#colored-sections)
   - [Border](#border)
+    - [Solid Color Border](#solid-color-border)
+    - [Gradient Border](#gradient-border-new)
   - [Shadow](#shadow)
   - [Stacked Effect](#stacked-effect)
   - [Section Padding](#section-padding)
@@ -87,7 +89,7 @@ code.
 - Interactive sections with individual tap callbacks
 - Customizable border patterns (wave, arc, sharp)
 - Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line)
-- Gradient backgrounds
+- Gradient backgrounds and gradient borders
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -102,7 +104,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^0.1.0
+  ticketcher: ^0.2.0
 ```
 
 ## Usage
@@ -443,8 +445,9 @@ Ticketcher(
 
 ### Border
 
-Add a border around your ticket.
+Add a border around your ticket using either solid colors or gradients.
 
+#### Solid Color Border
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
@@ -455,6 +458,46 @@ Ticketcher(
   ),
 )
 ```
+
+#### Gradient Border (New!)
+Create stunning visual effects with gradient borders using any Flutter gradient type.
+
+```dart
+// Linear gradient border
+Ticketcher(
+  decoration: TicketcherDecoration(
+    borderGradient: LinearGradient(
+      colors: [Colors.red, Colors.orange, Colors.yellow, Colors.green, Colors.blue],
+    ),
+    borderWidth: 3.0,
+  ),
+)
+
+// Radial gradient border
+Ticketcher(
+  decoration: TicketcherDecoration(
+    borderGradient: RadialGradient(
+      colors: [Colors.purple, Colors.pink, Colors.orange],
+    ),
+    borderWidth: 2.5,
+  ),
+)
+
+// Sweep gradient for rainbow effects
+Ticketcher(
+  decoration: TicketcherDecoration(
+    borderGradient: SweepGradient(
+      colors: [
+        Colors.red, Colors.orange, Colors.yellow, Colors.green,
+        Colors.blue, Colors.indigo, Colors.purple, Colors.red,
+      ],
+    ),
+    borderWidth: 2.0,
+  ),
+)
+```
+
+**Note**: When both `border` and `borderGradient` are specified, the gradient border takes precedence. Use `borderWidth` to control the thickness of gradient borders.
 
 ### Shadow
 
@@ -591,7 +634,57 @@ The package includes several assertions to prevent invalid configurations:
 
 ## Examples
 
-Check out the [example](example) directory for more detailed examples of different ticket styles and configurations.
+### Gradient Border Showcase
+
+Here are some popular gradient border combinations:
+
+```dart
+// Neon cyber border
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.black,
+    borderGradient: LinearGradient(
+      colors: [Color(0xFF00FFFF), Color(0xFF0080FF), Color(0xFF8000FF), Color(0xFFFF00FF)],
+    ),
+    borderWidth: 2.5,
+    shadow: BoxShadow(
+      color: Colors.cyan.withOpacity(0.5),
+      blurRadius: 15,
+      spreadRadius: 2,
+    ),
+  ),
+)
+
+// Sunset gradient border
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.white,
+    borderGradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Color(0xFFFFD89B), Color(0xFFFF8A56), Color(0xFFFF6B6B)],
+    ),
+    borderWidth: 2.0,
+  ),
+)
+
+// Metallic gold border
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.white,
+    borderGradient: LinearGradient(
+      colors: [Color(0xFFFFD700), Color(0xFFFFA500), Color(0xFFFFD700), Color(0xFFB8860B)],
+    ),
+    borderWidth: 3.0,
+    shadow: BoxShadow(
+      color: Colors.amber.withOpacity(0.3),
+      blurRadius: 8,
+    ),
+  ),
+)
+```
+
+Check out the [example](example) directory for more detailed examples of different ticket styles and configurations, including the new gradient border showcase.
 
 ## Contributing
 
