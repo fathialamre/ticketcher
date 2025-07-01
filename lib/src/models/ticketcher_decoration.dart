@@ -80,6 +80,7 @@ class StackEffect {
 /// The decoration allows customization of:
 /// * Border radius at corners using [borderRadius]
 /// * Background color or gradient using [backgroundColor] or [gradient]
+/// * Border styling with solid colors using [border] or gradient colors using [borderGradient] and [borderWidth]
 /// * Custom border patterns on bottom/left/right using [bottomBorderStyle], etc.
 /// * Optional divider line with custom pattern using [divider]
 /// * Border and shadow effects using [border] and [shadow]
@@ -90,6 +91,8 @@ class TicketcherDecoration {
 
   final TicketRadius borderRadius;
   final Border? border;
+  final Gradient? borderGradient;
+  final double borderWidth;
   final Color backgroundColor;
   final Gradient? gradient;
   final TicketDivider? divider;
@@ -102,6 +105,8 @@ class TicketcherDecoration {
   const TicketcherDecoration({
     this.borderRadius = const TicketRadius(radius: 8.0),
     this.border,
+    this.borderGradient,
+    this.borderWidth = 1.0,
     this.backgroundColor = Colors.white,
     this.gradient,
     this.divider,
@@ -115,6 +120,8 @@ class TicketcherDecoration {
   TicketcherDecoration copyWith({
     TicketRadius? borderRadius,
     Border? border,
+    Gradient? borderGradient,
+    double? borderWidth,
     Color? backgroundColor,
     Gradient? gradient,
     TicketDivider? divider,
@@ -127,6 +134,8 @@ class TicketcherDecoration {
     return TicketcherDecoration(
       borderRadius: borderRadius ?? this.borderRadius,
       border: border ?? this.border,
+      borderGradient: borderGradient ?? this.borderGradient,
+      borderWidth: borderWidth ?? this.borderWidth,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       gradient: gradient ?? this.gradient,
       divider: divider ?? this.divider,
