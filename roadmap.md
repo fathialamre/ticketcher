@@ -2,6 +2,33 @@
 
 This roadmap outlines potential enhancements and new features for the ticketcher package, organized by implementation difficulty and impact.
 
+## 🎉 Recently Completed Features
+
+### ✅ **Gradient Borders** (v0.0.7)
+**Status**: ✅ Completed - Now Available!
+
+Added comprehensive gradient border support to complement the existing gradient background functionality:
+
+- **`borderGradient`** property supporting all Flutter gradient types (Linear, Radial, Sweep)
+- **`borderWidth`** property for precise thickness control
+- Full backward compatibility with existing `border` property
+- Priority system where gradient borders take precedence over solid borders
+- Comprehensive examples and test coverage
+
+```dart
+// Example usage
+Ticketcher(
+  decoration: TicketcherDecoration(
+    borderGradient: LinearGradient(
+      colors: [Colors.red, Colors.blue, Colors.green],
+    ),
+    borderWidth: 3.0,
+  ),
+)
+```
+
+This feature provides developers with powerful visual customization options for creating eye-catching ticket designs with colorful, animated-looking borders.
+
 ## 🚀 Quick Wins (High Impact, Lower Effort)
 
 ### 1. **Pre-built Ticket Templates**
@@ -100,6 +127,8 @@ TicketcherDecoration(
 
 ### 7. **Gradient Dividers**
 Apply gradients to divider lines for more visually appealing separators.
+
+*Note: With gradient borders now implemented (v0.0.7), the foundation for gradient dividers is established and this feature should be easier to implement.*
 
 ```dart
 TicketDivider.gradient(

@@ -363,13 +363,24 @@ class VTicketcherPainter extends CustomPainter {
     }
 
     // Draw border if specified
-    if (decoration.border != null) {
+    if (decoration.border != null || decoration.borderGradient != null) {
       final borderPaint =
           Paint()
-            ..color = decoration.border!.top.color
             ..style = PaintingStyle.stroke
-            ..strokeWidth = decoration.border!.top.width
             ..strokeJoin = StrokeJoin.round;
+
+      if (decoration.borderGradient != null) {
+        // Use gradient border
+        borderPaint.shader = decoration.borderGradient!.createShader(
+          Offset.zero & size,
+        );
+        borderPaint.strokeWidth = decoration.borderWidth;
+      } else if (decoration.border != null) {
+        // Use solid color border
+        borderPaint.color = decoration.border!.top.color;
+        borderPaint.strokeWidth = decoration.border!.top.width;
+      }
+
       canvas.drawPath(path, borderPaint);
     }
 
