@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'border_pattern.dart';
 import 'ticket_divider.dart';
 import 'ticket_radius.dart';
+import 'ticket_watermark.dart';
 
 /// A class that defines the stacked layers effect for a ticket.
 ///
@@ -101,6 +102,7 @@ class TicketcherDecoration {
   final BorderPattern? rightBorderStyle;
   final BoxShadow? shadow;
   final StackEffect stackEffect;
+  final TicketWatermark? watermark;
 
   const TicketcherDecoration({
     this.borderRadius = const TicketRadius(radius: 8.0),
@@ -115,6 +117,7 @@ class TicketcherDecoration {
     this.rightBorderStyle,
     this.shadow,
     this.stackEffect = const StackEffect(),
+    this.watermark,
   });
 
   TicketcherDecoration copyWith({
@@ -130,6 +133,7 @@ class TicketcherDecoration {
     BorderPattern? rightBorderStyle,
     BoxShadow? shadow,
     StackEffect? stackEffect,
+    TicketWatermark? watermark,
   }) {
     return TicketcherDecoration(
       borderRadius: borderRadius ?? this.borderRadius,
@@ -144,6 +148,7 @@ class TicketcherDecoration {
       rightBorderStyle: rightBorderStyle ?? this.rightBorderStyle,
       shadow: shadow ?? this.shadow,
       stackEffect: stackEffect ?? this.stackEffect,
+      watermark: watermark ?? this.watermark,
     );
   }
 }

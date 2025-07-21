@@ -10,6 +10,7 @@ import 'package:example/show_cases/interactive_ticket.dart';
 import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/social_media.dart';
 import 'package:example/show_cases/stacked_ticket.dart';
+import 'package:example/show_cases/watermark_showcase.dart';
 import 'package:flutter/material.dart';
 import 'show_cases/circle_divider.dart';
 import 'show_cases/wave_divider.dart';
@@ -31,8 +32,14 @@ class ExampleItem {
 
 final List<ExampleItem> examples = [
   ExampleItem(
+    icon: Icons.water_drop_outlined,
+    title: 'Watermark Showcase (NEW)',
+    subtitle: 'Text watermarks with various effects',
+    page: const WatermarkShowcase(),
+  ),
+  ExampleItem(
     icon: Icons.touch_app,
-    title: 'Interactive Ticket (NEW)',
+    title: 'Interactive Ticket',
     subtitle: 'Tap sections for interactions',
     page: const InteractiveTicket(),
   ),

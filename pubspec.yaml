@@ -1,8 +1,24 @@
 name: ticketcher
 description: "A Flutter package for creating beautiful ticket-style cards with customizable borders, dividers, and patterns. Perfect for event tickets, boarding passes, and coupons."
-version: 0.2.0
+version: 0.3.0
 homepage: https://github.com/fathialamre/ticketcher
 repository: https://github.com/fathialamre/ticketcher
+topics:
+  - flutter
+  - ticket
+  - border
+  - divider
+  - pattern
+  - coupon
+  - boarding pass
+  - event ticket
+  - ticket design
+  - ticket template
+  - ticket generator
+  - watermark
+  - custom clipper
+  - custom painter
+  - custom widget
 
 environment:
   sdk: ^3.7.0
@@ -14,6 +30,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
