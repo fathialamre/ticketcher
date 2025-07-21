@@ -4,21 +4,12 @@ version: 0.3.0
 homepage: https://github.com/fathialamre/ticketcher
 repository: https://github.com/fathialamre/ticketcher
 topics:
-  - flutter
   - ticket
-  - border
-  - divider
-  - pattern
   - coupon
-  - boarding pass
-  - event ticket
-  - ticket design
-  - ticket template
-  - ticket generator
-  - watermark
-  - custom clipper
-  - custom painter
-  - custom widget
+  - custom-clipper
+  - boarding-pass
+  - event-ticket
+
 
 environment:
   sdk: ^3.7.0
