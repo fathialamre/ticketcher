@@ -4,6 +4,7 @@ import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
 import '../models/ticket_divider.dart';
 import '../models/border_shape.dart';
+import '../models/ticket_watermark.dart';
 
 /// A custom painter that draws a horizontal ticket with customizable sections, borders, and dividers.
 ///
@@ -616,6 +617,271 @@ class HTicketcherPainter extends CustomPainter {
         }
       }
     }
+
+    // Draw watermark if specified
+    drawWatermark(canvas, size);
+  }
+
+  /// Draws the watermark on the ticket if one is specified in the decoration.
+  void drawWatermark(Canvas canvas, Size size) {
+    final watermark = decoration.watermark;
+    if (watermark == null) return;
+
+    canvas.save();
+
+    if (watermark.type == WatermarkType.text) {
+      _drawTextWatermark(canvas, size, watermark);
+    }
+    // Widget watermarks are handled in the widget layer, not in the painter
+
+    canvas.restore();
+  }
+
+  /// Draws a text-based watermark
+  void _drawTextWatermark(Canvas canvas, Size size, TicketWatermark watermark) {
+    if (watermark.text == null) return;
+
+    final textStyle =
+        watermark.textStyle ??
+        const TextStyle(
+          fontSize: 24,
+          color: Colors.grey,
+          fontWeight: FontWeight.bold,
+        );
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: watermark.text!,
+        style: textStyle.copyWith(
+          color:
+              textStyle.color?.withOpacity(watermark.opacity) ??
+              Colors.grey.withOpacity(watermark.opacity),
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+
+    textPainter.layout();
+
+    if (watermark.repeat) {
+      _drawRepeatedTextWatermark(canvas, size, watermark, textPainter);
+    } else {
+      _drawSingleTextWatermark(canvas, size, watermark, textPainter);
+    }
+  }
+
+  /// Draws a single text watermark at the specified position
+  void _drawSingleTextWatermark(
+    Canvas canvas,
+    Size size,
+    TicketWatermark watermark,
+    TextPainter textPainter,
+  ) {
+    final alignment = watermark.flutterAlignment;
+    final textSize = textPainter.size;
+
+    // Calculate position based on alignment
+    final centerX =
+        alignment.x * (size.width - textSize.width) / 2 + size.width / 2;
+    final centerY =
+        alignment.y * (size.height - textSize.height) / 2 + size.height / 2;
+
+    final position = Offset(
+      centerX - textSize.width / 2 + watermark.offset.dx,
+      centerY - textSize.height / 2 + watermark.offset.dy,
+    );
+
+    // Apply rotation if specified
+    if (watermark.rotation != 0) {
+      canvas.save();
+      canvas.translate(
+        position.dx + textSize.width / 2,
+        position.dy + textSize.height / 2,
+      );
+      canvas.rotate(
+        watermark.rotation * 3.14159 / 180,
+      ); // Convert degrees to radians
+      canvas.translate(-textSize.width / 2, -textSize.height / 2);
+      textPainter.paint(canvas, Offset.zero);
+      canvas.restore();
+    } else {
+      textPainter.paint(canvas, position);
+    }
+  }
+
+    /// Draws repeated text watermarks across the ticket
+  void _drawRepeatedTextWatermark(
+    Canvas canvas,
+    Size size,
+    TicketWatermark watermark,
+    TextPainter textPainter,
+  ) {
+    final textSize = textPainter.size;
+    final spacing = watermark.repeatSpacing;
+    
+    // Add padding to keep watermarks within ticket bounds
+    final padding = 20.0;
+    final availableWidth = size.width - (padding * 2);
+    final availableHeight = size.height - (padding * 2);
+    
+    // Calculate how many watermarks can fit within the padded bounds
+    final horizontalCount = (availableWidth / (textSize.width + spacing)).floor();
+    final verticalCount = (availableHeight / (textSize.height + spacing)).floor();
+    
+    // Ensure we have at least 1 watermark
+    final actualHorizontalCount = horizontalCount > 0 ? horizontalCount : 1;
+    final actualVerticalCount = verticalCount > 0 ? verticalCount : 1;
+    
+    // Center the pattern within the available space
+    final totalPatternWidth = actualHorizontalCount * textSize.width + (actualHorizontalCount - 1) * spacing;
+    final totalPatternHeight = actualVerticalCount * textSize.height + (actualVerticalCount - 1) * spacing;
+    
+    final startX = padding + (availableWidth - totalPatternWidth) / 2;
+    final startY = padding + (availableHeight - totalPatternHeight) / 2;
+    
+    // Create clipping path to ensure watermarks stay within ticket bounds
+    canvas.save();
+    final clipPath = _createTicketPath(size);
+    canvas.clipPath(clipPath);
+    
+    for (int i = 0; i < actualHorizontalCount; i++) {
+      for (int j = 0; j < actualVerticalCount; j++) {
+        final x = startX + i * (textSize.width + spacing);
+        final y = startY + j * (textSize.height + spacing);
+        
+        // Check if the watermark would be within bounds
+        if (x >= 0 && y >= 0 && 
+            x + textSize.width <= size.width && 
+            y + textSize.height <= size.height) {
+          
+          if (watermark.rotation != 0) {
+            canvas.save();
+            canvas.translate(x + textSize.width / 2, y + textSize.height / 2);
+            canvas.rotate(watermark.rotation * 3.14159 / 180);
+            canvas.translate(-textSize.width / 2, -textSize.height / 2);
+            textPainter.paint(canvas, Offset.zero);
+            canvas.restore();
+          } else {
+            textPainter.paint(canvas, Offset(x, y));
+          }
+        }
+      }
+    }
+    
+    canvas.restore();
+  }
+
+  /// Creates the ticket path for clipping watermarks
+  Path _createTicketPath(Size size) {
+    final path = Path();
+    final radius = decoration.borderRadius.radius;
+    final direction = decoration.borderRadius.direction;
+    final corner = decoration.borderRadius.corner;
+
+    bool shouldRoundCorner(TicketCorner targetCorner) {
+      switch (corner) {
+        case TicketCorner.all:
+          return true;
+        case TicketCorner.top:
+          return targetCorner == TicketCorner.topLeft ||
+              targetCorner == TicketCorner.topRight;
+        case TicketCorner.bottom:
+          return targetCorner == TicketCorner.bottomLeft ||
+              targetCorner == TicketCorner.bottomRight;
+        case TicketCorner.none:
+          return false;
+        default:
+          return corner == targetCorner;
+      }
+    }
+
+    // Create a simplified ticket path for clipping
+    if (shouldRoundCorner(TicketCorner.topLeft)) {
+      path.moveTo(radius, 0);
+    } else {
+      path.moveTo(0, 0);
+    }
+
+    // Calculate cumulative widths for each section
+    List<double> cumulativeWidths = [];
+    double currentWidth = 0;
+    for (double width in sectionWidths) {
+      currentWidth += width;
+      cumulativeWidths.add(currentWidth);
+    }
+
+    // Top edge with notches
+    for (int i = 0; i < sectionWidths.length - 1; i++) {
+      final notchX = cumulativeWidths[i];
+      path.lineTo(notchX - notchRadius, 0);
+      path.arcToPoint(
+        Offset(notchX + notchRadius, 0),
+        radius: Radius.circular(notchRadius),
+        clockwise: false,
+      );
+    }
+
+    // Top right corner
+    if (shouldRoundCorner(TicketCorner.topRight)) {
+      path.lineTo(size.width - radius, 0);
+      path.arcToPoint(
+        Offset(size.width, radius),
+        radius: Radius.circular(radius),
+        clockwise: direction == RadiusDirection.inward,
+      );
+    } else {
+      path.lineTo(size.width, 0);
+    }
+
+    // Right edge
+    if (shouldRoundCorner(TicketCorner.bottomRight)) {
+      path.lineTo(size.width, size.height - radius);
+      path.arcToPoint(
+        Offset(size.width - radius, size.height),
+        radius: Radius.circular(radius),
+        clockwise: direction == RadiusDirection.inward,
+      );
+    } else {
+      path.lineTo(size.width, size.height);
+    }
+
+    // Bottom edge with notches
+    for (int i = sectionWidths.length - 2; i >= 0; i--) {
+      final notchX = cumulativeWidths[i];
+      path.lineTo(notchX + notchRadius, size.height);
+      path.arcToPoint(
+        Offset(notchX - notchRadius, size.height),
+        radius: Radius.circular(notchRadius),
+        clockwise: false,
+      );
+    }
+
+    // Bottom left corner
+    if (shouldRoundCorner(TicketCorner.bottomLeft)) {
+      path.lineTo(radius, size.height);
+      path.arcToPoint(
+        Offset(0, size.height - radius),
+        radius: Radius.circular(radius),
+        clockwise: direction == RadiusDirection.inward,
+      );
+    } else {
+      path.lineTo(0, size.height);
+    }
+
+    // Left edge
+    if (shouldRoundCorner(TicketCorner.topLeft)) {
+      path.lineTo(0, radius);
+      path.arcToPoint(
+        Offset(radius, 0),
+        radius: Radius.circular(radius),
+        clockwise: direction == RadiusDirection.inward,
+      );
+    } else {
+      path.lineTo(0, 0);
+    }
+
+    path.close();
+    return path;
   }
 
   @override

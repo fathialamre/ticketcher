@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/section.dart';
 import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
+import '../models/ticket_watermark.dart';
 import '../painters/vticketcher_painter.dart';
 
 /// A widget that creates a vertical ticket with customizable sections, borders, and dividers.
@@ -133,7 +134,7 @@ class _VTicketcherState extends State<VTicketcher> {
       width: widget.width,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          return IntrinsicHeight(
+          final ticketWidget = IntrinsicHeight(
             child: CustomPaint(
               painter: VTicketcherPainter(
                 notchRadius: widget.notchRadius,
@@ -157,7 +158,71 @@ class _VTicketcherState extends State<VTicketcher> {
               ),
             ),
           );
+
+          // Add widget watermark overlay if present
+          if (widget.decoration.watermark?.type == WatermarkType.widget &&
+              widget.decoration.watermark?.widget != null) {
+            return _buildWithWidgetWatermark(ticketWidget);
+          }
+
+          return ticketWidget;
         },
+      ),
+    );
+  }
+
+  /// Builds the ticket with a widget watermark overlay
+  Widget _buildWithWidgetWatermark(Widget ticketWidget) {
+    final watermark = widget.decoration.watermark!;
+
+    return Stack(
+      children: [ticketWidget, _buildWidgetWatermarkOverlay(watermark)],
+    );
+  }
+
+  /// Builds the widget watermark overlay
+  ///
+  /// Note: Widget watermarks do not support repeat functionality.
+  /// Only text watermarks support repeating patterns.
+  Widget _buildWidgetWatermarkOverlay(TicketWatermark watermark) {
+    Widget watermarkWidget = watermark.widget!;
+
+    // Apply size constraints if specified
+    if (watermark.width != null || watermark.height != null) {
+      watermarkWidget = SizedBox(
+        width: watermark.width,
+        height: watermark.height,
+        child: watermarkWidget,
+      );
+    }
+
+    // Apply opacity
+    watermarkWidget = Opacity(
+      opacity: watermark.opacity,
+      child: watermarkWidget,
+    );
+
+    // Apply rotation if specified
+    if (watermark.rotation != 0) {
+      watermarkWidget = Transform.rotate(
+        angle: watermark.rotation * 3.14159 / 180, // Convert degrees to radians
+        child: watermarkWidget,
+      );
+    }
+
+    // Apply offset
+    if (watermark.offset != Offset.zero) {
+      watermarkWidget = Transform.translate(
+        offset: watermark.offset,
+        child: watermarkWidget,
+      );
+    }
+
+    // Apply alignment and create positioned widget
+    return Positioned.fill(
+      child: Align(
+        alignment: watermark.flutterAlignment,
+        child: watermarkWidget,
       ),
     );
   }

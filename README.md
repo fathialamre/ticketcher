@@ -72,6 +72,11 @@ code.
   - [Border](#border)
     - [Solid Color Border](#solid-color-border)
     - [Gradient Border](#gradient-border-new)
+  - [Watermarks](#watermarks-new)
+    - [Text Watermarks](#text-watermarks)
+    - [Widget Watermarks](#widget-watermarks)
+    - [Watermark Positioning](#watermark-positioning)
+    - [Watermark Styling](#watermark-styling)
   - [Shadow](#shadow)
   - [Stacked Effect](#stacked-effect)
   - [Section Padding](#section-padding)
@@ -91,6 +96,7 @@ code.
 - Customizable border patterns (wave, arc, sharp)
 - Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line)
 - Gradient backgrounds and gradient borders
+- **✨ Watermarks**: Text and widget watermarks with positioning, opacity, and rotation
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -499,6 +505,146 @@ Ticketcher(
 ```
 
 **Note**: When both `border` and `borderGradient` are specified, the gradient border takes precedence. Use `borderWidth` to control the thickness of gradient borders.
+
+## Watermarks (New!)
+
+Add text or widget watermarks to your tickets for branding, security, or decorative purposes. Watermarks support positioning, opacity, rotation, and custom styling.
+
+### Text Watermarks
+
+Create text-based watermarks with custom styling and effects.
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    watermark: TicketWatermark.text(
+      text: 'CONFIDENTIAL',
+      opacity: 0.3,
+      alignment: WatermarkAlignment.center,
+      rotation: 45, // Rotate 45 degrees
+      style: TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        color: Colors.red,
+      ),
+    ),
+  ),
+)
+```
+
+### Widget Watermarks
+
+Use any Flutter widget as a watermark, including icons, containers, or custom layouts.
+
+> **Note**: Widget watermarks do not support repeat functionality for performance reasons. If you need repeating patterns, use text watermarks instead.
+
+```dart
+// Icon watermark
+Ticketcher(
+  decoration: TicketcherDecoration(
+    watermark: TicketWatermark.widget(
+      widget: Icon(
+        Icons.verified,
+        size: 80,
+        color: Colors.blue,
+      ),
+      opacity: 0.2,
+      alignment: WatermarkAlignment.center,
+      rotation: 15,
+    ),
+  ),
+)
+
+// Custom widget watermark
+Ticketcher(
+  decoration: TicketcherDecoration(
+    watermark: TicketWatermark.widget(
+      widget: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.amber.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.amber, width: 2),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.star, color: Colors.amber, size: 16),
+            SizedBox(width: 4),
+            Text(
+              'PREMIUM',
+              style: TextStyle(
+                color: Colors.amber,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+      opacity: 0.7,
+      alignment: WatermarkAlignment.topRight,
+      offset: Offset(-10, 10), // Custom positioning
+    ),
+  ),
+)
+```
+
+### Watermark Positioning
+
+Control where your watermark appears with precise positioning options:
+
+```dart
+// Available alignment options
+WatermarkAlignment.topLeft
+WatermarkAlignment.topCenter
+WatermarkAlignment.topRight
+WatermarkAlignment.centerLeft
+WatermarkAlignment.center
+WatermarkAlignment.centerRight
+WatermarkAlignment.bottomLeft
+WatermarkAlignment.bottomCenter
+WatermarkAlignment.bottomRight
+
+// Example with custom offset
+TicketWatermark.text(
+  text: 'SAMPLE',
+  alignment: WatermarkAlignment.bottomRight,
+  offset: Offset(-20, -20), // 20 pixels from bottom and right edges
+)
+```
+
+### Watermark Styling
+
+Customize appearance with opacity, rotation, and size controls:
+
+```dart
+TicketWatermark.text(
+  text: 'DRAFT',
+  opacity: 0.15,        // Very subtle
+  rotation: 30,         // Rotate 30 degrees
+  alignment: WatermarkAlignment.center,
+  style: TextStyle(
+    fontSize: 64,
+    fontWeight: FontWeight.w900,
+    color: Colors.grey,
+  ),
+)
+
+// Repeated text watermarks across the ticket (only available for text watermarks)
+TicketWatermark.text(
+  text: 'COPY',
+  repeat: true,         // Repeat across ticket
+  repeatSpacing: 50,    // Space between repetitions
+  opacity: 0.1,
+  rotation: 15,
+)
+
+// Note: Widget watermarks do not support repeat functionality for performance reasons.
+// If you need repeated patterns, use text watermarks instead.
+```
+
+**Note**: Watermarks are rendered above the ticket content but below any interactive elements. For best results, use semi-transparent opacity values (0.1 - 0.3) to maintain content readability.
 
 ### Shadow
 
