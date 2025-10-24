@@ -77,6 +77,10 @@ code.
     - [Widget Watermarks](#widget-watermarks)
     - [Watermark Positioning](#watermark-positioning)
     - [Watermark Styling](#watermark-styling)
+  - [Blur Effects](#blur-effects-new)
+    - [Backdrop Blur](#backdrop-blur)
+    - [Frosted Glass](#frosted-glass)
+    - [Gaussian Blur](#gaussian-blur)
   - [Shadow](#shadow)
   - [Stacked Effect](#stacked-effect)
   - [Section Padding](#section-padding)
@@ -97,6 +101,7 @@ code.
 - Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line)
 - Gradient backgrounds and gradient borders
 - **✨ Watermarks**: Text and widget watermarks with positioning, opacity, and rotation
+- **✨ Blur Effects**: Backdrop blur, frosted glass, and gaussian blur for modern glassmorphism aesthetics
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -646,6 +651,88 @@ TicketWatermark.text(
 
 **Note**: Watermarks are rendered above the ticket content but below any interactive elements. For best results, use semi-transparent opacity values (0.1 - 0.3) to maintain content readability.
 
+## Blur Effects (New!)
+
+Add modern blur and glassmorphism effects to your tickets for premium, contemporary designs. Perfect for creating frosted glass aesthetics, backdrop filters, and soft focus effects.
+
+### Backdrop Blur
+
+Creates a backdrop filter that blurs content behind the ticket while keeping the ticket content sharp.
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.white.withOpacity(0.1),
+    blurEffect: BlurEffect.backdrop(sigma: 10.0),
+    borderRadius: const TicketRadius(radius: 16),
+    shadow: BoxShadow(
+      color: Colors.black.withOpacity(0.3),
+      blurRadius: 20,
+      offset: const Offset(0, 10),
+    ),
+  ),
+)
+```
+
+### Frosted Glass
+
+Creates a frosted glass effect with backdrop blur and a tinted overlay for a premium glassmorphism aesthetic.
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.transparent,
+    blurEffect: BlurEffect.frosted(
+      sigma: 15.0,
+      tintColor: Colors.white,
+      opacity: 0.15,
+    ),
+    borderRadius: const TicketRadius(radius: 16),
+    border: Border.all(
+      color: Colors.white.withOpacity(0.2),
+      width: 1.5,
+    ),
+  ),
+)
+```
+
+### Gaussian Blur
+
+Applies blur directly to the ticket content itself for a soft focus effect.
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.white.withOpacity(0.9),
+    blurEffect: BlurEffect.gaussian(sigma: 3.0),
+    borderRadius: const TicketRadius(radius: 12),
+  ),
+)
+```
+
+#### Blur Effect Configuration
+
+```dart
+// Custom blur effect with full control
+BlurEffect(
+  sigma: 10.0,                    // Blur intensity (0-30)
+  style: BlurStyle.frosted,       // backdrop, frosted, or gaussian
+  tintColor: Colors.white,        // Overlay color for frosted effect
+  opacity: 0.2,                   // Overlay opacity (0.0-1.0)
+)
+
+// Available blur styles
+BlurEffect.backdrop(sigma: 10.0)     // Blurs background content
+BlurEffect.frosted(                  // Frosted glass with tint
+  sigma: 15.0,
+  tintColor: Colors.white,
+  opacity: 0.15,
+)
+BlurEffect.gaussian(sigma: 5.0)      // Blurs ticket content
+```
+
+**Note**: Blur effects work best with semi-transparent backgrounds and are perfect for creating modern glassmorphism designs. The `sigma` parameter controls blur intensity - higher values create more blur.
+
 ### Shadow
 
 Add a shadow effect to your ticket.
@@ -831,7 +918,57 @@ Ticketcher(
 )
 ```
 
-Check out the [example](example) directory for more detailed examples of different ticket styles and configurations, including the new gradient border showcase.
+### Blur Effects Showcase
+
+Here are some popular blur effect combinations for modern glassmorphism designs:
+
+```dart
+// Premium frosted glass ticket
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.transparent,
+    blurEffect: BlurEffect.frosted(
+      sigma: 15.0,
+      tintColor: Colors.white,
+      opacity: 0.1,
+    ),
+    borderRadius: const TicketRadius(radius: 16),
+    border: Border.all(
+      color: Colors.white.withOpacity(0.3),
+      width: 1.5,
+    ),
+    shadow: BoxShadow(
+      color: Colors.black.withOpacity(0.2),
+      blurRadius: 20,
+      offset: const Offset(0, 10),
+    ),
+  ),
+)
+
+// Backdrop blur with gradient background
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.white.withOpacity(0.05),
+    blurEffect: BlurEffect.backdrop(sigma: 12.0),
+    borderRadius: const TicketRadius(radius: 20),
+    divider: TicketDivider.smoothWave(
+      color: Colors.white.withOpacity(0.4),
+      thickness: 2,
+    ),
+  ),
+)
+
+// Soft focus gaussian blur
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: Colors.white.withOpacity(0.8),
+    blurEffect: BlurEffect.gaussian(sigma: 2.5),
+    borderRadius: const TicketRadius(radius: 12),
+  ),
+)
+```
+
+Check out the [example](example) directory for more detailed examples of different ticket styles and configurations, including the new blur effects showcase and gradient border examples.
 
 ## Contributing
 
