@@ -4,6 +4,7 @@ import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
 import '../models/ticket_watermark.dart';
 import '../painters/vticketcher_painter.dart';
+import 'blur_wrapper.dart';
 
 /// A widget that creates a vertical ticket with customizable sections, borders, and dividers.
 ///
@@ -134,49 +135,61 @@ class _VTicketcherState extends State<VTicketcher> {
       width: widget.width,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final ticketWidget = IntrinsicHeight(
-            child: CustomPaint(
-              painter: VTicketcherPainter(
-                notchRadius: widget.notchRadius,
-                decoration: widget.decoration,
-                sectionHeights: _sectionHeights,
-                sections: widget.sections,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(widget.sections.length, (index) {
-                  final section = widget.sections[index];
-                  return GestureDetector(
-                    onTap: section.onTap,
-                    child: Container(
-                      key: _sectionKeys[index],
-                      padding: section.padding,
-                      child: section.child,
-                    ),
-                  );
-                }),
+          final ticketWidget = BlurWrapper(
+            blurEffect: widget.decoration.blurEffect,
+            notchRadius: widget.notchRadius,
+            decoration: widget.decoration,
+            sectionMeasurements: _sectionHeights,
+            isVertical: true,
+            child: IntrinsicHeight(
+              child: CustomPaint(
+                painter: VTicketcherPainter(
+                  notchRadius: widget.notchRadius,
+                  decoration: widget.decoration,
+                  sectionHeights: _sectionHeights,
+                  sections: widget.sections,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(widget.sections.length, (index) {
+                    final section = widget.sections[index];
+                    return GestureDetector(
+                      onTap: section.onTap,
+                      child: Container(
+                        key: _sectionKeys[index],
+                        padding: section.padding,
+                        child: section.child,
+                      ),
+                    );
+                  }),
+                ),
               ),
             ),
           );
 
-          // Add widget watermark overlay if present
-          if (widget.decoration.watermark?.type == WatermarkType.widget &&
-              widget.decoration.watermark?.widget != null) {
-            return _buildWithWidgetWatermark(ticketWidget);
-          }
-
-          return ticketWidget;
+          // Build with overlays (watermark)
+          return _buildWithOverlays(ticketWidget);
         },
       ),
     );
   }
 
-  /// Builds the ticket with a widget watermark overlay
-  Widget _buildWithWidgetWatermark(Widget ticketWidget) {
-    final watermark = widget.decoration.watermark!;
+  /// Builds the ticket with all overlays (watermark)
+  Widget _buildWithOverlays(Widget ticketWidget) {
+    final hasWidgetWatermark =
+        widget.decoration.watermark?.type == WatermarkType.widget &&
+        widget.decoration.watermark?.widget != null;
+
+    if (!hasWidgetWatermark) {
+      return ticketWidget;
+    }
 
     return Stack(
-      children: [ticketWidget, _buildWidgetWatermarkOverlay(watermark)],
+      children: [
+        ticketWidget,
+        if (hasWidgetWatermark)
+          _buildWidgetWatermarkOverlay(widget.decoration.watermark!),
+      ],
     );
   }
 
