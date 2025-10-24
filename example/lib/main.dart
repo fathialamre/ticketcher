@@ -1,3 +1,4 @@
+import 'package:example/show_cases/blur_effect_showcase.dart';
 import 'package:example/show_cases/colored_ticket.dart';
 import 'package:example/show_cases/flight.dart';
 import 'package:example/show_cases/flight_multi_section.dart';
@@ -32,8 +33,14 @@ class ExampleItem {
 
 final List<ExampleItem> examples = [
   ExampleItem(
+    icon: Icons.blur_on,
+    title: 'Blur Effects',
+    subtitle: 'Glassmorphism & frosted glass',
+    page: const BlurEffectShowcase(),
+  ),
+  ExampleItem(
     icon: Icons.water_drop_outlined,
-    title: 'Watermark Showcase (NEW)',
+    title: 'Watermark Showcase',
     subtitle: 'Text watermarks with various effects',
     page: const WatermarkShowcase(),
   ),
@@ -60,7 +67,7 @@ final List<ExampleItem> examples = [
   ),
   ExampleItem(
     icon: Icons.border_color,
-    title: 'Gradient Border Ticket (NEW)',
+    title: 'Gradient Border Ticket',
     subtitle: 'Colorful gradient borders',
     page: const GradientBorderTicket(),
   ),

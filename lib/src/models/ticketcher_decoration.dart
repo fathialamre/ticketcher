@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'border_pattern.dart';
+import 'blur_effect.dart';
 import 'ticket_divider.dart';
 import 'ticket_radius.dart';
 import 'ticket_watermark.dart';
@@ -86,6 +87,7 @@ class StackEffect {
 /// * Optional divider line with custom pattern using [divider]
 /// * Border and shadow effects using [border] and [shadow]
 /// * Stacked layers effect using [stackEffect]
+/// * Blur and glassmorphism effects using [blurEffect]
 class TicketcherDecoration {
   /// Maximum number of stacked layers allowed
   static const int maxStackCount = 3;
@@ -103,6 +105,7 @@ class TicketcherDecoration {
   final BoxShadow? shadow;
   final StackEffect stackEffect;
   final TicketWatermark? watermark;
+  final BlurEffect? blurEffect;
 
   const TicketcherDecoration({
     this.borderRadius = const TicketRadius(radius: 8.0),
@@ -118,6 +121,7 @@ class TicketcherDecoration {
     this.shadow,
     this.stackEffect = const StackEffect(),
     this.watermark,
+    this.blurEffect,
   });
 
   TicketcherDecoration copyWith({
@@ -134,6 +138,7 @@ class TicketcherDecoration {
     BoxShadow? shadow,
     StackEffect? stackEffect,
     TicketWatermark? watermark,
+    BlurEffect? blurEffect,
   }) {
     return TicketcherDecoration(
       borderRadius: borderRadius ?? this.borderRadius,
@@ -149,6 +154,7 @@ class TicketcherDecoration {
       shadow: shadow ?? this.shadow,
       stackEffect: stackEffect ?? this.stackEffect,
       watermark: watermark ?? this.watermark,
+      blurEffect: blurEffect ?? this.blurEffect,
     );
   }
 }
