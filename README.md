@@ -118,7 +118,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^0.2.0
+  ticketcher: ^0.6.0
 ```
 
 ## Usage
@@ -143,6 +143,9 @@ Ticketcher(
 ### Horizontal Mode
 
 For horizontal layout, use the `horizontal` constructor:
+
+| ![Horizontal Ticket 1](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg) | ![Horizontal Ticket 2](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg) |
+|:---:|:---:|
 
 ```dart
 Ticketcher.horizontal(
@@ -339,6 +342,11 @@ Ticketcher(
 ```
 
 #### Circle Divider
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg" width="400" alt="Circle Divider Example">
+</p>
+
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
@@ -354,6 +362,11 @@ Ticketcher(
 ```
 
 #### Wave Divider
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg" width="400" alt="Wave Divider Example">
+</p>
+
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
@@ -369,6 +382,11 @@ Ticketcher(
 ```
 
 #### Smooth Wave Divider
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg" width="400" alt="Smooth Wave Divider Example">
+</p>
+
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
@@ -426,6 +444,10 @@ Ticketcher(
 ```
 
 #### Gradient
+
+| ![Gradient Example](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg) | ![Gradient Background](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_background.png) |
+|:---:|:---:|
+
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
@@ -442,11 +464,8 @@ Ticketcher(
 
 Add background images to your entire ticket or individual sections. Images support various fit modes, opacity control, and alignment options.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_1.jpeg" width="400" alt="Image Background Example 1">
-  <br>
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_2.jpeg" width="400" alt="Image Background Example 2">
-</p>
+| ![Image Background Example 1](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_1.jpeg) | ![Image Background Example 2](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_2.jpeg) |
+|:---:|:---:|
 
 **Global Ticket Background:**
 ```dart
@@ -523,6 +542,10 @@ Ticketcher(
 ### Colored Sections
 
 Customize the background color of individual sections. If a section `color` is provided, it overrides the `backgroundColor` and `gradient` from `TicketcherDecoration` for that specific section. This allows for creating tickets with multi-colored parts.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/colored_sections.jpeg" width="400" alt="Colored Sections Example">
+</p>
 
 ```dart
 Ticketcher(
@@ -743,6 +766,10 @@ TicketWatermark.text(
 
 Add modern blur and glassmorphism effects to your tickets for premium, contemporary designs. Perfect for creating frosted glass aesthetics, backdrop filters, and soft focus effects.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/holograplic_effects.png" width="400" alt="Blur Effects Example">
+</p>
+
 ### Backdrop Blur
 
 Creates a backdrop filter that blurs content behind the ticket while keeping the ticket content sharp.
@@ -840,6 +867,10 @@ Ticketcher(
 ### Stacked Effect
 
 Add a stacked effect to your vertical ticket's last section. This creates a layered appearance that adds depth to your ticket design.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stacked_effect.jpeg" width="400" alt="Stacked Effect Example">
+</p>
 
 ```dart
 Ticketcher(
