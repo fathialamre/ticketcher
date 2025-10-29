@@ -1,3 +1,27 @@
+## 0.6.0
+
+* **NEW FEATURE**: Added image background support for tickets and sections
+  * Added `backgroundImage`, `backgroundImageFit`, `backgroundImageOpacity`, and `backgroundImageAlignment` properties to both `TicketcherDecoration` and `Section`
+  * Support for any `ImageProvider` (NetworkImage, AssetImage, MemoryImage, FileImage)
+  * Global ticket background images via `TicketcherDecoration.backgroundImage`
+  * Per-section background images via `Section.backgroundImage`
+  * Configurable image fit modes (cover, contain, fill, fitWidth, fitHeight, scaleDown, none)
+  * Adjustable image opacity from 0.0 to 1.0
+  * Custom image alignment options
+  * Smart background precedence: section image > section color > decoration image > gradient > background color
+  * Efficient image preloading and caching with `ImageResolver` helper class
+  * Images properly clip to ticket shape including border patterns and rounded corners
+  * Works with both horizontal and vertical tickets
+* Added comprehensive image backgrounds showcase example demonstrating:
+  * Global ticket backgrounds with different fit modes
+  * Per-section backgrounds with varying opacity
+  * Mixing images with solid colors and gradients
+  * BoxFit mode comparisons
+  * Opacity control examples
+* Created `ImageResolver` helper class for efficient image loading and caching
+* Full backward compatibility maintained
+* Updated documentation with extensive image backgrounds examples and usage guides
+
 ## 0.5.0
 
 * **NEW FEATURE**: Enhanced blur and glassmorphism effects with comprehensive documentation

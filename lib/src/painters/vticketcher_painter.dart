@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:ticketcher/src/models/border_shape.dart';
 import '../models/section.dart';
@@ -40,17 +41,28 @@ class VTicketcherPainter extends CustomPainter {
   /// The list of sections to be displayed in the ticket.
   final List<Section> sections;
 
+  /// The resolved decoration background image (if any)
+  final ui.Image? decorationBackgroundImage;
+  
+  /// The resolved section background images (if any)
+  final Map<int, ui.Image> sectionBackgroundImages;
+
   /// Creates a new [VTicketcherPainter].
   ///
   /// Parameters:
   /// - [notchRadius]: The radius of the notches between sections
   /// - [sectionHeights]: The heights of each section in the ticket
   /// - [decoration]: The decoration properties for the ticket
+  /// - [sections]: The list of sections in the ticket
+  /// - [decorationBackgroundImage]: Optional resolved image for decoration background
+  /// - [sectionBackgroundImages]: Optional map of resolved images for section backgrounds
   VTicketcherPainter({
     required this.notchRadius,
     required this.sectionHeights,
     required this.decoration,
     required this.sections,
+    this.decorationBackgroundImage,
+    this.sectionBackgroundImages = const {},
   });
 
   void drawStackedLayers(Canvas canvas, Size size) {
@@ -86,6 +98,54 @@ class VTicketcherPainter extends CustomPainter {
       path.addRRect(RRect.fromRectAndRadius(rect, Radius.circular(radius)));
       canvas.drawPath(path, stackPaint);
     }
+  }
+
+  /// Paints an image background within the given bounds and clip path.
+  ///
+  /// Parameters:
+  /// - [canvas]: The canvas to paint on
+  /// - [image]: The image to paint
+  /// - [rect]: The rectangle bounds for the image
+  /// - [clipPath]: The path to clip the image to
+  /// - [fit]: How to fit the image within the bounds
+  /// - [alignment]: How to align the image within the bounds
+  /// - [opacity]: The opacity of the image (0.0 to 1.0)
+  void _paintImageBackground({
+    required Canvas canvas,
+    required ui.Image image,
+    required Rect rect,
+    required Path clipPath,
+    required BoxFit fit,
+    required Alignment alignment,
+    required double opacity,
+  }) {
+    canvas.save();
+    canvas.clipPath(clipPath);
+
+    final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
+    final FittedSizes fittedSizes = applyBoxFit(fit, imageSize, rect.size);
+    final Size sourceSize = fittedSizes.source;
+    final Size destinationSize = fittedSizes.destination;
+
+    // Calculate the source rectangle (portion of image to use)
+    final Rect sourceRect = alignment.inscribe(
+      sourceSize,
+      Offset.zero & imageSize,
+    );
+
+    // Calculate the destination rectangle (where to paint on canvas)
+    final Rect destRect = alignment.inscribe(
+      destinationSize,
+      rect,
+    );
+
+    // Create paint with opacity
+    final Paint paint = Paint()
+      ..color = Color.fromRGBO(255, 255, 255, opacity)
+      ..filterQuality = FilterQuality.low;
+
+    canvas.drawImageRect(image, sourceRect, destRect, paint);
+    canvas.restore();
   }
 
   @override
@@ -328,39 +388,70 @@ class VTicketcherPainter extends CustomPainter {
       canvas.drawPath(shadowPath, shadowPaint);
     }
 
-    // Fill the ticket background
-    final backgroundPaint = Paint()..style = PaintingStyle.fill;
-
-    if (decoration.gradient != null) {
-      backgroundPaint.shader = decoration.gradient!.createShader(
-        Offset.zero & size,
+    // Fill the ticket background with image, gradient, or color
+    // Precedence: decoration image > gradient > backgroundColor
+    if (decorationBackgroundImage != null) {
+      // Paint decoration background image
+      _paintImageBackground(
+        canvas: canvas,
+        image: decorationBackgroundImage!,
+        rect: Offset.zero & size,
+        clipPath: path,
+        fit: decoration.backgroundImageFit,
+        alignment: decoration.backgroundImageAlignment,
+        opacity: decoration.backgroundImageOpacity,
       );
+    } else if (decoration.gradient != null) {
+      // Paint gradient background
+      final backgroundPaint = Paint()
+        ..style = PaintingStyle.fill
+        ..shader = decoration.gradient!.createShader(Offset.zero & size);
+      canvas.drawPath(path, backgroundPaint);
     } else {
-      backgroundPaint.color = decoration.backgroundColor;
+      // Paint solid color background
+      final backgroundPaint = Paint()
+        ..style = PaintingStyle.fill
+        ..color = decoration.backgroundColor;
+      canvas.drawPath(path, backgroundPaint);
     }
-    canvas.drawPath(path, backgroundPaint);
 
-    // Draw section colors
+    // Draw section-specific backgrounds (images or colors)
+    // Precedence: section image > section color
     double currentY = 0;
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
-      if (section.color != null) {
-        var sectionHeight = sectionHeights[i];
-        if (i == sections.length - 1 && decoration.bottomBorderStyle != null) {
-          sectionHeight += decoration.bottomBorderStyle!.height;
-        }
-        final sectionRect = Rect.fromLTWH(
-          0,
-          currentY,
-          size.width,
-          sectionHeight,
+      var sectionHeight = sectionHeights[i];
+      if (i == sections.length - 1 && decoration.bottomBorderStyle != null) {
+        sectionHeight += decoration.bottomBorderStyle!.height;
+      }
+      
+      final sectionRect = Rect.fromLTWH(
+        0,
+        currentY,
+        size.width,
+        sectionHeight,
+      );
+
+      // Check if section has background image
+      if (sectionBackgroundImages.containsKey(i)) {
+        _paintImageBackground(
+          canvas: canvas,
+          image: sectionBackgroundImages[i]!,
+          rect: sectionRect,
+          clipPath: path,
+          fit: section.backgroundImageFit,
+          alignment: section.backgroundImageAlignment,
+          opacity: section.backgroundImageOpacity,
         );
+      } else if (section.color != null) {
+        // Paint section color
         final sectionPaint = Paint()..color = section.color!;
         canvas.save();
         canvas.clipPath(path);
         canvas.drawRect(sectionRect, sectionPaint);
         canvas.restore();
       }
+      
       currentY += sectionHeights[i];
     }
 
