@@ -1,0 +1,34 @@
+🎉 Introducing Ticketcher 0.6.0! 🎫
+
+✨ We're excited to announce a powerful new feature:
+
+🖼️ **Image Backgrounds for Tickets**
+• Add background images to entire tickets or individual sections
+• Full support for all image types (Network, Asset, Memory, File)
+• Multiple image fit modes: cover, contain, fill, fitWidth, fitHeight, scaleDown
+• Complete opacity control from 0% to 100%
+• Custom image alignment options
+• Optimized performance with smart image caching
+
+🎨 **Other Amazing Features:**
+✓ Beautiful gradient backgrounds
+✓ Customizable border patterns
+✓ Text and widget watermarks
+✓ Blur effects & Glassmorphism
+✓ Multiple divider styles
+✓ And so much more...
+
+📦 **Installation:**
+```yaml
+dependencies:
+  ticketcher: ^0.6.0
+```
+
+🔗 **Links:**
+📖 Documentation: https://pub.dev/packages/ticketcher
+💻 GitHub: https://github.com/fathialamre/ticketcher
+
+Create stunning ticket designs for events, boarding passes, coupons, and more with just a few lines of code! 🚀
+
+#Flutter #Dart #UI #Design #Ticket #MobileApp #OpenSource #FlutterDev
+
