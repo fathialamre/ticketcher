@@ -45,7 +45,7 @@ code.
 |:---:|:---:|:---:|:---:|
 | ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg)<br>Circle<br>Pattern | ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg)<br>Wave<br>Pattern | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg)<br>Smooth<br>Wave | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg)<br>Multiple<br>Sections |
 | ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg)<br>Coffee<br>Sales | ![Stacked Effect](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stacked_effect.jpeg)<br>Stacked<br>Layers | ![Colored Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/colored_sections.jpeg)<br>Colored<br>Sections | ![Gradient Background](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_background.png)<br>Gradient<br>Background |
-| ![Holographic Effects](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/holograplic_effects.png)<br>Holographic<br>Effects | | | |
+| ![Holographic Effects](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/holograplic_effects.png)<br>Holographic<br>Effects | ![Image Background 1](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_1.jpeg)<br>Image<br>Background | ![Image Background 2](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_2.jpeg)<br>Image<br>Backgrounds | ![Gradient Border](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_border.jpeg)<br>Gradient<br>Border |
 
 ## Table of Contents
 
@@ -68,6 +68,7 @@ code.
   - [Background Styling](#background-styling)
     - [Solid Color](#solid-color)
     - [Gradient](#gradient)
+    - [Image Backgrounds](#image-backgrounds-new)
   - [Colored Sections](#colored-sections)
   - [Border](#border)
     - [Solid Color Border](#solid-color-border)
@@ -100,6 +101,7 @@ code.
 - Customizable border patterns (wave, arc, sharp)
 - Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line)
 - Gradient backgrounds and gradient borders
+- **✨ Image Backgrounds**: Global ticket or per-section image backgrounds with opacity and fit controls
 - **✨ Watermarks**: Text and widget watermarks with positioning, opacity, and rotation
 - **✨ Blur Effects**: Backdrop blur, frosted glass, and gaussian blur for modern glassmorphism aesthetics
 - Custom border radius for any corner
@@ -436,6 +438,88 @@ Ticketcher(
 )
 ```
 
+#### Image Backgrounds ✨ NEW
+
+Add background images to your entire ticket or individual sections. Images support various fit modes, opacity control, and alignment options.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_1.jpeg" width="400" alt="Image Background Example 1">
+  <br>
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_2.jpeg" width="400" alt="Image Background Example 2">
+</p>
+
+**Global Ticket Background:**
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundImage: NetworkImage('https://example.com/image.jpg'),
+    backgroundImageFit: BoxFit.cover,
+    backgroundImageOpacity: 0.8,
+    backgroundImageAlignment: Alignment.center,
+  ),
+  sections: [
+    Section(child: Text('Section 1')),
+    Section(child: Text('Section 2')),
+  ],
+)
+```
+
+**Per-Section Background Images:**
+```dart
+Ticketcher(
+  sections: [
+    Section(
+      backgroundImage: AssetImage('assets/section1.png'),
+      backgroundImageFit: BoxFit.cover,
+      backgroundImageOpacity: 0.9,
+      child: Text('First Section'),
+    ),
+    Section(
+      backgroundImage: NetworkImage('https://example.com/section2.jpg'),
+      backgroundImageFit: BoxFit.contain,
+      backgroundImageOpacity: 1.0,
+      child: Text('Second Section'),
+    ),
+  ],
+)
+```
+
+**Image Properties:**
+- `backgroundImage`: Any `ImageProvider` (AssetImage, NetworkImage, MemoryImage, FileImage)
+- `backgroundImageFit`: How to fit the image (BoxFit.cover, contain, fill, fitWidth, fitHeight, scaleDown, none)
+- `backgroundImageOpacity`: Opacity from 0.0 (transparent) to 1.0 (opaque)
+- `backgroundImageAlignment`: How to align the image (Alignment.center, topLeft, bottomRight, etc.)
+
+**Background Precedence Order:**
+1. Section `backgroundImage` (highest priority)
+2. Section `color`
+3. Decoration `backgroundImage`
+4. Decoration `gradient`
+5. Decoration `backgroundColor` (lowest priority)
+
+**Combining Images with Other Backgrounds:**
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    // Global background image
+    backgroundImage: NetworkImage('https://example.com/texture.jpg'),
+    backgroundImageOpacity: 0.3,
+  ),
+  sections: [
+    Section(
+      // Section-specific solid color overlays the global image
+      color: Colors.blue.withOpacity(0.7),
+      child: Text('Section with Color'),
+    ),
+    Section(
+      // Section-specific image overrides everything
+      backgroundImage: AssetImage('assets/special.png'),
+      child: Text('Section with Image'),
+    ),
+  ],
+)
+```
+
 ### Colored Sections
 
 Customize the background color of individual sections. If a section `color` is provided, it overrides the `backgroundColor` and `gradient` from `TicketcherDecoration` for that specific section. This allows for creating tickets with multi-colored parts.
@@ -473,6 +557,10 @@ Ticketcher(
 
 #### Gradient Border (New!)
 Create stunning visual effects with gradient borders using any Flutter gradient type.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_border.jpeg" width="400" alt="Gradient Border Example">
+</p>
 
 ```dart
 // Linear gradient border

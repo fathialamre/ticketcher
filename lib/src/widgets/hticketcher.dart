@@ -1,8 +1,10 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import '../models/section.dart';
 import '../models/ticketcher_decoration.dart';
 import '../models/ticket_watermark.dart';
 import '../painters/hticketcher_painter.dart';
+import '../painters/image_resolver.dart';
 import 'blur_wrapper.dart';
 
 /// A widget that creates a horizontal ticket with customizable sections, borders, and dividers.
@@ -97,6 +99,15 @@ class _HTicketcherState extends State<HTicketcher> {
   /// The calculated widths of each section.
   final List<double> _sectionWidths = [];
 
+  /// Image resolver for loading and caching images
+  final ImageResolver _imageResolver = ImageResolver();
+
+  /// Resolved decoration background image
+  ui.Image? _decorationBackgroundImage;
+
+  /// Resolved section background images
+  final Map<int, ui.Image> _sectionBackgroundImages = {};
+
   @override
   void initState() {
     super.initState();
@@ -106,8 +117,12 @@ class _HTicketcherState extends State<HTicketcher> {
     );
     _sectionWidths.addAll(List.filled(widget.sections.length, 0));
 
-    // Calculate section widths after the first frame
+    // Load images and calculate section widths after the first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Load images
+      _loadImages();
+
+      // Calculate section widths
       for (int i = 0; i < _sectionKeys.length; i++) {
         if (_sectionKeys[i].currentContext != null) {
           final RenderBox renderBox =
@@ -118,6 +133,76 @@ class _HTicketcherState extends State<HTicketcher> {
         }
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(HTicketcher oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Reload images if they changed
+    bool needsReload = false;
+
+    if (oldWidget.decoration.backgroundImage !=
+        widget.decoration.backgroundImage) {
+      needsReload = true;
+    }
+
+    if (oldWidget.sections.length != widget.sections.length) {
+      needsReload = true;
+    } else {
+      for (int i = 0; i < widget.sections.length; i++) {
+        if (oldWidget.sections[i].backgroundImage !=
+            widget.sections[i].backgroundImage) {
+          needsReload = true;
+          break;
+        }
+      }
+    }
+
+    if (needsReload) {
+      _loadImages();
+    }
+  }
+
+  @override
+  void dispose() {
+    _imageResolver.dispose();
+    super.dispose();
+  }
+
+  /// Loads all images (decoration and section backgrounds)
+  Future<void> _loadImages() async {
+    // Load decoration background image
+    if (widget.decoration.backgroundImage != null) {
+      final image = await _imageResolver.resolveImage(
+        widget.decoration.backgroundImage!,
+        configuration: ImageConfiguration.empty,
+      );
+      if (mounted) {
+        setState(() {
+          _decorationBackgroundImage = image;
+        });
+      }
+    } else {
+      _decorationBackgroundImage = null;
+    }
+
+    // Load section background images
+    _sectionBackgroundImages.clear();
+    for (int i = 0; i < widget.sections.length; i++) {
+      final section = widget.sections[i];
+      if (section.backgroundImage != null) {
+        final image = await _imageResolver.resolveImage(
+          section.backgroundImage!,
+          configuration: ImageConfiguration.empty,
+        );
+        if (mounted && image != null) {
+          setState(() {
+            _sectionBackgroundImages[i] = image;
+          });
+        }
+      }
+    }
   }
 
   @override
@@ -139,6 +224,8 @@ class _HTicketcherState extends State<HTicketcher> {
                   decoration: widget.decoration,
                   sectionWidths: _sectionWidths,
                   sections: widget.sections,
+                  decorationBackgroundImage: _decorationBackgroundImage,
+                  sectionBackgroundImages: _sectionBackgroundImages,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

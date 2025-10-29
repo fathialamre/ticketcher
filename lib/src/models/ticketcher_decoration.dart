@@ -81,7 +81,7 @@ class StackEffect {
 ///
 /// The decoration allows customization of:
 /// * Border radius at corners using [borderRadius]
-/// * Background color or gradient using [backgroundColor] or [gradient]
+/// * Background color, gradient, or image using [backgroundColor], [gradient], or [backgroundImage]
 /// * Border styling with solid colors using [border] or gradient colors using [borderGradient] and [borderWidth]
 /// * Custom border patterns on bottom/left/right using [bottomBorderStyle], etc.
 /// * Optional divider line with custom pattern using [divider]
@@ -106,6 +106,18 @@ class TicketcherDecoration {
   final StackEffect stackEffect;
   final TicketWatermark? watermark;
   final BlurEffect? blurEffect;
+  
+  /// The image to use as the background
+  final ImageProvider? backgroundImage;
+  
+  /// How the background image should be inscribed into the space
+  final BoxFit backgroundImageFit;
+  
+  /// The opacity of the background image (0.0 to 1.0)
+  final double backgroundImageOpacity;
+  
+  /// How to align the background image within its bounds
+  final Alignment backgroundImageAlignment;
 
   const TicketcherDecoration({
     this.borderRadius = const TicketRadius(radius: 8.0),
@@ -122,7 +134,14 @@ class TicketcherDecoration {
     this.stackEffect = const StackEffect(),
     this.watermark,
     this.blurEffect,
-  });
+    this.backgroundImage,
+    this.backgroundImageFit = BoxFit.cover,
+    this.backgroundImageOpacity = 1.0,
+    this.backgroundImageAlignment = Alignment.center,
+  }) : assert(
+         backgroundImageOpacity >= 0.0 && backgroundImageOpacity <= 1.0,
+         'backgroundImageOpacity must be between 0.0 and 1.0',
+       );
 
   TicketcherDecoration copyWith({
     TicketRadius? borderRadius,
@@ -139,6 +158,10 @@ class TicketcherDecoration {
     StackEffect? stackEffect,
     TicketWatermark? watermark,
     BlurEffect? blurEffect,
+    ImageProvider? backgroundImage,
+    BoxFit? backgroundImageFit,
+    double? backgroundImageOpacity,
+    Alignment? backgroundImageAlignment,
   }) {
     return TicketcherDecoration(
       borderRadius: borderRadius ?? this.borderRadius,
@@ -155,6 +178,10 @@ class TicketcherDecoration {
       stackEffect: stackEffect ?? this.stackEffect,
       watermark: watermark ?? this.watermark,
       blurEffect: blurEffect ?? this.blurEffect,
+      backgroundImage: backgroundImage ?? this.backgroundImage,
+      backgroundImageFit: backgroundImageFit ?? this.backgroundImageFit,
+      backgroundImageOpacity: backgroundImageOpacity ?? this.backgroundImageOpacity,
+      backgroundImageAlignment: backgroundImageAlignment ?? this.backgroundImageAlignment,
     );
   }
 }

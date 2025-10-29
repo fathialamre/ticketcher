@@ -7,6 +7,7 @@ import 'package:example/show_cases/gradient_card.dart';
 import 'package:example/show_cases/gradient_variations.dart';
 import 'package:example/show_cases/hologram_ticket.dart';
 import 'package:example/show_cases/horizontal_ticket.dart';
+import 'package:example/show_cases/image_background_showcase.dart';
 import 'package:example/show_cases/interactive_ticket.dart';
 import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/social_media.dart';
@@ -37,6 +38,12 @@ final List<ExampleItem> examples = [
     title: 'Blur Effects',
     subtitle: 'Glassmorphism & frosted glass',
     page: const BlurEffectShowcase(),
+  ),
+  ExampleItem(
+    icon: Icons.image_outlined,
+    title: 'Image Backgrounds',
+    subtitle: 'Background images for tickets',
+    page: const ImageBackgroundShowcase(),
   ),
   ExampleItem(
     icon: Icons.water_drop_outlined,
