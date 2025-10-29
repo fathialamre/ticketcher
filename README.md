@@ -344,7 +344,7 @@ Ticketcher(
 #### Circle Divider
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg" width="400" alt="Circle Divider Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg" width="250" alt="Circle Divider Example">
 </p>
 
 ```dart
@@ -364,7 +364,7 @@ Ticketcher(
 #### Wave Divider
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg" width="400" alt="Wave Divider Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg" width="250" alt="Wave Divider Example">
 </p>
 
 ```dart
@@ -384,7 +384,7 @@ Ticketcher(
 #### Smooth Wave Divider
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg" width="400" alt="Smooth Wave Divider Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg" width="250" alt="Smooth Wave Divider Example">
 </p>
 
 ```dart
@@ -544,7 +544,7 @@ Ticketcher(
 Customize the background color of individual sections. If a section `color` is provided, it overrides the `backgroundColor` and `gradient` from `TicketcherDecoration` for that specific section. This allows for creating tickets with multi-colored parts.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/colored_sections.jpeg" width="400" alt="Colored Sections Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/colored_sections.jpeg" width="250" alt="Colored Sections Example">
 </p>
 
 ```dart
@@ -582,7 +582,7 @@ Ticketcher(
 Create stunning visual effects with gradient borders using any Flutter gradient type.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_border.jpeg" width="400" alt="Gradient Border Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_border.jpeg" width="250" alt="Gradient Border Example">
 </p>
 
 ```dart
@@ -767,7 +767,7 @@ TicketWatermark.text(
 Add modern blur and glassmorphism effects to your tickets for premium, contemporary designs. Perfect for creating frosted glass aesthetics, backdrop filters, and soft focus effects.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/holograplic_effects.png" width="400" alt="Blur Effects Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/holograplic_effects.png" width="250" alt="Blur Effects Example">
 </p>
 
 ### Backdrop Blur
@@ -869,7 +869,7 @@ Ticketcher(
 Add a stacked effect to your vertical ticket's last section. This creates a layered appearance that adds depth to your ticket design.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stacked_effect.jpeg" width="400" alt="Stacked Effect Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stacked_effect.jpeg" width="250" alt="Stacked Effect Example">
 </p>
 
 ```dart
