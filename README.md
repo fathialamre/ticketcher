@@ -68,7 +68,7 @@ code.
   - [Background Styling](#background-styling)
     - [Solid Color](#solid-color)
     - [Gradient](#gradient)
-    - [Image Backgrounds](#image-backgrounds-new)
+    - [Image Backgrounds](#image-backgrounds)
   - [Colored Sections](#colored-sections)
   - [Border](#border)
     - [Solid Color Border](#solid-color-border)
