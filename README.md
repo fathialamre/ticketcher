@@ -955,6 +955,10 @@ Ticketcher(
 
 ### Notch Shapes (New!)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/notch_shape_variations.jpeg" width="300" alt="Notch Shape Variations Example">
+</p>
+
 Customize the shape of the notches between sections. Available shapes include semicircle (default), triangle, square, and diamond.
 
 ```dart
