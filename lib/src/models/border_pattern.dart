@@ -33,4 +33,16 @@ class BorderPattern {
       width: width ?? this.width,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is BorderPattern &&
+        other.shape == shape &&
+        other.height == height &&
+        other.width == width;
+  }
+
+  @override
+  int get hashCode => Object.hash(shape, height, width);
 }
