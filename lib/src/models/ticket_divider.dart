@@ -25,6 +25,25 @@ enum DividerStyle {
 
   /// Two parallel lines with customizable spacing between them.
   doubleLine,
+
+  /// A perforation-style tear line with optional scissors icon.
+  /// Suggests the ticket can be torn along this line.
+  tearLine,
+}
+
+/// Defines the position of the scissors icon on a tear line divider.
+enum ScissorsPosition {
+  /// Scissors icon at the left/top of the divider.
+  start,
+
+  /// Scissors icon at the center of the divider.
+  center,
+
+  /// Scissors icon at the right/bottom of the divider.
+  end,
+
+  /// No scissors icon displayed.
+  none,
 }
 
 /// Base class for all divider styles.
@@ -33,6 +52,7 @@ enum DividerStyle {
 /// - [color]: The color of the divider
 /// - [thickness]: The thickness of the divider
 /// - [padding]: The padding on both sides of the divider
+/// - [gradient]: Optional gradient for the divider (overrides color)
 abstract class BaseDividerStyle {
   /// The color of the divider.
   final Color? color;
@@ -43,8 +63,17 @@ abstract class BaseDividerStyle {
   /// The padding on both sides of the divider.
   final double? padding;
 
+  /// Optional gradient for the divider.
+  /// When specified, this overrides the [color] property.
+  final Gradient? gradient;
+
   /// Creates a new [BaseDividerStyle].
-  const BaseDividerStyle({this.color, this.thickness, this.padding});
+  const BaseDividerStyle({
+    this.color,
+    this.thickness,
+    this.padding,
+    this.gradient,
+  });
 
   /// Returns the specific [DividerStyle] for this divider.
   DividerStyle get style;
@@ -62,7 +91,12 @@ abstract class BaseDividerStyle {
 /// ```
 class SolidDividerStyle extends BaseDividerStyle {
   /// Creates a new [SolidDividerStyle].
-  const SolidDividerStyle({super.color, super.thickness, super.padding});
+  const SolidDividerStyle({
+    super.color,
+    super.thickness,
+    super.padding,
+    super.gradient,
+  });
 
   @override
   DividerStyle get style => DividerStyle.solid;
@@ -96,6 +130,7 @@ class DashedDividerStyle extends BaseDividerStyle {
     super.color,
     super.thickness,
     super.padding,
+    super.gradient,
     this.dashWidth = 10.0,
     this.dashSpace = 7.0,
   });
@@ -132,6 +167,7 @@ class CirclesDividerStyle extends BaseDividerStyle {
     super.color,
     super.thickness,
     super.padding,
+    super.gradient,
     this.circleRadius = 4.0,
     this.circleSpacing = 8.0,
   });
@@ -168,6 +204,7 @@ class WaveDividerStyle extends BaseDividerStyle {
     super.color,
     super.thickness,
     super.padding,
+    super.gradient,
     this.waveHeight = 4.0,
     this.waveWidth = 8.0,
   });
@@ -204,6 +241,7 @@ class SmoothWaveDividerStyle extends BaseDividerStyle {
     super.color,
     super.thickness,
     super.padding,
+    super.gradient,
     this.waveHeight = 4.0,
     this.waveWidth = 8.0,
   });
@@ -240,6 +278,7 @@ class DottedDividerStyle extends BaseDividerStyle {
     super.color,
     super.thickness,
     super.padding,
+    super.gradient,
     this.dotSize = 4.0,
     this.dotSpacing = 8.0,
   });
@@ -271,11 +310,58 @@ class DoubleLineDividerStyle extends BaseDividerStyle {
     super.color,
     super.thickness,
     super.padding,
+    super.gradient,
     this.lineSpacing = 4.0,
   });
 
   @override
   DividerStyle get style => DividerStyle.doubleLine;
+}
+
+/// A tear line divider style that suggests the ticket can be torn.
+///
+/// Properties:
+/// - [dashWidth]: The width of each dash (default: 5.0)
+/// - [dashSpace]: The space between dashes (default: 4.0)
+/// - [scissorsPosition]: Where to show the scissors icon (default: start)
+/// - [scissorsSize]: The size of the scissors icon (default: 16.0)
+///
+/// Example:
+/// ```dart
+/// TicketDivider.tearLine(
+///   color: Colors.grey,
+///   thickness: 1.0,
+///   scissorsPosition: ScissorsPosition.start,
+///   padding: 8.0,
+/// )
+/// ```
+class TearLineDividerStyle extends BaseDividerStyle {
+  /// The width of each dash in the tear line.
+  final double dashWidth;
+
+  /// The space between dashes.
+  final double dashSpace;
+
+  /// Where to position the scissors icon.
+  final ScissorsPosition scissorsPosition;
+
+  /// The size of the scissors icon.
+  final double scissorsSize;
+
+  /// Creates a new [TearLineDividerStyle].
+  const TearLineDividerStyle({
+    super.color,
+    super.thickness,
+    super.padding,
+    super.gradient,
+    this.dashWidth = 5.0,
+    this.dashSpace = 4.0,
+    this.scissorsPosition = ScissorsPosition.start,
+    this.scissorsSize = 16.0,
+  });
+
+  @override
+  DividerStyle get style => DividerStyle.tearLine;
 }
 
 /// A class that represents a divider between ticket sections.
@@ -328,14 +414,29 @@ class TicketDivider {
   /// The padding on both sides of the divider.
   double? get padding => _style.padding;
 
-  // Style-specific getters
-  /// The width of each dash in a dashed divider.
-  double? get dashWidth =>
-      _style is DashedDividerStyle ? (_style).dashWidth : null;
+  /// The gradient for the divider.
+  Gradient? get gradient => _style.gradient;
 
-  /// The space between dashes in a dashed divider.
-  double? get dashSpace =>
-      _style is DashedDividerStyle ? (_style).dashSpace : null;
+  // Style-specific getters
+  /// The width of each dash in a dashed or tear line divider.
+  double? get dashWidth {
+    if (_style is DashedDividerStyle) {
+      return (_style).dashWidth;
+    } else if (_style is TearLineDividerStyle) {
+      return (_style).dashWidth;
+    }
+    return null;
+  }
+
+  /// The space between dashes in a dashed or tear line divider.
+  double? get dashSpace {
+    if (_style is DashedDividerStyle) {
+      return (_style as DashedDividerStyle).dashSpace;
+    } else if (_style is TearLineDividerStyle) {
+      return (_style as TearLineDividerStyle).dashSpace;
+    }
+    return null;
+  }
 
   /// The radius of each circle in a circles divider.
   double? get circleRadius =>
@@ -371,6 +472,14 @@ class TicketDivider {
   /// The space between lines in a double line divider.
   double? get lineSpacing =>
       _style is DoubleLineDividerStyle ? (_style).lineSpacing : null;
+
+  /// The position of the scissors icon in a tear line divider.
+  ScissorsPosition? get scissorsPosition =>
+      _style is TearLineDividerStyle ? (_style).scissorsPosition : null;
+
+  /// The size of the scissors icon in a tear line divider.
+  double? get scissorsSize =>
+      _style is TearLineDividerStyle ? (_style).scissorsSize : null;
 
   /// Creates a solid divider.
   ///
@@ -541,6 +650,84 @@ class TicketDivider {
     );
   }
 
+  /// Creates a tear line divider that suggests the ticket can be torn.
+  ///
+  /// Parameters:
+  /// - [color]: The color of the divider
+  /// - [thickness]: The thickness of the divider
+  /// - [padding]: The padding on both sides of the divider
+  /// - [dashWidth]: The width of each dash (default: 5.0)
+  /// - [dashSpace]: The space between dashes (default: 4.0)
+  /// - [scissorsPosition]: Where to show the scissors icon (default: start)
+  /// - [scissorsSize]: The size of the scissors icon (default: 16.0)
+  factory TicketDivider.tearLine({
+    Color? color,
+    double? thickness,
+    double? padding,
+    double dashWidth = 5.0,
+    double dashSpace = 4.0,
+    ScissorsPosition scissorsPosition = ScissorsPosition.start,
+    double scissorsSize = 16.0,
+  }) {
+    return TicketDivider._(
+      TearLineDividerStyle(
+        color: color,
+        thickness: thickness,
+        padding: padding,
+        dashWidth: dashWidth,
+        dashSpace: dashSpace,
+        scissorsPosition: scissorsPosition,
+        scissorsSize: scissorsSize,
+      ),
+    );
+  }
+
+  /// Creates a solid divider with a gradient.
+  ///
+  /// Parameters:
+  /// - [gradient]: The gradient for the divider
+  /// - [thickness]: The thickness of the divider
+  /// - [padding]: The padding on both sides of the divider
+  factory TicketDivider.gradientSolid({
+    required Gradient gradient,
+    double? thickness,
+    double? padding,
+  }) {
+    return TicketDivider._(
+      SolidDividerStyle(
+        gradient: gradient,
+        thickness: thickness,
+        padding: padding,
+      ),
+    );
+  }
+
+  /// Creates a dashed divider with a gradient.
+  ///
+  /// Parameters:
+  /// - [gradient]: The gradient for the divider
+  /// - [thickness]: The thickness of the divider
+  /// - [padding]: The padding on both sides of the divider
+  /// - [dashWidth]: The width of each dash (default: 10.0)
+  /// - [dashSpace]: The space between dashes (default: 7.0)
+  factory TicketDivider.gradientDashed({
+    required Gradient gradient,
+    double? thickness,
+    double? padding,
+    double dashWidth = 10.0,
+    double dashSpace = 7.0,
+  }) {
+    return TicketDivider._(
+      DashedDividerStyle(
+        gradient: gradient,
+        thickness: thickness,
+        padding: padding,
+        dashWidth: dashWidth,
+        dashSpace: dashSpace,
+      ),
+    );
+  }
+
   /// Creates a copy of this [TicketDivider] with the given fields replaced with the new values.
   ///
   /// This method allows you to create a new instance of [TicketDivider] with some
@@ -565,6 +752,8 @@ class TicketDivider {
     double? dotSize,
     double? dotSpacing,
     double? lineSpacing,
+    ScissorsPosition? scissorsPosition,
+    double? scissorsSize,
   }) {
     if (style != null && style != this.style) {
       switch (style) {
@@ -621,6 +810,19 @@ class TicketDivider {
             padding: padding ?? this.padding,
             lineSpacing: lineSpacing ?? this.lineSpacing ?? 4.0,
           );
+        case DividerStyle.tearLine:
+          return TicketDivider.tearLine(
+            color: color ?? this.color,
+            thickness: thickness ?? this.thickness,
+            padding: padding ?? this.padding,
+            dashWidth: dashWidth ?? this.dashWidth ?? 5.0,
+            dashSpace: dashSpace ?? this.dashSpace ?? 4.0,
+            scissorsPosition:
+                scissorsPosition ??
+                this.scissorsPosition ??
+                ScissorsPosition.start,
+            scissorsSize: scissorsSize ?? this.scissorsSize ?? 16.0,
+          );
       }
     }
 
@@ -670,6 +872,17 @@ class TicketDivider {
         padding: padding ?? this.padding,
         dotSize: dotSize ?? this.dotSize ?? 4.0,
         dotSpacing: dotSpacing ?? this.dotSpacing ?? 8.0,
+      );
+    } else if (_style is TearLineDividerStyle) {
+      return TicketDivider.tearLine(
+        color: color ?? this.color,
+        thickness: thickness ?? this.thickness,
+        padding: padding ?? this.padding,
+        dashWidth: dashWidth ?? this.dashWidth ?? 5.0,
+        dashSpace: dashSpace ?? this.dashSpace ?? 4.0,
+        scissorsPosition:
+            scissorsPosition ?? this.scissorsPosition ?? ScissorsPosition.start,
+        scissorsSize: scissorsSize ?? this.scissorsSize ?? 16.0,
       );
     } else {
       return TicketDivider.doubleLine(
