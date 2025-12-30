@@ -9,6 +9,11 @@ import 'package:flutter/material.dart';
 ///   padding: EdgeInsets.all(16.0),
 ///   widthFactor: 0.8, // 80% of parent width
 ///   onTap: () => print('Section tapped!'),
+///   gradient: LinearGradient(
+///     colors: [Colors.blue, Colors.purple],
+///     begin: Alignment.topLeft,
+///     end: Alignment.bottomRight,
+///   ),
 ///   backgroundImage: AssetImage('assets/bg.png'),
 ///   backgroundImageFit: BoxFit.cover,
 ///   backgroundImageOpacity: 0.8,
@@ -20,7 +25,9 @@ import 'package:flutter/material.dart';
 /// The [widthFactor] parameter is optional and constrains the width as a fraction of the parent width.
 /// The [onTap] parameter is optional and defines a callback function that gets executed when the section is tapped.
 /// The [backgroundImage] parameter is optional and specifies an image to use as the background.
-/// The [color] takes precedence over the decoration background, and [backgroundImage] takes precedence over [color].
+/// The [gradient] parameter is optional and specifies a gradient to use as the background.
+/// The [color] parameter is optional and specifies a solid color to use as the background.
+/// Background precedence: [backgroundImage] > [gradient] > [color] > decoration background
 
 class Section {
   final Widget child;
@@ -28,6 +35,9 @@ class Section {
   final double? widthFactor;
   final Color? color;
   final VoidCallback? onTap;
+
+  /// The gradient to use as the section background
+  final Gradient? gradient;
 
   /// The image to use as the section background
   final ImageProvider? backgroundImage;
@@ -47,6 +57,7 @@ class Section {
     this.widthFactor,
     this.color,
     this.onTap,
+    this.gradient,
     this.backgroundImage,
     this.backgroundImageFit = BoxFit.cover,
     this.backgroundImageOpacity = 1.0,
@@ -62,6 +73,7 @@ class Section {
     double? widthFactor,
     Color? color,
     VoidCallback? onTap,
+    Gradient? gradient,
     ImageProvider? backgroundImage,
     BoxFit? backgroundImageFit,
     double? backgroundImageOpacity,
@@ -73,6 +85,7 @@ class Section {
       widthFactor: widthFactor ?? this.widthFactor,
       color: color ?? this.color,
       onTap: onTap ?? this.onTap,
+      gradient: gradient ?? this.gradient,
       backgroundImage: backgroundImage ?? this.backgroundImage,
       backgroundImageFit: backgroundImageFit ?? this.backgroundImageFit,
       backgroundImageOpacity:
@@ -89,6 +102,7 @@ class Section {
         other.padding == padding &&
         other.widthFactor == widthFactor &&
         other.color == color &&
+        other.gradient == gradient &&
         other.backgroundImage == backgroundImage &&
         other.backgroundImageFit == backgroundImageFit &&
         other.backgroundImageOpacity == backgroundImageOpacity &&
@@ -100,6 +114,7 @@ class Section {
     padding,
     widthFactor,
     color,
+    gradient,
     backgroundImage,
     backgroundImageFit,
     backgroundImageOpacity,
