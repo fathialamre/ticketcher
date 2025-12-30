@@ -13,6 +13,7 @@ import 'package:example/show_cases/image_background_showcase.dart';
 import 'package:example/show_cases/interactive_ticket.dart';
 import 'package:example/show_cases/notch_shapes_showcase.dart';
 import 'package:example/show_cases/sales_offer.dart';
+import 'package:example/show_cases/section_gradient_showcase.dart';
 import 'package:example/show_cases/social_media.dart';
 import 'package:example/show_cases/stacked_ticket.dart';
 import 'package:example/show_cases/watermark_showcase.dart';
@@ -54,6 +55,12 @@ final List<ExampleItem> examples = [
     title: 'Animations',
     subtitle: 'Fade, slide, scale, flip',
     page: const AnimationShowcase(),
+  ),
+  ExampleItem(
+    icon: Icons.format_color_fill,
+    title: 'Section Gradients',
+    subtitle: 'Gradient backgrounds for sections',
+    page: const SectionGradientShowcase(),
   ),
   // Existing Features
   ExampleItem(

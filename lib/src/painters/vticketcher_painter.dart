@@ -673,8 +673,8 @@ class VTicketcherPainter extends CustomPainter {
       canvas.drawPath(path, backgroundPaint);
     }
 
-    // Draw section-specific backgrounds (images or colors)
-    // Precedence: section image > section color
+    // Draw section-specific backgrounds (images, gradients, or colors)
+    // Precedence: section image > section gradient > section color
     double currentY = 0;
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
@@ -696,6 +696,15 @@ class VTicketcherPainter extends CustomPainter {
           alignment: section.backgroundImageAlignment,
           opacity: section.backgroundImageOpacity,
         );
+      } else if (section.gradient != null) {
+        // Paint section gradient
+        final sectionPaint = Paint()
+          ..style = PaintingStyle.fill
+          ..shader = section.gradient!.createShader(sectionRect);
+        canvas.save();
+        canvas.clipPath(path);
+        canvas.drawRect(sectionRect, sectionPaint);
+        canvas.restore();
       } else if (section.color != null) {
         // Paint section color
         final sectionPaint = Paint()..color = section.color!;
