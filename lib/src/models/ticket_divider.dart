@@ -431,9 +431,9 @@ class TicketDivider {
   /// The space between dashes in a dashed or tear line divider.
   double? get dashSpace {
     if (_style is DashedDividerStyle) {
-      return (_style as DashedDividerStyle).dashSpace;
+      return (_style).dashSpace;
     } else if (_style is TearLineDividerStyle) {
-      return (_style as TearLineDividerStyle).dashSpace;
+      return (_style).dashSpace;
     }
     return null;
   }
