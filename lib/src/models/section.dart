@@ -28,16 +28,16 @@ class Section {
   final double? widthFactor;
   final Color? color;
   final VoidCallback? onTap;
-  
+
   /// The image to use as the section background
   final ImageProvider? backgroundImage;
-  
+
   /// How the background image should be inscribed into the space
   final BoxFit backgroundImageFit;
-  
+
   /// The opacity of the background image (0.0 to 1.0)
   final double backgroundImageOpacity;
-  
+
   /// How to align the background image within its bounds
   final Alignment backgroundImageAlignment;
 
@@ -75,8 +75,34 @@ class Section {
       onTap: onTap ?? this.onTap,
       backgroundImage: backgroundImage ?? this.backgroundImage,
       backgroundImageFit: backgroundImageFit ?? this.backgroundImageFit,
-      backgroundImageOpacity: backgroundImageOpacity ?? this.backgroundImageOpacity,
-      backgroundImageAlignment: backgroundImageAlignment ?? this.backgroundImageAlignment,
+      backgroundImageOpacity:
+          backgroundImageOpacity ?? this.backgroundImageOpacity,
+      backgroundImageAlignment:
+          backgroundImageAlignment ?? this.backgroundImageAlignment,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Section &&
+        other.padding == padding &&
+        other.widthFactor == widthFactor &&
+        other.color == color &&
+        other.backgroundImage == backgroundImage &&
+        other.backgroundImageFit == backgroundImageFit &&
+        other.backgroundImageOpacity == backgroundImageOpacity &&
+        other.backgroundImageAlignment == backgroundImageAlignment;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    padding,
+    widthFactor,
+    color,
+    backgroundImage,
+    backgroundImageFit,
+    backgroundImageOpacity,
+    backgroundImageAlignment,
+  );
 }

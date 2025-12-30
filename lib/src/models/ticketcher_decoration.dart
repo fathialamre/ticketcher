@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'border_pattern.dart';
 import 'blur_effect.dart';
+import 'notch_shape.dart';
 import 'ticket_divider.dart';
 import 'ticket_radius.dart';
 import 'ticket_watermark.dart';
@@ -58,6 +59,19 @@ class StackEffect {
       color: color ?? this.color,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is StackEffect &&
+        other.count == count &&
+        other.offset == offset &&
+        other.widthStep == widthStep &&
+        other.color == color;
+  }
+
+  @override
+  int get hashCode => Object.hash(count, offset, widthStep, color);
 }
 
 /// A decoration class for customizing the appearance of a ticket widget.
@@ -88,6 +102,7 @@ class StackEffect {
 /// * Border and shadow effects using [border] and [shadow]
 /// * Stacked layers effect using [stackEffect]
 /// * Blur and glassmorphism effects using [blurEffect]
+/// * Custom notch shapes using [notchStyle]
 class TicketcherDecoration {
   /// Maximum number of stacked layers allowed
   static const int maxStackCount = 3;
@@ -106,16 +121,22 @@ class TicketcherDecoration {
   final StackEffect stackEffect;
   final TicketWatermark? watermark;
   final BlurEffect? blurEffect;
-  
+
+  /// The style of the notches between sections.
+  ///
+  /// If null, uses the default semicircle notch with the radius
+  /// specified in the widget's [notchRadius] parameter.
+  final NotchStyle? notchStyle;
+
   /// The image to use as the background
   final ImageProvider? backgroundImage;
-  
+
   /// How the background image should be inscribed into the space
   final BoxFit backgroundImageFit;
-  
+
   /// The opacity of the background image (0.0 to 1.0)
   final double backgroundImageOpacity;
-  
+
   /// How to align the background image within its bounds
   final Alignment backgroundImageAlignment;
 
@@ -138,6 +159,7 @@ class TicketcherDecoration {
     this.backgroundImageFit = BoxFit.cover,
     this.backgroundImageOpacity = 1.0,
     this.backgroundImageAlignment = Alignment.center,
+    this.notchStyle,
   }) : assert(
          backgroundImageOpacity >= 0.0 && backgroundImageOpacity <= 1.0,
          'backgroundImageOpacity must be between 0.0 and 1.0',
@@ -162,6 +184,7 @@ class TicketcherDecoration {
     BoxFit? backgroundImageFit,
     double? backgroundImageOpacity,
     Alignment? backgroundImageAlignment,
+    NotchStyle? notchStyle,
   }) {
     return TicketcherDecoration(
       borderRadius: borderRadius ?? this.borderRadius,
@@ -180,8 +203,59 @@ class TicketcherDecoration {
       blurEffect: blurEffect ?? this.blurEffect,
       backgroundImage: backgroundImage ?? this.backgroundImage,
       backgroundImageFit: backgroundImageFit ?? this.backgroundImageFit,
-      backgroundImageOpacity: backgroundImageOpacity ?? this.backgroundImageOpacity,
-      backgroundImageAlignment: backgroundImageAlignment ?? this.backgroundImageAlignment,
+      backgroundImageOpacity:
+          backgroundImageOpacity ?? this.backgroundImageOpacity,
+      backgroundImageAlignment:
+          backgroundImageAlignment ?? this.backgroundImageAlignment,
+      notchStyle: notchStyle ?? this.notchStyle,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is TicketcherDecoration &&
+        other.borderRadius == borderRadius &&
+        other.border == border &&
+        other.borderGradient == borderGradient &&
+        other.borderWidth == borderWidth &&
+        other.backgroundColor == backgroundColor &&
+        other.gradient == gradient &&
+        other.divider == divider &&
+        other.bottomBorderStyle == bottomBorderStyle &&
+        other.leftBorderStyle == leftBorderStyle &&
+        other.rightBorderStyle == rightBorderStyle &&
+        other.shadow == shadow &&
+        other.stackEffect == stackEffect &&
+        other.watermark == watermark &&
+        other.blurEffect == blurEffect &&
+        other.backgroundImage == backgroundImage &&
+        other.backgroundImageFit == backgroundImageFit &&
+        other.backgroundImageOpacity == backgroundImageOpacity &&
+        other.backgroundImageAlignment == backgroundImageAlignment &&
+        other.notchStyle == notchStyle;
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+    borderRadius,
+    border,
+    borderGradient,
+    borderWidth,
+    backgroundColor,
+    gradient,
+    divider,
+    bottomBorderStyle,
+    leftBorderStyle,
+    rightBorderStyle,
+    shadow,
+    stackEffect,
+    watermark,
+    blurEffect,
+    backgroundImage,
+    backgroundImageFit,
+    backgroundImageOpacity,
+    backgroundImageAlignment,
+    notchStyle,
+  ]);
 }

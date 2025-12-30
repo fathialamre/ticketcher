@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/notch_shape.dart';
 import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
 
@@ -9,6 +10,178 @@ import '../models/ticket_radius.dart';
 /// and border patterns. The same path logic is used for both painting
 /// and clipping to ensure consistency.
 class TicketPathBuilder {
+  /// Draws a notch on the right edge of a vertical ticket.
+  ///
+  /// Parameters:
+  /// - [path]: The path to draw on
+  /// - [x]: The x coordinate (right edge)
+  /// - [y]: The y coordinate (notch center)
+  /// - [shape]: The shape of the notch
+  /// - [radius]: The size of the notch
+  static void _drawRightNotch(
+    Path path,
+    double x,
+    double y,
+    NotchShape shape,
+    double radius,
+  ) {
+    switch (shape) {
+      case NotchShape.semicircle:
+        path.lineTo(x, y - radius);
+        path.arcToPoint(
+          Offset(x, y + radius),
+          radius: Radius.circular(radius),
+          clockwise: false,
+        );
+        break;
+      case NotchShape.triangle:
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y);
+        path.lineTo(x, y + radius);
+        break;
+      case NotchShape.square:
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y - radius);
+        path.lineTo(x - radius, y + radius);
+        path.lineTo(x, y + radius);
+        break;
+      case NotchShape.diamond:
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y);
+        path.lineTo(x, y + radius);
+        break;
+    }
+  }
+
+  /// Draws a notch on the left edge of a vertical ticket.
+  ///
+  /// Parameters:
+  /// - [path]: The path to draw on
+  /// - [x]: The x coordinate (left edge, typically 0)
+  /// - [y]: The y coordinate (notch center)
+  /// - [shape]: The shape of the notch
+  /// - [radius]: The size of the notch
+  static void _drawLeftNotch(
+    Path path,
+    double x,
+    double y,
+    NotchShape shape,
+    double radius,
+  ) {
+    switch (shape) {
+      case NotchShape.semicircle:
+        path.lineTo(x, y + radius);
+        path.arcToPoint(
+          Offset(x, y - radius),
+          radius: Radius.circular(radius),
+          clockwise: false,
+        );
+        break;
+      case NotchShape.triangle:
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y);
+        path.lineTo(x, y - radius);
+        break;
+      case NotchShape.square:
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y + radius);
+        path.lineTo(x + radius, y - radius);
+        path.lineTo(x, y - radius);
+        break;
+      case NotchShape.diamond:
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y);
+        path.lineTo(x, y - radius);
+        break;
+    }
+  }
+
+  /// Draws a notch on the top edge of a horizontal ticket.
+  ///
+  /// Parameters:
+  /// - [path]: The path to draw on
+  /// - [x]: The x coordinate (notch center)
+  /// - [y]: The y coordinate (top edge, typically 0)
+  /// - [shape]: The shape of the notch
+  /// - [radius]: The size of the notch
+  static void _drawTopNotch(
+    Path path,
+    double x,
+    double y,
+    NotchShape shape,
+    double radius,
+  ) {
+    switch (shape) {
+      case NotchShape.semicircle:
+        path.lineTo(x - radius, y);
+        path.arcToPoint(
+          Offset(x + radius, y),
+          radius: Radius.circular(radius),
+          clockwise: false,
+        );
+        break;
+      case NotchShape.triangle:
+        path.lineTo(x - radius, y);
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y);
+        break;
+      case NotchShape.square:
+        path.lineTo(x - radius, y);
+        path.lineTo(x - radius, y + radius);
+        path.lineTo(x + radius, y + radius);
+        path.lineTo(x + radius, y);
+        break;
+      case NotchShape.diamond:
+        path.lineTo(x - radius, y);
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y);
+        break;
+    }
+  }
+
+  /// Draws a notch on the bottom edge of a horizontal ticket.
+  ///
+  /// Parameters:
+  /// - [path]: The path to draw on
+  /// - [x]: The x coordinate (notch center)
+  /// - [y]: The y coordinate (bottom edge)
+  /// - [shape]: The shape of the notch
+  /// - [radius]: The size of the notch
+  static void _drawBottomNotch(
+    Path path,
+    double x,
+    double y,
+    NotchShape shape,
+    double radius,
+  ) {
+    switch (shape) {
+      case NotchShape.semicircle:
+        path.lineTo(x + radius, y);
+        path.arcToPoint(
+          Offset(x - radius, y),
+          radius: Radius.circular(radius),
+          clockwise: false,
+        );
+        break;
+      case NotchShape.triangle:
+        path.lineTo(x + radius, y);
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y);
+        break;
+      case NotchShape.square:
+        path.lineTo(x + radius, y);
+        path.lineTo(x + radius, y - radius);
+        path.lineTo(x - radius, y - radius);
+        path.lineTo(x - radius, y);
+        break;
+      case NotchShape.diamond:
+        path.lineTo(x + radius, y);
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y);
+        break;
+    }
+  }
+
   /// Builds a path for a vertical ticket.
   ///
   /// Parameters:
@@ -75,19 +248,14 @@ class TicketPathBuilder {
       cumulativeHeights.add(currentHeight);
     }
 
+    // Get notch configuration
+    final notchShape = decoration.notchStyle?.shape ?? NotchShape.semicircle;
+    final effectiveNotchRadius = decoration.notchStyle?.radius ?? notchRadius;
+
     // Draw right edge with notches
     for (int i = 0; i < sectionHeights.length - 1; i++) {
       final notchY = cumulativeHeights[i];
-
-      // Line to notch
-      path.lineTo(size.width, notchY - notchRadius);
-
-      // Right notch
-      path.arcToPoint(
-        Offset(size.width, notchY + notchRadius),
-        radius: Radius.circular(notchRadius),
-        clockwise: false,
-      );
+      _drawRightNotch(path, size.width, notchY, notchShape, effectiveNotchRadius);
     }
 
     // Right edge to bottom
@@ -133,16 +301,7 @@ class TicketPathBuilder {
     // Draw left edge with notches
     for (int i = sectionHeights.length - 2; i >= 0; i--) {
       final notchY = cumulativeHeights[i];
-
-      // Line to notch
-      path.lineTo(0, notchY + notchRadius);
-
-      // Left notch
-      path.arcToPoint(
-        Offset(0, notchY - notchRadius),
-        radius: Radius.circular(notchRadius),
-        clockwise: false,
-      );
+      _drawLeftNotch(path, 0, notchY, notchShape, effectiveNotchRadius);
     }
 
     // Left edge to top-left corner
@@ -216,19 +375,14 @@ class TicketPathBuilder {
       cumulativeWidths.add(currentWidth);
     }
 
+    // Get notch configuration
+    final notchShape = decoration.notchStyle?.shape ?? NotchShape.semicircle;
+    final effectiveNotchRadius = decoration.notchStyle?.radius ?? notchRadius;
+
     // Draw top edge with notches
     for (int i = 0; i < sectionWidths.length - 1; i++) {
       final notchX = cumulativeWidths[i];
-
-      // Line to notch
-      path.lineTo(notchX - notchRadius, 0);
-
-      // Top notch
-      path.arcToPoint(
-        Offset(notchX + notchRadius, 0),
-        radius: Radius.circular(notchRadius),
-        clockwise: false,
-      );
+      _drawTopNotch(path, notchX, 0, notchShape, effectiveNotchRadius);
     }
 
     // Top edge to right
@@ -264,16 +418,7 @@ class TicketPathBuilder {
     // Bottom edge with notches
     for (int i = sectionWidths.length - 2; i >= 0; i--) {
       final notchX = cumulativeWidths[i];
-
-      // Line to notch
-      path.lineTo(notchX + notchRadius, size.height);
-
-      // Bottom notch
-      path.arcToPoint(
-        Offset(notchX - notchRadius, size.height),
-        radius: Radius.circular(notchRadius),
-        clockwise: false,
-      );
+      _drawBottomNotch(path, notchX, size.height, notchShape, effectiveNotchRadius);
     }
 
     // Bottom edge to left

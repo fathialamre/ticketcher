@@ -1,6 +1,8 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:ticketcher/src/models/border_shape.dart';
+import '../models/notch_shape.dart';
 import '../models/section.dart';
 import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
@@ -43,7 +45,7 @@ class VTicketcherPainter extends CustomPainter {
 
   /// The resolved decoration background image (if any)
   final ui.Image? decorationBackgroundImage;
-  
+
   /// The resolved section background images (if any)
   final Map<int, ui.Image> sectionBackgroundImages;
 
@@ -64,6 +66,267 @@ class VTicketcherPainter extends CustomPainter {
     this.decorationBackgroundImage,
     this.sectionBackgroundImages = const {},
   });
+
+  /// Draws a notch on the right edge.
+  void _drawRightNotch(
+    Path path,
+    double x,
+    double y,
+    NotchShape shape,
+    double radius,
+  ) {
+    switch (shape) {
+      case NotchShape.semicircle:
+        path.lineTo(x, y - radius);
+        path.arcToPoint(
+          Offset(x, y + radius),
+          radius: Radius.circular(radius),
+          clockwise: false,
+        );
+        break;
+      case NotchShape.triangle:
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y);
+        path.lineTo(x, y + radius);
+        break;
+      case NotchShape.square:
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y - radius);
+        path.lineTo(x - radius, y + radius);
+        path.lineTo(x, y + radius);
+        break;
+      case NotchShape.diamond:
+        path.lineTo(x, y - radius);
+        path.lineTo(x - radius, y);
+        path.lineTo(x, y + radius);
+        break;
+    }
+  }
+
+  /// Draws a notch on the left edge.
+  void _drawLeftNotch(
+    Path path,
+    double x,
+    double y,
+    NotchShape shape,
+    double radius,
+  ) {
+    switch (shape) {
+      case NotchShape.semicircle:
+        path.lineTo(x, y + radius);
+        path.arcToPoint(
+          Offset(x, y - radius),
+          radius: Radius.circular(radius),
+          clockwise: false,
+        );
+        break;
+      case NotchShape.triangle:
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y);
+        path.lineTo(x, y - radius);
+        break;
+      case NotchShape.square:
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y + radius);
+        path.lineTo(x + radius, y - radius);
+        path.lineTo(x, y - radius);
+        break;
+      case NotchShape.diamond:
+        path.lineTo(x, y + radius);
+        path.lineTo(x + radius, y);
+        path.lineTo(x, y - radius);
+        break;
+    }
+  }
+
+  /// Draws a tear line divider with optional scissors icon.
+  void _drawTearLineDivider({
+    required Canvas canvas,
+    required double y,
+    required double startX,
+    required double endX,
+    required TicketDivider divider,
+    required Paint dividerPaint,
+    required bool isHorizontal,
+  }) {
+    final dashWidth = divider.dashWidth ?? 5.0;
+    final dashSpace = divider.dashSpace ?? 4.0;
+    final scissorsPosition = divider.scissorsPosition ?? ScissorsPosition.start;
+    final scissorsSize = divider.scissorsSize ?? 16.0;
+
+    final availableWidth = endX - startX;
+    if (availableWidth <= 0) return;
+
+    // Calculate scissors position offset
+    double scissorsX = startX;
+    double lineStartX = startX;
+    double lineEndX = endX;
+
+    if (scissorsPosition != ScissorsPosition.none) {
+      final scissorsWidth = scissorsSize;
+      switch (scissorsPosition) {
+        case ScissorsPosition.start:
+          scissorsX = startX;
+          lineStartX = startX + scissorsWidth + 4;
+          break;
+        case ScissorsPosition.center:
+          scissorsX = (startX + endX) / 2 - scissorsWidth / 2;
+          // Draw line before scissors
+          _drawDashedLine(
+            canvas,
+            startX,
+            scissorsX - 4,
+            y,
+            dashWidth,
+            dashSpace,
+            dividerPaint,
+          );
+          // Draw line after scissors
+          _drawDashedLine(
+            canvas,
+            scissorsX + scissorsWidth + 4,
+            endX,
+            y,
+            dashWidth,
+            dashSpace,
+            dividerPaint,
+          );
+          // Draw scissors
+          _drawScissorsIcon(
+            canvas,
+            scissorsX,
+            y,
+            scissorsSize,
+            divider.color ?? Colors.grey,
+          );
+          return;
+        case ScissorsPosition.end:
+          scissorsX = endX - scissorsWidth;
+          lineEndX = scissorsX - 4;
+          break;
+        case ScissorsPosition.none:
+          break;
+      }
+
+      // Draw scissors icon
+      _drawScissorsIcon(
+        canvas,
+        scissorsX,
+        y,
+        scissorsSize,
+        divider.color ?? Colors.grey,
+      );
+    }
+
+    // Draw the dashed line
+    _drawDashedLine(
+      canvas,
+      lineStartX,
+      lineEndX,
+      y,
+      dashWidth,
+      dashSpace,
+      dividerPaint,
+    );
+  }
+
+  /// Draws a dashed line segment.
+  void _drawDashedLine(
+    Canvas canvas,
+    double startX,
+    double endX,
+    double y,
+    double dashWidth,
+    double dashSpace,
+    Paint paint,
+  ) {
+    final availableWidth = endX - startX;
+    if (availableWidth <= 0) return;
+
+    final numSegments =
+        ((availableWidth + dashSpace) / (dashWidth + dashSpace)).floor();
+    if (numSegments <= 0) return;
+
+    final adjustedDashSpace =
+        (availableWidth - (numSegments * dashWidth)) /
+        (numSegments > 1 ? (numSegments - 1) : 1);
+
+    var currentX = startX;
+    for (int j = 0; j < numSegments; j++) {
+      canvas.drawLine(
+        Offset(currentX, y),
+        Offset(currentX + dashWidth, y),
+        paint,
+      );
+      currentX += dashWidth + adjustedDashSpace;
+    }
+  }
+
+  /// Draws a scissors icon at the specified position.
+  /// Draws a custom scissors icon using canvas paths.
+  void _drawScissorsIcon(
+    Canvas canvas,
+    double x,
+    double y,
+    double size,
+    Color color,
+  ) {
+    final paint =
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = size * 0.08
+          ..strokeCap = StrokeCap.round
+          ..strokeJoin = StrokeJoin.round;
+
+    final fillPaint =
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill;
+
+    final scale = size / 20.0;
+    final centerY = y;
+
+    canvas.save();
+    canvas.translate(x, centerY - size / 2);
+    canvas.scale(scale);
+
+    // Top blade
+    final topBlade = Path()
+      ..moveTo(0, 6)
+      ..lineTo(8, 10)
+      ..lineTo(12, 8)
+      ..lineTo(8, 10)
+      ..lineTo(10, 12);
+
+    // Bottom blade
+    final bottomBlade = Path()
+      ..moveTo(0, 14)
+      ..lineTo(8, 10)
+      ..lineTo(12, 12)
+      ..lineTo(8, 10)
+      ..lineTo(10, 8);
+
+    canvas.drawPath(topBlade, paint);
+    canvas.drawPath(bottomBlade, paint);
+
+    // Top handle (ring)
+    canvas.drawOval(
+      Rect.fromCenter(center: const Offset(14, 6), width: 6, height: 5),
+      paint,
+    );
+
+    // Bottom handle (ring)
+    canvas.drawOval(
+      Rect.fromCenter(center: const Offset(14, 14), width: 6, height: 5),
+      paint,
+    );
+
+    // Pivot point
+    canvas.drawCircle(const Offset(8, 10), 1.2, fillPaint);
+
+    canvas.restore();
+  }
 
   void drawStackedLayers(Canvas canvas, Size size) {
     if (decoration.stackEffect.count <= 0) return;
@@ -122,7 +385,10 @@ class VTicketcherPainter extends CustomPainter {
     canvas.save();
     canvas.clipPath(clipPath);
 
-    final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
+    final Size imageSize = Size(
+      image.width.toDouble(),
+      image.height.toDouble(),
+    );
     final FittedSizes fittedSizes = applyBoxFit(fit, imageSize, rect.size);
     final Size sourceSize = fittedSizes.source;
     final Size destinationSize = fittedSizes.destination;
@@ -134,15 +400,13 @@ class VTicketcherPainter extends CustomPainter {
     );
 
     // Calculate the destination rectangle (where to paint on canvas)
-    final Rect destRect = alignment.inscribe(
-      destinationSize,
-      rect,
-    );
+    final Rect destRect = alignment.inscribe(destinationSize, rect);
 
     // Create paint with opacity
-    final Paint paint = Paint()
-      ..color = Color.fromRGBO(255, 255, 255, opacity)
-      ..filterQuality = FilterQuality.low;
+    final Paint paint =
+        Paint()
+          ..color = Color.fromRGBO(255, 255, 255, opacity)
+          ..filterQuality = FilterQuality.low;
 
     canvas.drawImageRect(image, sourceRect, destRect, paint);
     canvas.restore();
@@ -210,18 +474,19 @@ class VTicketcherPainter extends CustomPainter {
       cumulativeHeights.add(currentHeight);
     }
 
+    // Get notch configuration
+    final notchShape = decoration.notchStyle?.shape ?? NotchShape.semicircle;
+    final effectiveNotchRadius = decoration.notchStyle?.radius ?? notchRadius;
+
     // Draw right edge with notches
     for (int i = 0; i < sectionHeights.length - 1; i++) {
       final notchY = cumulativeHeights[i];
-
-      // Line to notch
-      path.lineTo(size.width, notchY - notchRadius);
-
-      // Right notch
-      path.arcToPoint(
-        Offset(size.width, notchY + notchRadius),
-        radius: Radius.circular(notchRadius),
-        clockwise: false,
+      _drawRightNotch(
+        path,
+        size.width,
+        notchY,
+        notchShape,
+        effectiveNotchRadius,
       );
     }
 
@@ -346,16 +611,7 @@ class VTicketcherPainter extends CustomPainter {
     // Draw left edge with notches
     for (int i = sectionHeights.length - 2; i >= 0; i--) {
       final notchY = cumulativeHeights[i];
-
-      // Line to notch
-      path.lineTo(0, notchY + notchRadius);
-
-      // Left notch
-      path.arcToPoint(
-        Offset(0, notchY - notchRadius),
-        radius: Radius.circular(notchRadius),
-        clockwise: false,
-      );
+      _drawLeftNotch(path, 0, notchY, notchShape, effectiveNotchRadius);
     }
 
     // Left edge to top-left corner
@@ -403,15 +659,17 @@ class VTicketcherPainter extends CustomPainter {
       );
     } else if (decoration.gradient != null) {
       // Paint gradient background
-      final backgroundPaint = Paint()
-        ..style = PaintingStyle.fill
-        ..shader = decoration.gradient!.createShader(Offset.zero & size);
+      final backgroundPaint =
+          Paint()
+            ..style = PaintingStyle.fill
+            ..shader = decoration.gradient!.createShader(Offset.zero & size);
       canvas.drawPath(path, backgroundPaint);
     } else {
       // Paint solid color background
-      final backgroundPaint = Paint()
-        ..style = PaintingStyle.fill
-        ..color = decoration.backgroundColor;
+      final backgroundPaint =
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = decoration.backgroundColor;
       canvas.drawPath(path, backgroundPaint);
     }
 
@@ -424,13 +682,8 @@ class VTicketcherPainter extends CustomPainter {
       if (i == sections.length - 1 && decoration.bottomBorderStyle != null) {
         sectionHeight += decoration.bottomBorderStyle!.height;
       }
-      
-      final sectionRect = Rect.fromLTWH(
-        0,
-        currentY,
-        size.width,
-        sectionHeight,
-      );
+
+      final sectionRect = Rect.fromLTWH(0, currentY, size.width, sectionHeight);
 
       // Check if section has background image
       if (sectionBackgroundImages.containsKey(i)) {
@@ -451,7 +704,7 @@ class VTicketcherPainter extends CustomPainter {
         canvas.drawRect(sectionRect, sectionPaint);
         canvas.restore();
       }
-      
+
       currentY += sectionHeights[i];
     }
 
@@ -480,16 +733,27 @@ class VTicketcherPainter extends CustomPainter {
     // Draw dividers between ticket sections
     if (decoration.divider != null) {
       final divider = decoration.divider!;
-      final dividerPaint =
-          Paint()
-            ..color = divider.color ?? Colors.grey
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = divider.thickness ?? 1.0;
+      final effectiveNotchRadius = decoration.notchStyle?.radius ?? notchRadius;
 
       for (int i = 0; i < sectionHeights.length - 1; i++) {
         final y = cumulativeHeights[i];
-        final startX = notchRadius + (divider.padding ?? 0.0);
-        final endX = size.width - notchRadius - (divider.padding ?? 0.0);
+        final startX = effectiveNotchRadius + (divider.padding ?? 0.0);
+        final endX =
+            size.width - effectiveNotchRadius - (divider.padding ?? 0.0);
+
+        // Create paint with gradient support
+        final dividerPaint =
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = divider.thickness ?? 1.0;
+
+        if (divider.gradient != null) {
+          dividerPaint.shader = divider.gradient!.createShader(
+            Rect.fromLTRB(startX, y - 10, endX, y + 10),
+          );
+        } else {
+          dividerPaint.color = divider.color ?? Colors.grey;
+        }
 
         switch (divider.style) {
           case DividerStyle.solid:
@@ -620,6 +884,17 @@ class VTicketcherPainter extends CustomPainter {
             }
             canvas.drawPath(path, dividerPaint);
             break;
+          case DividerStyle.tearLine:
+            _drawTearLineDivider(
+              canvas: canvas,
+              y: y,
+              startX: startX,
+              endX: endX,
+              divider: divider,
+              dividerPaint: dividerPaint,
+              isHorizontal: true,
+            );
+            break;
         }
       }
     }
@@ -660,8 +935,8 @@ class VTicketcherPainter extends CustomPainter {
         text: watermark.text!,
         style: textStyle.copyWith(
           color:
-              textStyle.color?.withOpacity(watermark.opacity) ??
-              Colors.grey.withOpacity(watermark.opacity),
+              textStyle.color?.withValues(alpha: watermark.opacity) ??
+              Colors.grey.withValues(alpha: watermark.opacity),
         ),
       ),
       textDirection: TextDirection.ltr,
@@ -705,7 +980,7 @@ class VTicketcherPainter extends CustomPainter {
         position.dy + textSize.height / 2,
       );
       canvas.rotate(
-        watermark.rotation * 3.14159 / 180,
+        watermark.rotation * math.pi / 180,
       ); // Convert degrees to radians
       canvas.translate(-textSize.width / 2, -textSize.height / 2);
       textPainter.paint(canvas, Offset.zero);
@@ -769,7 +1044,7 @@ class VTicketcherPainter extends CustomPainter {
           if (watermark.rotation != 0) {
             canvas.save();
             canvas.translate(x + textSize.width / 2, y + textSize.height / 2);
-            canvas.rotate(watermark.rotation * 3.14159 / 180);
+            canvas.rotate(watermark.rotation * math.pi / 180);
             canvas.translate(-textSize.width / 2, -textSize.height / 2);
             textPainter.paint(canvas, Offset.zero);
             canvas.restore();
@@ -798,6 +1073,30 @@ class VTicketcherPainter extends CustomPainter {
   bool shouldRepaint(covariant VTicketcherPainter oldDelegate) {
     return oldDelegate.notchRadius != notchRadius ||
         oldDelegate.sectionHeights != sectionHeights ||
-        oldDelegate.decoration != decoration;
+        oldDelegate.decoration != decoration ||
+        oldDelegate.decorationBackgroundImage != decorationBackgroundImage ||
+        !_mapsEqual(
+          oldDelegate.sectionBackgroundImages,
+          sectionBackgroundImages,
+        ) ||
+        !_sectionsEqual(oldDelegate.sections, sections);
+  }
+
+  /// Compares two maps for equality.
+  bool _mapsEqual<K, V>(Map<K, V> a, Map<K, V> b) {
+    if (a.length != b.length) return false;
+    for (final key in a.keys) {
+      if (a[key] != b[key]) return false;
+    }
+    return true;
+  }
+
+  /// Compares two section lists for equality based on visual properties.
+  bool _sectionsEqual(List<Section> a, List<Section> b) {
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
   }
 }
