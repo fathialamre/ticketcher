@@ -1,3 +1,20 @@
+## 1.1.0
+
+* **NEW FEATURE**: Added section gradient background support
+  * Added `gradient` property to `Section` model supporting LinearGradient, RadialGradient, and SweepGradient
+  * Each section can now have its own gradient background independent of other sections
+  * Updated background precedence: `backgroundImage` > `gradient` > `color` > decoration background
+  * Works seamlessly with both horizontal and vertical tickets
+  * Full backward compatibility maintained - existing code using `color` or `backgroundImage` continues to work
+* Added comprehensive section gradient showcase example demonstrating:
+  * Linear gradients in horizontal and vertical tickets
+  * Radial gradients with various configurations
+  * Sweep gradients with multiple color stops
+  * Mixed gradient types in multi-section tickets
+  * Gradient precedence examples
+* Updated documentation with gradient examples and precedence order
+* Enhanced `Section` model with gradient support in constructor, copyWith, equality, and hashCode
+
 ## 0.6.0
 
 * **NEW FEATURE**: Added image background support for tickets and sections
