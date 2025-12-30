@@ -67,7 +67,7 @@ class BlurWrapper extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: tintColor.withOpacity(blurEffect!.opacity),
+            color: tintColor.withValues(alpha: blurEffect!.opacity),
           ),
           child: child,
         ),

@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import '../models/section.dart';
@@ -139,6 +140,11 @@ class _HTicketcherState extends State<HTicketcher> {
   void didUpdateWidget(HTicketcher oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // Handle section count changes
+    if (oldWidget.sections.length != widget.sections.length) {
+      _updateSectionKeysAndWidths();
+    }
+
     // Reload images if they changed
     bool needsReload = false;
 
@@ -162,6 +168,39 @@ class _HTicketcherState extends State<HTicketcher> {
     if (needsReload) {
       _loadImages();
     }
+  }
+
+  /// Updates section keys and widths when section count changes.
+  void _updateSectionKeysAndWidths() {
+    final newCount = widget.sections.length;
+    final oldCount = _sectionKeys.length;
+
+    if (newCount > oldCount) {
+      // Add new keys and widths
+      for (int i = oldCount; i < newCount; i++) {
+        _sectionKeys.add(GlobalKey());
+        _sectionWidths.add(0);
+      }
+    } else if (newCount < oldCount) {
+      // Remove excess keys and widths
+      _sectionKeys.removeRange(newCount, oldCount);
+      _sectionWidths.removeRange(newCount, oldCount);
+    }
+
+    // Recalculate widths after build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      for (int i = 0; i < _sectionKeys.length; i++) {
+        if (_sectionKeys[i].currentContext != null) {
+          final RenderBox renderBox =
+              _sectionKeys[i].currentContext!.findRenderObject() as RenderBox;
+          if (mounted) {
+            setState(() {
+              _sectionWidths[i] = renderBox.size.width;
+            });
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -299,7 +338,7 @@ class _HTicketcherState extends State<HTicketcher> {
     // Apply rotation if specified
     if (watermark.rotation != 0) {
       watermarkWidget = Transform.rotate(
-        angle: watermark.rotation * 3.14159 / 180, // Convert degrees to radians
+        angle: watermark.rotation * math.pi / 180, // Convert degrees to radians
         child: watermarkWidget,
       );
     }

@@ -87,6 +87,8 @@ code.
   - [Section Padding](#section-padding)
   - [Width Control](#width-control)
   - [Notch Radius](#notch-radius)
+  - [Notch Shapes](#notch-shapes-new)
+  - [Animations](#animations-new)
 - [Important Usage Notes](#important-usage-notes)
   - [Assertions](#assertions)
   - [Best Practices](#best-practices)
@@ -99,11 +101,14 @@ code.
 - Create both vertical and horizontal ticket layouts
 - Interactive sections with individual tap callbacks
 - Customizable border patterns (wave, arc, sharp)
-- Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line)
+- Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line, tear line)
 - Gradient backgrounds and gradient borders
 - **✨ Image Backgrounds**: Global ticket or per-section image backgrounds with opacity and fit controls
 - **✨ Watermarks**: Text and widget watermarks with positioning, opacity, and rotation
 - **✨ Blur Effects**: Backdrop blur, frosted glass, and gaussian blur for modern glassmorphism aesthetics
+- **✨ Notch Shapes**: Multiple notch shapes including semicircle, triangle, square, and diamond
+- **✨ Animations**: Entry/exit animations and flip effects
+- **✨ Gradient Dividers**: Dividers with gradient colors
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -118,7 +123,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^0.6.0
+  ticketcher: ^1.0.0
 ```
 
 ## Usage
@@ -945,6 +950,166 @@ Customize the radius of the notches that connect the sections.
 Ticketcher(
   notchRadius: 12.0,
   // ... other properties
+)
+```
+
+### Notch Shapes (New!)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/notch_shape_variations.jpeg" width="300" alt="Notch Shape Variations Example">
+</p>
+
+Customize the shape of the notches between sections. Available shapes include semicircle (default), triangle, square, and diamond.
+
+```dart
+// Triangle notches
+Ticketcher(
+  decoration: TicketcherDecoration(
+    notchStyle: NotchStyle.triangle(radius: 12.0),
+  ),
+  sections: [...],
+)
+
+// Square notches
+Ticketcher(
+  decoration: TicketcherDecoration(
+    notchStyle: NotchStyle.square(radius: 10.0),
+  ),
+  sections: [...],
+)
+
+// Diamond notches
+Ticketcher(
+  decoration: TicketcherDecoration(
+    notchStyle: NotchStyle.diamond(radius: 10.0),
+  ),
+  sections: [...],
+)
+```
+
+Available notch shapes:
+- `NotchShape.semicircle` - Classic rounded notches (default)
+- `NotchShape.triangle` - V-shaped notches
+- `NotchShape.square` - Rectangular notches
+- `NotchShape.diamond` - Diamond-shaped notches
+
+### Animations (New!)
+
+Add entry/exit animations to your tickets using `AnimatedTicketcher`.
+
+```dart
+// Fade in animation
+AnimatedTicketcher(
+  animation: TicketAnimation.fadeIn(
+    duration: Duration(milliseconds: 500),
+  ),
+  sections: [
+    Section(child: Text('Section 1')),
+    Section(child: Text('Section 2')),
+  ],
+)
+
+// Slide up animation
+AnimatedTicketcher(
+  animation: TicketAnimation.slideUp(
+    duration: Duration(milliseconds: 400),
+    curve: Curves.easeOutCubic,
+  ),
+  sections: [...],
+)
+
+// Scale animation
+AnimatedTicketcher(
+  animation: TicketAnimation.scale(
+    duration: Duration(milliseconds: 300),
+    curve: Curves.easeOutBack,
+  ),
+  sections: [...],
+)
+
+// Flip animation (for double-sided tickets)
+AnimatedTicketcher(
+  animation: TicketAnimation.flip(
+    duration: Duration(milliseconds: 600),
+    curve: Curves.easeInOut,
+  ),
+  sections: [...],
+)
+```
+
+**Using AnimatedTicketcherController:**
+```dart
+final controller = AnimatedTicketcherController();
+
+AnimatedTicketcher(
+  animation: TicketAnimation.fadeIn(),
+  controller: controller,
+  sections: [...],
+)
+
+// Programmatically control animations
+controller.playEntry();
+controller.playExit();
+controller.flip(); // For flip animation with backSide
+```
+
+Available animation types:
+- `AnimationType.fadeIn` - Fade in/out
+- `AnimationType.slideUp` - Slide from bottom
+- `AnimationType.slideDown` - Slide from top
+- `AnimationType.slideLeft` - Slide from left
+- `AnimationType.slideRight` - Slide from right
+- `AnimationType.scale` - Scale/zoom
+- `AnimationType.flip` - 3D flip for double-sided tickets
+
+### Tear Line Divider (New!)
+
+A special divider style with scissors icon for indicating where to tear the ticket.
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.tearLine(
+      color: Colors.grey,
+      scissorsPosition: ScissorsPosition.start,
+      scissorsSize: 16.0,
+    ),
+  ),
+  sections: [...],
+)
+```
+
+### Gradient Dividers (New!)
+
+Apply gradients to dividers for a more colorful look.
+
+```dart
+// Gradient solid divider
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.gradientSolid(
+      gradient: LinearGradient(
+        colors: [Colors.blue, Colors.purple],
+      ),
+      thickness: 2.0,
+    ),
+  ),
+  sections: [...],
+)
+
+// Gradient dashed divider
+Ticketcher(
+  decoration: TicketcherDecoration(
+    divider: TicketDivider.gradientDashed(
+      gradient: LinearGradient(
+        colors: [Colors.orange, Colors.red],
+      ),
+      thickness: 1.5,
+      dashWidth: 8.0,
+      dashSpace: 4.0,
+    ),
+  ),
+  sections: [...],
 )
 ```
 

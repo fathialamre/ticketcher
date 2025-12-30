@@ -35,4 +35,16 @@ class TicketRadius {
     radius: 0,
     corner: TicketCorner.none,
   );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is TicketRadius &&
+        other.radius == radius &&
+        other.direction == direction &&
+        other.corner == corner;
+  }
+
+  @override
+  int get hashCode => Object.hash(radius, direction, corner);
 }

@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import '../models/section.dart';
@@ -81,14 +82,14 @@ class VTicketcher extends StatefulWidget {
     this.decoration = const TicketcherDecoration(),
   }) : assert(
          sections.length >= 2,
-         'Vertical Ticketcher must have at least 2 sections',
+         'VTicketcher must have at least 2 sections',
        ) {
     assert(
       decoration.bottomBorderStyle == null ||
-          !(decoration.borderRadius.corner == TicketCorner.bottom ||
-              decoration.borderRadius.corner == TicketCorner.bottomLeft ||
-              decoration.borderRadius.corner == TicketCorner.bottomRight ||
-              decoration.borderRadius.corner == TicketCorner.all),
+          (decoration.borderRadius.corner != TicketCorner.bottom &&
+              decoration.borderRadius.corner != TicketCorner.bottomLeft &&
+              decoration.borderRadius.corner != TicketCorner.bottomRight &&
+              decoration.borderRadius.corner != TicketCorner.all),
       'Cannot use bottomBorderStyle when there is a bottom border radius',
     );
   }
@@ -148,6 +149,11 @@ class _VTicketcherState extends State<VTicketcher> {
   void didUpdateWidget(VTicketcher oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // Handle section count changes
+    if (oldWidget.sections.length != widget.sections.length) {
+      _updateSectionKeysAndHeights();
+    }
+
     // Reload images if they changed
     bool needsReload = false;
 
@@ -171,6 +177,39 @@ class _VTicketcherState extends State<VTicketcher> {
     if (needsReload) {
       _loadImages();
     }
+  }
+
+  /// Updates section keys and heights when section count changes.
+  void _updateSectionKeysAndHeights() {
+    final newCount = widget.sections.length;
+    final oldCount = _sectionKeys.length;
+
+    if (newCount > oldCount) {
+      // Add new keys and heights
+      for (int i = oldCount; i < newCount; i++) {
+        _sectionKeys.add(GlobalKey());
+        _sectionHeights.add(0);
+      }
+    } else if (newCount < oldCount) {
+      // Remove excess keys and heights
+      _sectionKeys.removeRange(newCount, oldCount);
+      _sectionHeights.removeRange(newCount, oldCount);
+    }
+
+    // Recalculate heights after build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      for (int i = 0; i < _sectionKeys.length; i++) {
+        if (_sectionKeys[i].currentContext != null) {
+          final RenderBox renderBox =
+              _sectionKeys[i].currentContext!.findRenderObject() as RenderBox;
+          if (mounted) {
+            setState(() {
+              _sectionHeights[i] = renderBox.size.height;
+            });
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -305,7 +344,7 @@ class _VTicketcherState extends State<VTicketcher> {
     // Apply rotation if specified
     if (watermark.rotation != 0) {
       watermarkWidget = Transform.rotate(
-        angle: watermark.rotation * 3.14159 / 180, // Convert degrees to radians
+        angle: watermark.rotation * math.pi / 180, // Convert degrees to radians
         child: watermarkWidget,
       );
     }

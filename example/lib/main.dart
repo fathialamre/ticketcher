@@ -1,3 +1,5 @@
+import 'package:example/show_cases/advanced_dividers_showcase.dart';
+import 'package:example/show_cases/animation_showcase.dart';
 import 'package:example/show_cases/blur_effect_showcase.dart';
 import 'package:example/show_cases/colored_ticket.dart';
 import 'package:example/show_cases/flight.dart';
@@ -9,6 +11,7 @@ import 'package:example/show_cases/hologram_ticket.dart';
 import 'package:example/show_cases/horizontal_ticket.dart';
 import 'package:example/show_cases/image_background_showcase.dart';
 import 'package:example/show_cases/interactive_ticket.dart';
+import 'package:example/show_cases/notch_shapes_showcase.dart';
 import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/social_media.dart';
 import 'package:example/show_cases/stacked_ticket.dart';
@@ -33,6 +36,26 @@ class ExampleItem {
 }
 
 final List<ExampleItem> examples = [
+  // New Features v1.0.0
+  ExampleItem(
+    icon: Icons.change_history,
+    title: 'Notch Shapes',
+    subtitle: 'Circle, triangle, square, diamond',
+    page: const NotchShapesShowcase(),
+  ),
+  ExampleItem(
+    icon: Icons.content_cut,
+    title: 'Advanced Dividers',
+    subtitle: 'Tear lines & gradient dividers',
+    page: const AdvancedDividersShowcase(),
+  ),
+  ExampleItem(
+    icon: Icons.animation,
+    title: 'Animations',
+    subtitle: 'Fade, slide, scale, flip',
+    page: const AnimationShowcase(),
+  ),
+  // Existing Features
   ExampleItem(
     icon: Icons.blur_on,
     title: 'Blur Effects',
