@@ -1,3 +1,11 @@
+## 1.2.0
+
+* Updated README documentation with comprehensive Section Gradients guide
+* Added Section Gradients to Table of Contents and Features list
+* Added code examples for Linear, Radial, and Sweep gradients
+* Documented background precedence order for section styling
+* General documentation improvements
+
 ## 1.1.0
 
 * **NEW FEATURE**: Added section gradient background support

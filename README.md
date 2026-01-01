@@ -70,6 +70,7 @@ code.
     - [Gradient](#gradient)
     - [Image Backgrounds](#image-backgrounds)
   - [Colored Sections](#colored-sections)
+  - [Section Gradients](#section-gradients-new)
   - [Border](#border)
     - [Solid Color Border](#solid-color-border)
     - [Gradient Border](#gradient-border-new)
@@ -109,6 +110,7 @@ code.
 - **✨ Notch Shapes**: Multiple notch shapes including semicircle, triangle, square, and diamond
 - **✨ Animations**: Entry/exit animations and flip effects
 - **✨ Gradient Dividers**: Dividers with gradient colors
+- **✨ Section Gradients**: Per-section gradient backgrounds (Linear, Radial, Sweep)
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -123,7 +125,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^1.0.0
+  ticketcher: ^1.2.0
 ```
 
 ## Usage
@@ -564,6 +566,103 @@ Ticketcher(
       child: Text('Second Section'),
     ),
   ],
+)
+```
+
+### Section Gradients (New!)
+
+Apply gradient backgrounds to individual sections using `LinearGradient`, `RadialGradient`, or `SweepGradient`. Each section can have its own unique gradient independent of other sections.
+
+**Linear Gradient:**
+```dart
+Ticketcher.horizontal(
+  height: 120,
+  sections: [
+    Section(
+      widthFactor: 1,
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+      ),
+      child: Text('Gradient Section 1'),
+    ),
+    Section(
+      widthFactor: 1,
+      gradient: const LinearGradient(
+        begin: Alignment.topRight,
+        end: Alignment.bottomLeft,
+        colors: [Color(0xFFF093FB), Color(0xFFF5576C)],
+      ),
+      child: Text('Gradient Section 2'),
+    ),
+  ],
+)
+```
+
+**Radial Gradient:**
+```dart
+Ticketcher(
+  sections: [
+    Section(
+      gradient: RadialGradient(
+        center: Alignment.center,
+        radius: 1.0,
+        colors: [Colors.yellow, Colors.orange, Colors.red],
+      ),
+      child: Text('Radial Gradient'),
+    ),
+    Section(
+      color: Colors.white,
+      child: Text('Solid Color'),
+    ),
+  ],
+)
+```
+
+**Sweep Gradient:**
+```dart
+Ticketcher(
+  sections: [
+    Section(
+      gradient: const SweepGradient(
+        center: Alignment.center,
+        colors: [
+          Colors.red,
+          Colors.orange,
+          Colors.yellow,
+          Colors.green,
+          Colors.blue,
+          Colors.red,
+        ],
+      ),
+      child: Text('Rainbow Sweep'),
+    ),
+    Section(
+      child: Text('Plain Section'),
+    ),
+  ],
+)
+```
+
+**Background Precedence Order:**
+
+When multiple background options are specified, they follow this precedence (highest to lowest):
+1. `backgroundImage` - Section-specific image
+2. `gradient` - Section-specific gradient
+3. `color` - Section-specific solid color
+4. Decoration `backgroundImage` - Global ticket image
+5. Decoration `gradient` - Global ticket gradient
+6. Decoration `backgroundColor` - Global ticket color
+
+```dart
+// Example: gradient overrides color
+Section(
+  color: Colors.red,  // This will be ignored
+  gradient: LinearGradient(
+    colors: [Colors.blue, Colors.purple],
+  ),
+  child: Text('Gradient wins!'),
 )
 ```
 
