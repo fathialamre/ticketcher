@@ -24,20 +24,20 @@ and the Flutter guide for
 
 # Ticketcher
 
-Ticketcher is a powerful Flutter 
-package for creating beautiful, 
-highly customizable ticket-style 
-cards and widgets. Effortlessly 
-design event tickets, boarding 
-passes, coupons, and more with 
-support for unique border 
-patterns, 
-gradient backgrounds, custom 
-notches, and flexible section 
-layouts. Ticketcher makes it easy 
-to add professional, interactive 
-ticket designs to your Flutter 
-apps with just a few lines of 
+Ticketcher is a powerful Flutter
+package for creating beautiful,
+highly customizable ticket-style
+cards and widgets. Effortlessly
+design event tickets, boarding
+passes, coupons, and more with
+support for unique border
+patterns,
+gradient backgrounds, custom
+notches, and flexible section
+layouts. Ticketcher makes it easy
+to add professional, interactive
+ticket designs to your Flutter
+apps with just a few lines of
 code.
 
 
@@ -187,7 +187,9 @@ Ticketcher.vertical(
 )
 ```
 
-### Interactive Sections
+### Interactive Tickets
+
+#### Section-level Interaction
 
 Make your tickets interactive by adding tap callbacks to individual sections. Each section can have its own `onTap` function that gets called when the user taps on that specific section.
 
@@ -229,6 +231,10 @@ Ticketcher(
       },
     ),
   ],
+  onTap: () {
+    print('Whole ticket tapped!');
+    // Handle ticket tap
+  },
 )
 ```
 
@@ -251,6 +257,10 @@ Ticketcher(
       onTap: () => _performCheckIn(),
     ),
   ],
+  onTap: () {
+    print('Whole ticket tapped!');
+    // Handle ticket tap
+  },
 )
 ```
 
@@ -269,10 +279,31 @@ Ticketcher.horizontal(
       onTap: () => _showQRCode(),
     ),
   ],
+  onTap: () {
+    print('Whole ticket tapped!');
+    // Handle ticket tap
+  },
 )
 ```
 
 The `onTap` callback is completely optional. Sections without an `onTap` callback will not respond to taps, while sections with `onTap` will show a subtle tap effect and call your function when pressed.
+
+#### Whole-ticket Interaction
+
+You can also add a tap handler for the entire ticket using the `onTap` parameter. This works alongside section-level taps, with section taps taking precedence when tapping on a specific section.
+
+```dart
+Ticketcher.horizontal(
+  sections: [
+    // ... sections ...
+  ],
+  onTap: () {
+    // This will be called when tapping anywhere on the ticket
+    // except on sections that have their own onTap handler
+    print('Ticket tapped!');
+  },
+);
+```
 
 ### Border Patterns
 

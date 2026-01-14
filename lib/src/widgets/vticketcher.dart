@@ -67,6 +67,7 @@ class VTicketcher extends StatefulWidget {
   /// This includes properties like border radius, background color,
   /// border style, and divider style.
   final TicketcherDecoration decoration;
+   final VoidCallback? onTap;
 
   /// Creates a new [VTicketcher].
   ///
@@ -80,6 +81,7 @@ class VTicketcher extends StatefulWidget {
     this.notchRadius = 10.0,
     this.width,
     this.decoration = const TicketcherDecoration(),
+    this.onTap,
   }) : assert(
          sections.length >= 2,
          'VTicketcher must have at least 2 sections',
@@ -255,47 +257,50 @@ class _VTicketcherState extends State<VTicketcher> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final ticketWidget = BlurWrapper(
-            blurEffect: widget.decoration.blurEffect,
-            notchRadius: widget.notchRadius,
-            decoration: widget.decoration,
-            sectionMeasurements: _sectionHeights,
-            isVertical: true,
-            child: IntrinsicHeight(
-              child: CustomPaint(
-                painter: VTicketcherPainter(
-                  notchRadius: widget.notchRadius,
-                  decoration: widget.decoration,
-                  sectionHeights: _sectionHeights,
-                  sections: widget.sections,
-                  decorationBackgroundImage: _decorationBackgroundImage,
-                  sectionBackgroundImages: _sectionBackgroundImages,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(widget.sections.length, (index) {
-                    final section = widget.sections[index];
-                    return GestureDetector(
-                      onTap: section.onTap,
-                      child: Container(
-                        key: _sectionKeys[index],
-                        padding: section.padding,
-                        child: section.child,
-                      ),
-                    );
-                  }),
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: SizedBox(
+        width: widget.width,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final ticketWidget = BlurWrapper(
+              blurEffect: widget.decoration.blurEffect,
+              notchRadius: widget.notchRadius,
+              decoration: widget.decoration,
+              sectionMeasurements: _sectionHeights,
+              isVertical: true,
+              child: IntrinsicHeight(
+                child: CustomPaint(
+                  painter: VTicketcherPainter(
+                    notchRadius: widget.notchRadius,
+                    decoration: widget.decoration,
+                    sectionHeights: _sectionHeights,
+                    sections: widget.sections,
+                    decorationBackgroundImage: _decorationBackgroundImage,
+                    sectionBackgroundImages: _sectionBackgroundImages,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(widget.sections.length, (index) {
+                      final section = widget.sections[index];
+                      return GestureDetector(
+                        onTap: section.onTap,
+                        child: Container(
+                          key: _sectionKeys[index],
+                          padding: section.padding,
+                          child: section.child,
+                        ),
+                      );
+                    }),
+                  ),
                 ),
               ),
-            ),
-          );
+            );
 
-          // Build with overlays (watermark)
-          return _buildWithOverlays(ticketWidget);
-        },
+            // Build with overlays (watermark)
+            return _buildWithOverlays(ticketWidget);
+          },
+        ),
       ),
     );
   }

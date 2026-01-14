@@ -56,7 +56,6 @@ class Ticketcher extends StatelessWidget {
   /// Each section represents a distinct part of the ticket with its own content
   /// and padding. The sections are arranged based on the ticket orientation.
   final List<Section> sections;
-
   /// The radius of the notches between ticket sections.
   ///
   /// This determines how rounded the cutouts between sections will be.
@@ -87,6 +86,8 @@ class Ticketcher extends StatelessWidget {
   /// If false, the ticket will be rendered using [VTicketcher].
   final bool isHorizontal;
 
+  final VoidCallback? onTap;
+
   /// Creates a new [Ticketcher].
   ///
   /// The [sections] parameter must contain at least 2 sections.
@@ -102,6 +103,7 @@ class Ticketcher extends StatelessWidget {
     this.height,
     this.decoration = const TicketcherDecoration(),
     this.isHorizontal = false,
+    this.onTap,
   }) : assert(sections.length >= 2, 'Ticketcher must have at least 2 sections');
 
   /// Creates a new vertical [Ticketcher].
@@ -152,6 +154,7 @@ class Ticketcher extends StatelessWidget {
         notchRadius: notchRadius,
         height: height,
         decoration: decoration,
+        onTap: onTap,
       );
     }
     return VTicketcher(
@@ -159,6 +162,7 @@ class Ticketcher extends StatelessWidget {
       notchRadius: notchRadius,
       width: width,
       decoration: decoration,
+      onTap: onTap,
     );
   }
 }
