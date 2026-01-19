@@ -67,6 +67,7 @@ class HTicketcher extends StatefulWidget {
   /// This includes properties like border radius, background color,
   /// border style, and divider style.
   final TicketcherDecoration decoration;
+   final VoidCallback? onTap;
 
   /// Creates a new [HTicketcher].
   ///
@@ -80,6 +81,7 @@ class HTicketcher extends StatefulWidget {
     this.notchRadius = 10.0,
     this.height,
     this.decoration = const TicketcherDecoration(),
+    this.onTap,
   }) : assert(
          sections.length >= 2,
          'HTicketcher must have at least 2 sections',
@@ -246,50 +248,53 @@ class _HTicketcherState extends State<HTicketcher> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: widget.height,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final ticketWidget = BlurWrapper(
-            blurEffect: widget.decoration.blurEffect,
-            notchRadius: widget.notchRadius,
-            decoration: widget.decoration,
-            sectionMeasurements: _sectionWidths,
-            isVertical: false,
-            child: IntrinsicWidth(
-              child: CustomPaint(
-                painter: HTicketcherPainter(
-                  notchRadius: widget.notchRadius,
-                  decoration: widget.decoration,
-                  sectionWidths: _sectionWidths,
-                  sections: widget.sections,
-                  decorationBackgroundImage: _decorationBackgroundImage,
-                  sectionBackgroundImages: _sectionBackgroundImages,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(widget.sections.length, (index) {
-                    final section = widget.sections[index];
-                    return Expanded(
-                      flex: (section.widthFactor ?? 1.0).round(),
-                      child: GestureDetector(
-                        onTap: section.onTap,
-                        child: Container(
-                          key: _sectionKeys[index],
-                          padding: section.padding,
-                          child: section.child,
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: SizedBox(
+        height: widget.height,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final ticketWidget = BlurWrapper(
+              blurEffect: widget.decoration.blurEffect,
+              notchRadius: widget.notchRadius,
+              decoration: widget.decoration,
+              sectionMeasurements: _sectionWidths,
+              isVertical: false,
+              child: IntrinsicWidth(
+                child: CustomPaint(
+                  painter: HTicketcherPainter(
+                    notchRadius: widget.notchRadius,
+                    decoration: widget.decoration,
+                    sectionWidths: _sectionWidths,
+                    sections: widget.sections,
+                    decorationBackgroundImage: _decorationBackgroundImage,
+                    sectionBackgroundImages: _sectionBackgroundImages,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(widget.sections.length, (index) {
+                      final section = widget.sections[index];
+                      return Expanded(
+                        flex: (section.widthFactor ?? 1.0).round(),
+                        child: GestureDetector(
+                          onTap: section.onTap,
+                          child: Container(
+                            key: _sectionKeys[index],
+                            padding: section.padding,
+                            child: section.child,
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 ),
               ),
-            ),
-          );
+            );
 
-          // Build with overlays (watermark)
-          return _buildWithOverlays(ticketWidget);
-        },
+            // Build with overlays (watermark)
+            return _buildWithOverlays(ticketWidget);
+          },
+        ),
       ),
     );
   }

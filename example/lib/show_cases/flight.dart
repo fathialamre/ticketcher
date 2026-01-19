@@ -31,6 +31,9 @@ class FlightWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18, left: 4, right: 4, top: 4),
       child: Ticketcher(
+        onTap: () {
+          print('ticket taping');
+        },
         decoration: TicketcherDecoration(
           borderRadius: TicketRadius(radius: 20, corner: TicketCorner.top),
           backgroundColor: Theme.of(context).cardColor,
@@ -53,6 +56,9 @@ class FlightWidget extends StatelessWidget {
         sections: [
           // Header section
           Section(
+            onTap: () {
+              print('section tap');
+            },
             padding: EdgeInsets.all(4),
             child: Column(
               children: [
