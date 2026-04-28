@@ -20,6 +20,7 @@ import 'ticket_watermark.dart';
 ///   color: Colors.grey.withOpacity(0.2),
 /// )
 /// ```
+@immutable
 class StackEffect {
   /// Maximum number of stacked layers allowed
   static const int maxCount = 3;
@@ -103,6 +104,7 @@ class StackEffect {
 /// * Stacked layers effect using [stackEffect]
 /// * Blur and glassmorphism effects using [blurEffect]
 /// * Custom notch shapes using [notchStyle]
+@immutable
 class TicketcherDecoration {
   /// Maximum number of stacked layers allowed
   static const int maxStackCount = 3;

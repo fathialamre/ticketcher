@@ -8,6 +8,7 @@ import '../models/ticket_radius.dart';
 import '../models/ticket_divider.dart';
 import '../models/border_shape.dart';
 import '../models/ticket_watermark.dart';
+import '_equality.dart';
 import 'ticket_path_builder.dart';
 
 /// A custom painter that draws a horizontal ticket with customizable sections, borders, and dividers.
@@ -95,6 +96,33 @@ class HTicketcherPainter extends CustomPainter {
     this.decorationBackgroundImage,
     this.sectionBackgroundImages = const {},
   });
+
+  // ---------------------------------------------------------------------------
+  // Cached Paint objects. See VTicketcherPainter for rationale; the same
+  // mutate-and-reuse strategy avoids per-frame allocations. Always set
+  // `shader` explicitly when reusing a paint for both solid and gradient.
+  // ---------------------------------------------------------------------------
+  final Paint _scissorsBladePaint = Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeCap = StrokeCap.round
+    ..strokeJoin = StrokeJoin.round;
+  final Paint _scissorsFillPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _imageOverlayPaint = Paint()
+    ..filterQuality = FilterQuality.low;
+  final Paint _shadowPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _backgroundPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _sectionFillPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _borderPaint = Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeJoin = StrokeJoin.round;
+  final Paint _dividerLinePaint = Paint()..style = PaintingStyle.stroke;
+  final Paint _dividerFillPaint = Paint()..style = PaintingStyle.fill;
+
+  // Cached TextPainter for the watermark — see VTicketcherPainter for details.
+  TextPainter? _watermarkPainter;
+  String? _watermarkPainterText;
+  TextStyle? _watermarkPainterStyle;
+  double? _watermarkPainterOpacity;
 
   void drawStackedLayers(Canvas canvas, Size size) {
     // Stack effect is only supported in vertical tickets
@@ -307,18 +335,10 @@ class HTicketcherPainter extends CustomPainter {
     Color color, {
     bool isVertical = false,
   }) {
-    final paint =
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = size * 0.08
-          ..strokeCap = StrokeCap.round
-          ..strokeJoin = StrokeJoin.round;
-
-    final fillPaint =
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.fill;
+    final paint = _scissorsBladePaint
+      ..color = color
+      ..strokeWidth = size * 0.08;
+    final fillPaint = _scissorsFillPaint..color = color;
 
     final scale = size / 20.0;
 
@@ -412,10 +432,8 @@ class HTicketcherPainter extends CustomPainter {
     final Rect destRect = alignment.inscribe(destinationSize, rect);
 
     // Create paint with opacity
-    final Paint paint =
-        Paint()
-          ..color = Color.fromRGBO(255, 255, 255, opacity)
-          ..filterQuality = FilterQuality.low;
+    final Paint paint = _imageOverlayPaint
+      ..color = Color.fromRGBO(255, 255, 255, opacity);
 
     canvas.drawImageRect(image, sourceRect, destRect, paint);
     canvas.restore();
@@ -726,11 +744,9 @@ class HTicketcherPainter extends CustomPainter {
       final shadowPath = Path.from(path);
       shadowPath.shift(Offset(shadow.offset.dx, shadow.offset.dy));
 
-      final shadowPaint =
-          Paint()
-            ..color = shadow.color
-            ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius)
-            ..style = PaintingStyle.fill;
+      final shadowPaint = _shadowPaint
+        ..color = shadow.color
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius);
 
       canvas.drawPath(shadowPath, shadowPaint);
     }
@@ -750,17 +766,15 @@ class HTicketcherPainter extends CustomPainter {
       );
     } else if (decoration.gradient != null) {
       // Paint gradient background
-      final backgroundPaint =
-          Paint()
-            ..style = PaintingStyle.fill
-            ..shader = decoration.gradient!.createShader(Offset.zero & size);
+      final backgroundPaint = _backgroundPaint
+        ..color = const Color(0xFF000000)
+        ..shader = decoration.gradient!.createShader(Offset.zero & size);
       canvas.drawPath(path, backgroundPaint);
     } else {
       // Paint solid color background
-      final backgroundPaint =
-          Paint()
-            ..style = PaintingStyle.fill
-            ..color = decoration.backgroundColor;
+      final backgroundPaint = _backgroundPaint
+        ..shader = null
+        ..color = decoration.backgroundColor;
       canvas.drawPath(path, backgroundPaint);
     }
 
@@ -794,8 +808,8 @@ class HTicketcherPainter extends CustomPainter {
         );
       } else if (section.gradient != null) {
         // Paint section gradient
-        final sectionPaint = Paint()
-          ..style = PaintingStyle.fill
+        final sectionPaint = _sectionFillPaint
+          ..color = const Color(0xFF000000)
           ..shader = section.gradient!.createShader(sectionRect);
         canvas.save();
         canvas.clipPath(path);
@@ -803,7 +817,9 @@ class HTicketcherPainter extends CustomPainter {
         canvas.restore();
       } else if (section.color != null) {
         // Paint section color
-        final sectionPaint = Paint()..color = section.color!;
+        final sectionPaint = _sectionFillPaint
+          ..shader = null
+          ..color = section.color!;
         canvas.save();
         canvas.clipPath(path);
         canvas.drawRect(sectionRect, sectionPaint);
@@ -815,10 +831,7 @@ class HTicketcherPainter extends CustomPainter {
 
     // Draw border if specified
     if (decoration.border != null || decoration.borderGradient != null) {
-      final borderPaint =
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeJoin = StrokeJoin.round;
+      final borderPaint = _borderPaint;
 
       if (decoration.borderGradient != null) {
         // Use gradient border
@@ -847,16 +860,15 @@ class HTicketcherPainter extends CustomPainter {
             size.height - effectiveNotchRadius - (divider.padding ?? 0.0);
 
         // Create paint with gradient support
-        final dividerPaint =
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = divider.thickness ?? 1.0;
+        final dividerPaint = _dividerLinePaint
+          ..strokeWidth = divider.thickness ?? 1.0;
 
         if (divider.gradient != null) {
           dividerPaint.shader = divider.gradient!.createShader(
             Rect.fromLTRB(x - 10, startY, x + 10, endY),
           );
         } else {
+          dividerPaint.shader = null;
           dividerPaint.color = divider.color ?? Colors.grey;
         }
 
@@ -900,10 +912,8 @@ class HTicketcherPainter extends CustomPainter {
                 (availableHeight - (numCircles * 2 * circleRadius)) /
                 (numCircles > 1 ? (numCircles - 1) : 1);
             var currentY = startY + circleRadius;
-            final circlePaint =
-                Paint()
-                  ..color = divider.color ?? Colors.grey
-                  ..style = PaintingStyle.fill;
+            final circlePaint = _dividerFillPaint
+              ..color = divider.color ?? Colors.grey;
 
             for (int j = 0; j < numCircles; j++) {
               canvas.drawCircle(Offset(x, currentY), circleRadius, circlePaint);
@@ -923,10 +933,8 @@ class HTicketcherPainter extends CustomPainter {
                 (availableHeight - (numDots * dotSize)) /
                 (numDots > 1 ? (numDots - 1) : 1);
             var currentY = startY;
-            final dotPaint =
-                Paint()
-                  ..color = divider.color ?? Colors.grey
-                  ..style = PaintingStyle.fill;
+            final dotPaint = _dividerFillPaint
+              ..color = divider.color ?? Colors.grey;
             for (int j = 0; j < numDots; j++) {
               canvas.drawCircle(
                 Offset(x, currentY + dotSize / 2),
@@ -1026,27 +1034,36 @@ class HTicketcherPainter extends CustomPainter {
   void _drawTextWatermark(Canvas canvas, Size size, TicketWatermark watermark) {
     if (watermark.text == null) return;
 
-    final textStyle =
-        watermark.textStyle ??
+    final textStyle = watermark.textStyle ??
         const TextStyle(
           fontSize: 24,
           color: Colors.grey,
           fontWeight: FontWeight.bold,
         );
 
-    final textPainter = TextPainter(
-      text: TextSpan(
-        text: watermark.text!,
-        style: textStyle.copyWith(
-          color:
-              textStyle.color?.withValues(alpha: watermark.opacity) ??
-              Colors.grey.withValues(alpha: watermark.opacity),
+    final cached = _watermarkPainter;
+    final TextPainter textPainter;
+    if (cached != null &&
+        _watermarkPainterText == watermark.text &&
+        _watermarkPainterStyle == textStyle &&
+        _watermarkPainterOpacity == watermark.opacity) {
+      textPainter = cached;
+    } else {
+      textPainter = TextPainter(
+        text: TextSpan(
+          text: watermark.text!,
+          style: textStyle.copyWith(
+            color: textStyle.color?.withValues(alpha: watermark.opacity) ??
+                Colors.grey.withValues(alpha: watermark.opacity),
+          ),
         ),
-      ),
-      textDirection: TextDirection.ltr,
-    );
-
-    textPainter.layout();
+        textDirection: TextDirection.ltr,
+      )..layout();
+      _watermarkPainter = textPainter;
+      _watermarkPainterText = watermark.text;
+      _watermarkPainterStyle = textStyle;
+      _watermarkPainterOpacity = watermark.opacity;
+    }
 
     if (watermark.repeat) {
       _drawRepeatedTextWatermark(canvas, size, watermark, textPainter);
@@ -1176,31 +1193,13 @@ class HTicketcherPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant HTicketcherPainter oldDelegate) {
     return oldDelegate.notchRadius != notchRadius ||
-        oldDelegate.sectionWidths != sectionWidths ||
+        !listsEqualWithEpsilon(oldDelegate.sectionWidths, sectionWidths) ||
         oldDelegate.decoration != decoration ||
         oldDelegate.decorationBackgroundImage != decorationBackgroundImage ||
-        !_mapsEqual(
+        !mapsEqual(
           oldDelegate.sectionBackgroundImages,
           sectionBackgroundImages,
         ) ||
-        !_sectionsEqual(oldDelegate.sections, sections);
-  }
-
-  /// Compares two maps for equality.
-  bool _mapsEqual<K, V>(Map<K, V> a, Map<K, V> b) {
-    if (a.length != b.length) return false;
-    for (final key in a.keys) {
-      if (a[key] != b[key]) return false;
-    }
-    return true;
-  }
-
-  /// Compares two section lists for equality based on visual properties.
-  bool _sectionsEqual(List<Section> a, List<Section> b) {
-    if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
+        !sectionsEqual(oldDelegate.sections, sections);
   }
 }

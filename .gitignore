@@ -46,3 +46,6 @@ app.*.map.json
 
 # Cursor IDE
 .cursor/
+
+# Claude Code
+CLAUDE.md

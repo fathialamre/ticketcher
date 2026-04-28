@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// The direction in which the radius should be applied.
 enum RadiusDirection {
   /// The radius will be applied inward, towards the center of the ticket.
@@ -20,6 +22,7 @@ enum TicketCorner {
 }
 
 /// The radius of the ticket.
+@immutable
 class TicketRadius {
   final double radius;
   final RadiusDirection direction;

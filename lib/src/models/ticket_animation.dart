@@ -39,6 +39,7 @@ enum AnimationType {
 ///   curve: Curves.easeOut,
 /// )
 /// ```
+@immutable
 class TicketAnimation {
   /// The type of entry animation.
   final AnimationType entryAnimation;

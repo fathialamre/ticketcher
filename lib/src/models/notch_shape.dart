@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// Defines the available shapes for ticket notches.
 ///
 /// Notches are the cutouts between ticket sections that create
@@ -29,6 +31,7 @@ enum NotchShape {
 ///   radius: 12.0,
 /// )
 /// ```
+@immutable
 class NotchStyle {
   /// The shape of the notch cutouts.
   ///

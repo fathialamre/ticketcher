@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'border_shape.dart';
 
 /// Defines a repeating border pattern with a specific shape, height and width.
@@ -14,7 +15,7 @@ import 'border_shape.dart';
 /// // Create a copy with a different height
 /// final tallerWave = waveBorder.copyWith(height: 15.0);
 /// ```
-
+@immutable
 class BorderPattern {
   final BorderShape shape;
   final double height;

@@ -1,6 +1,6 @@
 name: ticketcher
 description: "A Flutter package for creating beautiful ticket-style cards with customizable borders, dividers, and patterns. Perfect for event tickets, boarding passes, and coupons."
-version: 1.2.0
+version: 1.3.0
 homepage: https://github.com/fathialamre/ticketcher
 repository: https://github.com/fathialamre/ticketcher
 topics:
@@ -10,10 +10,21 @@ topics:
   - boarding-pass
   - event-ticket
 
+screenshots:
+  - description: "Concert ticket with wave divider"
+    path: screenshots/horizontal_1.jpeg
+  - description: "Flight boarding pass with dashed divider"
+    path: screenshots/flight.jpeg
+  - description: "Gradient background ticket"
+    path: screenshots/gradient_background.png
+  - description: "Multiple section ticket with notches"
+    path: screenshots/flight_multiple_section.jpeg
+  - description: "Holographic / glassmorphism effects"
+    path: screenshots/holograplic_effects.png
 
 environment:
   sdk: ^3.7.0
-  flutter: ">=1.17.0"
+  flutter: ">=3.10.0"
 
 dependencies:
   flutter:

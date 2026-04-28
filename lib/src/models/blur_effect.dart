@@ -33,6 +33,7 @@ enum BlurStyle {
 /// // Gaussian blur on ticket content
 /// BlurEffect.gaussian(sigma: 5.0)
 /// ```
+@immutable
 class BlurEffect {
   /// The intensity of the blur effect (standard deviation for Gaussian blur)
   /// Higher values create more blur. Typical range: 0-30
