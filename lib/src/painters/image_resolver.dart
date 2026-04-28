@@ -27,8 +27,12 @@ class ImageResolver {
   /// Cache of resolved images
   final Map<ImageProvider, ui.Image> _imageCache = {};
 
-  /// Active image stream listeners for cleanup
-  final Map<ImageProvider, ImageStreamListener> _listeners = {};
+  /// Active image stream listeners for cleanup. Stored as `(stream, listener)`
+  /// tuples so [clear] / [dispose] can call `stream.removeListener(listener)` —
+  /// without the stream reference the listener leaks even though the map is
+  /// emptied.
+  final Map<ImageProvider, ({ImageStream stream, ImageStreamListener listener})>
+      _listeners = {};
 
   /// Completer for tracking loading status
   final Map<ImageProvider, Completer<ui.Image?>> _loadingCompleters = {};
@@ -94,7 +98,7 @@ class ImageResolver {
         },
       );
 
-      _listeners[provider] = listener;
+      _listeners[provider] = (stream: stream, listener: listener);
       stream.addListener(listener);
 
       return await completer.future;
@@ -144,6 +148,10 @@ class ImageResolver {
   void evict(ImageProvider provider) {
     _imageCache.remove(provider);
     _loadingCompleters.remove(provider);
+    final entry = _listeners.remove(provider);
+    if (entry != null) {
+      entry.stream.removeListener(entry.listener);
+    }
   }
 
   /// Clears all cached images and cancels any in-progress loading operations.
@@ -151,16 +159,19 @@ class ImageResolver {
     _imageCache.clear();
     _loadingCompleters.clear();
 
-    // Clean up all listeners
+    // Detach every still-active listener from its stream before dropping the
+    // map — otherwise the listener stays attached and keeps the stream alive.
+    for (final entry in _listeners.values) {
+      entry.stream.removeListener(entry.listener);
+    }
     _listeners.clear();
   }
 
   /// Cleans up a listener after image loading completes or fails.
   void _cleanupListener(ImageProvider provider, ImageStream stream) {
-    final listener = _listeners[provider];
-    if (listener != null) {
-      stream.removeListener(listener);
-      _listeners.remove(provider);
+    final entry = _listeners.remove(provider);
+    if (entry != null) {
+      entry.stream.removeListener(entry.listener);
     }
     _loadingCompleters.remove(provider);
   }

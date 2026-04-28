@@ -53,6 +53,7 @@ enum ScissorsPosition {
 /// - [thickness]: The thickness of the divider
 /// - [padding]: The padding on both sides of the divider
 /// - [gradient]: Optional gradient for the divider (overrides color)
+@immutable
 abstract class BaseDividerStyle {
   /// The color of the divider.
   final Color? color;
@@ -77,6 +78,20 @@ abstract class BaseDividerStyle {
 
   /// Returns the specific [DividerStyle] for this divider.
   DividerStyle get style;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BaseDividerStyle &&
+          runtimeType == other.runtimeType &&
+          color == other.color &&
+          thickness == other.thickness &&
+          padding == other.padding &&
+          gradient == other.gradient);
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, color, thickness, padding, gradient);
 }
 
 /// A simple straight line divider style.
@@ -101,6 +116,8 @@ class SolidDividerStyle extends BaseDividerStyle {
   @override
   DividerStyle get style => DividerStyle.solid;
 }
+// Equality: SolidDividerStyle has no extra fields beyond BaseDividerStyle, so
+// the inherited operator == (which checks runtimeType + base fields) suffices.
 
 /// A dashed line divider style.
 ///
@@ -137,6 +154,17 @@ class DashedDividerStyle extends BaseDividerStyle {
 
   @override
   DividerStyle get style => DividerStyle.dashed;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DashedDividerStyle &&
+          super == other &&
+          dashWidth == other.dashWidth &&
+          dashSpace == other.dashSpace);
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, dashWidth, dashSpace);
 }
 
 /// A circles divider style.
@@ -174,6 +202,17 @@ class CirclesDividerStyle extends BaseDividerStyle {
 
   @override
   DividerStyle get style => DividerStyle.circles;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CirclesDividerStyle &&
+          super == other &&
+          circleRadius == other.circleRadius &&
+          circleSpacing == other.circleSpacing);
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, circleRadius, circleSpacing);
 }
 
 /// A wave pattern divider style.
@@ -211,6 +250,17 @@ class WaveDividerStyle extends BaseDividerStyle {
 
   @override
   DividerStyle get style => DividerStyle.wave;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WaveDividerStyle &&
+          super == other &&
+          waveHeight == other.waveHeight &&
+          waveWidth == other.waveWidth);
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, waveHeight, waveWidth);
 }
 
 /// A smooth wave pattern divider style.
@@ -248,6 +298,17 @@ class SmoothWaveDividerStyle extends BaseDividerStyle {
 
   @override
   DividerStyle get style => DividerStyle.smoothWave;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SmoothWaveDividerStyle &&
+          super == other &&
+          waveHeight == other.waveHeight &&
+          waveWidth == other.waveWidth);
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, waveHeight, waveWidth);
 }
 
 /// A dotted line divider style.
@@ -285,6 +346,17 @@ class DottedDividerStyle extends BaseDividerStyle {
 
   @override
   DividerStyle get style => DividerStyle.dotted;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DottedDividerStyle &&
+          super == other &&
+          dotSize == other.dotSize &&
+          dotSpacing == other.dotSpacing);
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, dotSize, dotSpacing);
 }
 
 /// A double line divider style.
@@ -316,6 +388,16 @@ class DoubleLineDividerStyle extends BaseDividerStyle {
 
   @override
   DividerStyle get style => DividerStyle.doubleLine;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DoubleLineDividerStyle &&
+          super == other &&
+          lineSpacing == other.lineSpacing);
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, lineSpacing);
 }
 
 /// A tear line divider style that suggests the ticket can be torn.
@@ -362,6 +444,25 @@ class TearLineDividerStyle extends BaseDividerStyle {
 
   @override
   DividerStyle get style => DividerStyle.tearLine;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TearLineDividerStyle &&
+          super == other &&
+          dashWidth == other.dashWidth &&
+          dashSpace == other.dashSpace &&
+          scissorsPosition == other.scissorsPosition &&
+          scissorsSize == other.scissorsSize);
+
+  @override
+  int get hashCode => Object.hash(
+        super.hashCode,
+        dashWidth,
+        dashSpace,
+        scissorsPosition,
+        scissorsSize,
+      );
 }
 
 /// A class that represents a divider between ticket sections.
@@ -397,10 +498,19 @@ class TearLineDividerStyle extends BaseDividerStyle {
 ///   padding: 8.0,
 /// );
 /// ```
+@immutable
 class TicketDivider {
   final BaseDividerStyle _style;
 
   const TicketDivider._(this._style);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TicketDivider && _style == other._style);
+
+  @override
+  int get hashCode => _style.hashCode;
 
   /// The color of the divider.
   Color? get color => _style.color;

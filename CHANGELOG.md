@@ -1,3 +1,31 @@
+## 1.3.0
+
+### Behavior changes
+* `Section.==` and `hashCode` now include the `child` widget. Previously two `Section`s with different children but identical decoration compared as equal, which caused the painter's `shouldRepaint` to incorrectly skip repaints when children changed (visual stale-paint bug). If you previously relied on the old behavior, see [migration notes](https://github.com/fathialamre/ticketcher).
+* `TicketWatermark.==` and `hashCode` similarly now include the `widget` field for widget watermarks.
+
+### Bug fixes
+* `VTicketcherPainter.shouldRepaint` / `HTicketcherPainter.shouldRepaint` now compare `sectionHeights` / `sectionWidths` lists by value (with a 0.5 px epsilon), not by reference. Previously every widget rebuild allocated a new list instance and `oldDelegate.list != newDelegate.list` was always `true`, so the ticket repainted on every parent rebuild even when nothing visual had changed.
+* Added `==` and `hashCode` implementations for `BaseDividerStyle` and all 8 divider style subclasses (`SolidDividerStyle`, `DashedDividerStyle`, `CirclesDividerStyle`, `WaveDividerStyle`, `SmoothWaveDividerStyle`, `DottedDividerStyle`, `DoubleLineDividerStyle`, `TearLineDividerStyle`) and the `TicketDivider` wrapper. Previously these fell back to reference equality, causing `TicketcherDecoration.==` to always return false for semantically equal decorations and forcing unnecessary repaints.
+* Added `==` and `hashCode` to `TicketWatermark`.
+* `ImageResolver.dispose()` and `clear()` now detach pending stream listeners before clearing the internal map. Previously listeners attached during in-flight image loads remained on their `ImageStream` after the resolver was disposed, leaking and risking `setState`-after-`dispose` warnings.
+* `_VTicketcherState` / `_HTicketcherState` now route the "decoration image was removed" path through a `mounted`-guarded `setState` instead of mutating `_decorationBackgroundImage` directly. Prevents a missed rebuild when an image is later cleared without changing the section count.
+
+### Performance
+* Both painters now cache their `Paint` objects (`_borderPaint`, `_backgroundPaint`, `_dividerLinePaint`, `_dividerFillPaint`, `_shadowPaint`, `_sectionFillPaint`, `_imageOverlayPaint`, `_scissorsBladePaint`, `_scissorsFillPaint`, plus a `_stackPaint` on the V painter) as `final` instance fields and mutate them in place per draw site. Previously every `paint()` call allocated 10+ short-lived `Paint` objects (Skia snapshots state at draw time, so reuse is safe).
+* Both painters now cache the watermark `TextPainter` keyed by `(text, style, opacity)` so `.layout()` only runs when the watermark actually changes, not every `paint()` call.
+* `BlurWrapper` now short-circuits when `blurEffect.sigma == 0`, returning the child directly. Previously it always wrapped in `BackdropFilter` / `ImageFiltered`, which forces an offscreen layer (`saveLayer`) even at zero blur.
+* `VTicketcher` / `HTicketcher` now wrap their `CustomPaint` in a `RepaintBoundary`. Combined with the corrected `shouldRepaint` logic, ancestor rebuilds (theme changes, animation tickers, parent `setState`) no longer dirty the ticket layer.
+
+### Other
+* Annotated all model value-types with `@immutable`.
+* Tightened `pubspec.yaml` Flutter constraint from `>=1.17.0` to `>=3.10.0` to match the actual Dart `^3.7.0` SDK requirement.
+* Tightened `analysis_options.yaml` with `strict-casts`, `strict-inference`, and `strict-raw-types`.
+* `lib/ticketcher.dart` now exports `ticket_clipper.dart` (`VTicketcherClipper`, `HTicketcherClipper`) which were previously public-by-name but unreachable through the package barrel.
+* Extracted shared painter equality helpers (`listsEqualWithEpsilon`, `mapsEqual`, `sectionsEqual`) into `lib/src/painters/_equality.dart` so V and H painters use one source of truth.
+* Added unit + widget test scaffolding (`test/helpers/`, `test/models/`, `test/painters/`, `test/widgets/`) with **49 tests** covering equality, `shouldRepaint`, `RepaintBoundary` behaviour, `BlurWrapper` fast-path, and `ImageResolver` listener lifecycle.
+* Declared `screenshots:` in `pubspec.yaml` so the pub.dev landing page surfaces representative ticket designs (concert, flight, gradient, multi-section, holographic).
+
 ## 1.2.0
 
 * Updated README documentation with comprehensive Section Gradients guide

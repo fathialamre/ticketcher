@@ -34,6 +34,12 @@ class BlurWrapper extends StatelessWidget {
       return child;
     }
 
+    // Sigma 0: skip the BackdropFilter / ImageFiltered wrappers. Both create
+    // an offscreen layer (saveLayer) even at zero blur, which is a real cost.
+    if (blurEffect!.sigma == 0) {
+      return child;
+    }
+
     switch (blurEffect!.style) {
       case BlurStyle.backdrop:
         return _buildBackdropBlur();

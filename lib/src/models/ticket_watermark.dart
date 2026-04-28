@@ -67,6 +67,7 @@ enum WatermarkType {
 ///   alignment: WatermarkAlignment.bottomRight,
 /// )
 /// ```
+@immutable
 class TicketWatermark {
   /// The type of watermark (text or image)
   final WatermarkType type;
@@ -209,6 +210,39 @@ class TicketWatermark {
       repeatSpacing: repeatSpacing ?? this.repeatSpacing,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TicketWatermark &&
+          type == other.type &&
+          text == other.text &&
+          textStyle == other.textStyle &&
+          widget == other.widget &&
+          width == other.width &&
+          height == other.height &&
+          opacity == other.opacity &&
+          alignment == other.alignment &&
+          rotation == other.rotation &&
+          offset == other.offset &&
+          repeat == other.repeat &&
+          repeatSpacing == other.repeatSpacing);
+
+  @override
+  int get hashCode => Object.hash(
+        type,
+        text,
+        textStyle,
+        widget,
+        width,
+        height,
+        opacity,
+        alignment,
+        rotation,
+        offset,
+        repeat,
+        repeatSpacing,
+      );
 
   /// Gets the alignment as a Flutter Alignment object
   Alignment get flutterAlignment {

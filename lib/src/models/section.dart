@@ -28,7 +28,7 @@ import 'package:flutter/material.dart';
 /// The [gradient] parameter is optional and specifies a gradient to use as the background.
 /// The [color] parameter is optional and specifies a solid color to use as the background.
 /// Background precedence: [backgroundImage] > [gradient] > [color] > decoration background
-
+@immutable
 class Section {
   final Widget child;
   final EdgeInsets padding;
@@ -99,9 +99,11 @@ class Section {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is Section &&
+        other.child == child &&
         other.padding == padding &&
         other.widthFactor == widthFactor &&
         other.color == color &&
+        other.onTap == onTap &&
         other.gradient == gradient &&
         other.backgroundImage == backgroundImage &&
         other.backgroundImageFit == backgroundImageFit &&
@@ -111,9 +113,11 @@ class Section {
 
   @override
   int get hashCode => Object.hash(
+    child,
     padding,
     widthFactor,
     color,
+    onTap,
     gradient,
     backgroundImage,
     backgroundImageFit,

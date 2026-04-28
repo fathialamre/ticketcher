@@ -224,8 +224,10 @@ class _HTicketcherState extends State<HTicketcher> {
           _decorationBackgroundImage = image;
         });
       }
-    } else {
-      _decorationBackgroundImage = null;
+    } else if (mounted && _decorationBackgroundImage != null) {
+      setState(() {
+        _decorationBackgroundImage = null;
+      });
     }
 
     // Load section background images
@@ -261,31 +263,34 @@ class _HTicketcherState extends State<HTicketcher> {
               sectionMeasurements: _sectionWidths,
               isVertical: false,
               child: IntrinsicWidth(
-                child: CustomPaint(
-                  painter: HTicketcherPainter(
-                    notchRadius: widget.notchRadius,
-                    decoration: widget.decoration,
-                    sectionWidths: _sectionWidths,
-                    sections: widget.sections,
-                    decorationBackgroundImage: _decorationBackgroundImage,
-                    sectionBackgroundImages: _sectionBackgroundImages,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(widget.sections.length, (index) {
-                      final section = widget.sections[index];
-                      return Expanded(
-                        flex: (section.widthFactor ?? 1.0).round(),
-                        child: GestureDetector(
-                          onTap: section.onTap,
-                          child: Container(
-                            key: _sectionKeys[index],
-                            padding: section.padding,
-                            child: section.child,
+                child: RepaintBoundary(
+                  child: CustomPaint(
+                    painter: HTicketcherPainter(
+                      notchRadius: widget.notchRadius,
+                      decoration: widget.decoration,
+                      sectionWidths: _sectionWidths,
+                      sections: widget.sections,
+                      decorationBackgroundImage: _decorationBackgroundImage,
+                      sectionBackgroundImages: _sectionBackgroundImages,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children:
+                          List.generate(widget.sections.length, (index) {
+                        final section = widget.sections[index];
+                        return Expanded(
+                          flex: (section.widthFactor ?? 1.0).round(),
+                          child: GestureDetector(
+                            onTap: section.onTap,
+                            child: Container(
+                              key: _sectionKeys[index],
+                              padding: section.padding,
+                              child: section.child,
+                            ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ),

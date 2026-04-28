@@ -10,5 +10,6 @@ export 'src/models/ticket_watermark.dart';
 export 'src/models/ticketcher_decoration.dart';
 export 'src/widgets/animated_ticketcher.dart';
 export 'src/widgets/hticketcher.dart';
+export 'src/widgets/ticket_clipper.dart';
 export 'src/widgets/ticketcher.dart';
 export 'src/widgets/vticketcher.dart';

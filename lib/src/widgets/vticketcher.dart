@@ -75,6 +75,9 @@ class VTicketcher extends StatefulWidget {
   /// The [notchRadius] defaults to 10.0.
   /// The [width] is optional and defaults to null.
   /// The [decoration] defaults to a basic [TicketcherDecoration].
+  // Not `const`: the bottomBorderStyle/borderRadius invariant assert below
+  // accesses fields on the `decoration` parameter, which Dart's const-evaluator
+  // rejects for const constructors. The runtime assert remains.
   VTicketcher({
     super.key,
     required this.sections,
@@ -233,8 +236,10 @@ class _VTicketcherState extends State<VTicketcher> {
           _decorationBackgroundImage = image;
         });
       }
-    } else {
-      _decorationBackgroundImage = null;
+    } else if (mounted && _decorationBackgroundImage != null) {
+      setState(() {
+        _decorationBackgroundImage = null;
+      });
     }
 
     // Load section background images
@@ -270,28 +275,31 @@ class _VTicketcherState extends State<VTicketcher> {
               sectionMeasurements: _sectionHeights,
               isVertical: true,
               child: IntrinsicHeight(
-                child: CustomPaint(
-                  painter: VTicketcherPainter(
-                    notchRadius: widget.notchRadius,
-                    decoration: widget.decoration,
-                    sectionHeights: _sectionHeights,
-                    sections: widget.sections,
-                    decorationBackgroundImage: _decorationBackgroundImage,
-                    sectionBackgroundImages: _sectionBackgroundImages,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(widget.sections.length, (index) {
-                      final section = widget.sections[index];
-                      return GestureDetector(
-                        onTap: section.onTap,
-                        child: Container(
-                          key: _sectionKeys[index],
-                          padding: section.padding,
-                          child: section.child,
-                        ),
-                      );
-                    }),
+                child: RepaintBoundary(
+                  child: CustomPaint(
+                    painter: VTicketcherPainter(
+                      notchRadius: widget.notchRadius,
+                      decoration: widget.decoration,
+                      sectionHeights: _sectionHeights,
+                      sections: widget.sections,
+                      decorationBackgroundImage: _decorationBackgroundImage,
+                      sectionBackgroundImages: _sectionBackgroundImages,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children:
+                          List.generate(widget.sections.length, (index) {
+                        final section = widget.sections[index];
+                        return GestureDetector(
+                          onTap: section.onTap,
+                          child: Container(
+                            key: _sectionKeys[index],
+                            padding: section.padding,
+                            child: section.child,
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ),

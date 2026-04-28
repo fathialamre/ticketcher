@@ -8,6 +8,7 @@ import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
 import '../models/ticket_divider.dart';
 import '../models/ticket_watermark.dart';
+import '_equality.dart';
 import 'ticket_path_builder.dart';
 
 /// A custom painter that draws a vertical ticket with customizable sections, borders, and dividers.
@@ -66,6 +67,42 @@ class VTicketcherPainter extends CustomPainter {
     this.decorationBackgroundImage,
     this.sectionBackgroundImages = const {},
   });
+
+  // ---------------------------------------------------------------------------
+  // Cached Paint objects.
+  //
+  // CustomPainter.paint can fire 60+ times/sec; allocating a `Paint()` per
+  // draw site is wasted work (and GC pressure). Each field below is a mutable
+  // Paint reused across paint() calls — Skia snapshots the relevant fields at
+  // the moment of `canvas.drawXxx`, so mutation between draws is safe.
+  //
+  // Each site sets exactly the properties it needs. Always set `shader`
+  // explicitly (to a value or `null`) when the same paint is reused for both
+  // solid and gradient sites — otherwise stale shaders bleed across calls.
+  // ---------------------------------------------------------------------------
+  final Paint _scissorsBladePaint = Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeCap = StrokeCap.round
+    ..strokeJoin = StrokeJoin.round;
+  final Paint _scissorsFillPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _stackPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _imageOverlayPaint = Paint()
+    ..filterQuality = FilterQuality.low;
+  final Paint _shadowPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _backgroundPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _sectionFillPaint = Paint()..style = PaintingStyle.fill;
+  final Paint _borderPaint = Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeJoin = StrokeJoin.round;
+  final Paint _dividerLinePaint = Paint()..style = PaintingStyle.stroke;
+  final Paint _dividerFillPaint = Paint()..style = PaintingStyle.fill;
+
+  // Cached TextPainter for the watermark. `.layout()` is expensive; rebuild
+  // only when the (text, style, opacity) inputs change.
+  TextPainter? _watermarkPainter;
+  String? _watermarkPainterText;
+  TextStyle? _watermarkPainterStyle;
+  double? _watermarkPainterOpacity;
 
   /// Draws a notch on the right edge.
   void _drawRightNotch(
@@ -271,18 +308,10 @@ class VTicketcherPainter extends CustomPainter {
     double size,
     Color color,
   ) {
-    final paint =
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = size * 0.08
-          ..strokeCap = StrokeCap.round
-          ..strokeJoin = StrokeJoin.round;
-
-    final fillPaint =
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.fill;
+    final paint = _scissorsBladePaint
+      ..color = color
+      ..strokeWidth = size * 0.08;
+    final fillPaint = _scissorsFillPaint..color = color;
 
     final scale = size / 20.0;
     final centerY = y;
@@ -331,10 +360,8 @@ class VTicketcherPainter extends CustomPainter {
   void drawStackedLayers(Canvas canvas, Size size) {
     if (decoration.stackEffect.count <= 0) return;
 
-    final stackPaint =
-        Paint()
-          ..style = PaintingStyle.fill
-          ..color = decoration.stackEffect.color ?? Colors.grey[200]!;
+    final stackPaint = _stackPaint
+      ..color = decoration.stackEffect.color ?? Colors.grey[200]!;
 
     // Calculate the start position from last section
     final lastSectionStart =
@@ -403,10 +430,8 @@ class VTicketcherPainter extends CustomPainter {
     final Rect destRect = alignment.inscribe(destinationSize, rect);
 
     // Create paint with opacity
-    final Paint paint =
-        Paint()
-          ..color = Color.fromRGBO(255, 255, 255, opacity)
-          ..filterQuality = FilterQuality.low;
+    final Paint paint = _imageOverlayPaint
+      ..color = Color.fromRGBO(255, 255, 255, opacity);
 
     canvas.drawImageRect(image, sourceRect, destRect, paint);
     canvas.restore();
@@ -635,11 +660,9 @@ class VTicketcherPainter extends CustomPainter {
       final shadowPath = Path.from(path);
       shadowPath.shift(Offset(shadow.offset.dx, shadow.offset.dy));
 
-      final shadowPaint =
-          Paint()
-            ..color = shadow.color
-            ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius)
-            ..style = PaintingStyle.fill;
+      final shadowPaint = _shadowPaint
+        ..color = shadow.color
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius);
 
       canvas.drawPath(shadowPath, shadowPaint);
     }
@@ -659,17 +682,15 @@ class VTicketcherPainter extends CustomPainter {
       );
     } else if (decoration.gradient != null) {
       // Paint gradient background
-      final backgroundPaint =
-          Paint()
-            ..style = PaintingStyle.fill
-            ..shader = decoration.gradient!.createShader(Offset.zero & size);
+      final backgroundPaint = _backgroundPaint
+        ..color = const Color(0xFF000000)
+        ..shader = decoration.gradient!.createShader(Offset.zero & size);
       canvas.drawPath(path, backgroundPaint);
     } else {
       // Paint solid color background
-      final backgroundPaint =
-          Paint()
-            ..style = PaintingStyle.fill
-            ..color = decoration.backgroundColor;
+      final backgroundPaint = _backgroundPaint
+        ..shader = null
+        ..color = decoration.backgroundColor;
       canvas.drawPath(path, backgroundPaint);
     }
 
@@ -698,8 +719,8 @@ class VTicketcherPainter extends CustomPainter {
         );
       } else if (section.gradient != null) {
         // Paint section gradient
-        final sectionPaint = Paint()
-          ..style = PaintingStyle.fill
+        final sectionPaint = _sectionFillPaint
+          ..color = const Color(0xFF000000)
           ..shader = section.gradient!.createShader(sectionRect);
         canvas.save();
         canvas.clipPath(path);
@@ -707,7 +728,9 @@ class VTicketcherPainter extends CustomPainter {
         canvas.restore();
       } else if (section.color != null) {
         // Paint section color
-        final sectionPaint = Paint()..color = section.color!;
+        final sectionPaint = _sectionFillPaint
+          ..shader = null
+          ..color = section.color!;
         canvas.save();
         canvas.clipPath(path);
         canvas.drawRect(sectionRect, sectionPaint);
@@ -719,10 +742,7 @@ class VTicketcherPainter extends CustomPainter {
 
     // Draw border if specified
     if (decoration.border != null || decoration.borderGradient != null) {
-      final borderPaint =
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeJoin = StrokeJoin.round;
+      final borderPaint = _borderPaint;
 
       if (decoration.borderGradient != null) {
         // Use gradient border
@@ -732,6 +752,7 @@ class VTicketcherPainter extends CustomPainter {
         borderPaint.strokeWidth = decoration.borderWidth;
       } else if (decoration.border != null) {
         // Use solid color border
+        borderPaint.shader = null;
         borderPaint.color = decoration.border!.top.color;
         borderPaint.strokeWidth = decoration.border!.top.width;
       }
@@ -751,16 +772,15 @@ class VTicketcherPainter extends CustomPainter {
             size.width - effectiveNotchRadius - (divider.padding ?? 0.0);
 
         // Create paint with gradient support
-        final dividerPaint =
-            Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = divider.thickness ?? 1.0;
+        final dividerPaint = _dividerLinePaint
+          ..strokeWidth = divider.thickness ?? 1.0;
 
         if (divider.gradient != null) {
           dividerPaint.shader = divider.gradient!.createShader(
             Rect.fromLTRB(startX, y - 10, endX, y + 10),
           );
         } else {
+          dividerPaint.shader = null;
           dividerPaint.color = divider.color ?? Colors.grey;
         }
 
@@ -804,10 +824,8 @@ class VTicketcherPainter extends CustomPainter {
                 (availableWidth - (numCircles * 2 * circleRadius)) /
                 (numCircles > 1 ? (numCircles - 1) : 1);
             var currentX = startX + circleRadius;
-            final circlePaint =
-                Paint()
-                  ..color = divider.color ?? Colors.grey
-                  ..style = PaintingStyle.fill;
+            final circlePaint = _dividerFillPaint
+              ..color = divider.color ?? Colors.grey;
 
             for (int j = 0; j < numCircles; j++) {
               canvas.drawCircle(Offset(currentX, y), circleRadius, circlePaint);
@@ -827,10 +845,8 @@ class VTicketcherPainter extends CustomPainter {
                 (availableWidth - (numDots * dotSize)) /
                 (numDots > 1 ? (numDots - 1) : 1);
             var currentX = startX;
-            final dotPaint =
-                Paint()
-                  ..color = divider.color ?? Colors.grey
-                  ..style = PaintingStyle.fill;
+            final dotPaint = _dividerFillPaint
+              ..color = divider.color ?? Colors.grey;
             for (int j = 0; j < numDots; j++) {
               canvas.drawCircle(
                 Offset(currentX + dotSize / 2, y),
@@ -931,27 +947,38 @@ class VTicketcherPainter extends CustomPainter {
   void _drawTextWatermark(Canvas canvas, Size size, TicketWatermark watermark) {
     if (watermark.text == null) return;
 
-    final textStyle =
-        watermark.textStyle ??
+    final textStyle = watermark.textStyle ??
         const TextStyle(
           fontSize: 24,
           color: Colors.grey,
           fontWeight: FontWeight.bold,
         );
 
-    final textPainter = TextPainter(
-      text: TextSpan(
-        text: watermark.text!,
-        style: textStyle.copyWith(
-          color:
-              textStyle.color?.withValues(alpha: watermark.opacity) ??
-              Colors.grey.withValues(alpha: watermark.opacity),
+    // Reuse the cached TextPainter when inputs are unchanged. layout() is
+    // O(text length) and runs every paint() — caching skips it on repeats.
+    final cached = _watermarkPainter;
+    final TextPainter textPainter;
+    if (cached != null &&
+        _watermarkPainterText == watermark.text &&
+        _watermarkPainterStyle == textStyle &&
+        _watermarkPainterOpacity == watermark.opacity) {
+      textPainter = cached;
+    } else {
+      textPainter = TextPainter(
+        text: TextSpan(
+          text: watermark.text!,
+          style: textStyle.copyWith(
+            color: textStyle.color?.withValues(alpha: watermark.opacity) ??
+                Colors.grey.withValues(alpha: watermark.opacity),
+          ),
         ),
-      ),
-      textDirection: TextDirection.ltr,
-    );
-
-    textPainter.layout();
+        textDirection: TextDirection.ltr,
+      )..layout();
+      _watermarkPainter = textPainter;
+      _watermarkPainterText = watermark.text;
+      _watermarkPainterStyle = textStyle;
+      _watermarkPainterOpacity = watermark.opacity;
+    }
 
     if (watermark.repeat) {
       _drawRepeatedTextWatermark(canvas, size, watermark, textPainter);
@@ -1081,31 +1108,13 @@ class VTicketcherPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant VTicketcherPainter oldDelegate) {
     return oldDelegate.notchRadius != notchRadius ||
-        oldDelegate.sectionHeights != sectionHeights ||
+        !listsEqualWithEpsilon(oldDelegate.sectionHeights, sectionHeights) ||
         oldDelegate.decoration != decoration ||
         oldDelegate.decorationBackgroundImage != decorationBackgroundImage ||
-        !_mapsEqual(
+        !mapsEqual(
           oldDelegate.sectionBackgroundImages,
           sectionBackgroundImages,
         ) ||
-        !_sectionsEqual(oldDelegate.sections, sections);
-  }
-
-  /// Compares two maps for equality.
-  bool _mapsEqual<K, V>(Map<K, V> a, Map<K, V> b) {
-    if (a.length != b.length) return false;
-    for (final key in a.keys) {
-      if (a[key] != b[key]) return false;
-    }
-    return true;
-  }
-
-  /// Compares two section lists for equality based on visual properties.
-  bool _sectionsEqual(List<Section> a, List<Section> b) {
-    if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
+        !sectionsEqual(oldDelegate.sections, sections);
   }
 }
