@@ -1,4 +1,4 @@
-## 1.3.1
+## 2.0.0
 
 ### Breaking changes
 * **Removed** `AnimatedTicketcher`, `AnimatedTicketcherController`, `TicketAnimation`, and `AnimationType`. The animation layer was a thin wrapper over Flutter's built-in `FadeTransition` / `SlideTransition` / `ScaleTransition` / `Transform` and added more surface area than value. Wrap a `Ticketcher` / `VTicketcher` / `HTicketcher` in those transitions directly if you need entry/exit effects.

@@ -125,7 +125,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^1.3.1
+  ticketcher: ^2.0.0
 ```
 
 ## Usage
