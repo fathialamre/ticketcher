@@ -35,7 +35,15 @@ class VTicketcherPainter extends CustomPainter {
   /// The radius of the notches between ticket sections.
   final double notchRadius;
 
-  /// The heights of each section in the ticket.
+  /// Snapshot of each section's height at the time this painter was created.
+  ///
+  /// IMPORTANT: this list MUST be a copy (not a reference to the State's
+  /// internal list). The widget's State mutates its `_sectionHeights` in place
+  /// after measuring via `GlobalKey`. If the painter held that same reference,
+  /// `shouldRepaint(oldDelegate)` would compare a list to itself — both would
+  /// already reflect the post-measure values — and return false. The first
+  /// paint (with all-zero heights, before measurement) would then stick, and
+  /// notches/dividers would draw at y=0.
   final List<double> sectionHeights;
 
   /// The decoration properties for the ticket.
@@ -61,12 +69,12 @@ class VTicketcherPainter extends CustomPainter {
   /// - [sectionBackgroundImages]: Optional map of resolved images for section backgrounds
   VTicketcherPainter({
     required this.notchRadius,
-    required this.sectionHeights,
+    required List<double> sectionHeights,
     required this.decoration,
     required this.sections,
     this.decorationBackgroundImage,
     this.sectionBackgroundImages = const {},
-  });
+  }) : sectionHeights = List<double>.unmodifiable(sectionHeights);
 
   // ---------------------------------------------------------------------------
   // Cached Paint objects.

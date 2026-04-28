@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/ticketcher_decoration.dart';
+import '../painters/_equality.dart';
 import '../painters/ticket_path_builder.dart';
 
 /// A custom clipper for vertical tickets that matches the exact shape drawn by [VTicketcherPainter].
@@ -14,17 +15,18 @@ class VTicketcherClipper extends CustomClipper<Path> {
   /// The decoration properties for the ticket.
   final TicketcherDecoration decoration;
 
-  /// The heights of each section in the ticket.
+  /// Snapshot of each section's height at the time this clipper was created.
+  /// See the note on [VTicketcherPainter.sectionHeights] — same rationale.
   final List<double> sectionHeights;
 
   /// Creates a new [VTicketcherClipper].
   ///
   /// All parameters are required and should match those used by the painter.
-  const VTicketcherClipper({
+  VTicketcherClipper({
     required this.notchRadius,
     required this.decoration,
-    required this.sectionHeights,
-  });
+    required List<double> sectionHeights,
+  }) : sectionHeights = List<double>.unmodifiable(sectionHeights);
 
   @override
   Path getClip(Size size) {
@@ -41,7 +43,7 @@ class VTicketcherClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant VTicketcherClipper oldClipper) {
     return oldClipper.notchRadius != notchRadius ||
-        oldClipper.sectionHeights != sectionHeights ||
+        !listsEqualWithEpsilon(oldClipper.sectionHeights, sectionHeights) ||
         oldClipper.decoration != decoration;
   }
 }
@@ -58,17 +60,18 @@ class HTicketcherClipper extends CustomClipper<Path> {
   /// The decoration properties for the ticket.
   final TicketcherDecoration decoration;
 
-  /// The widths of each section in the ticket.
+  /// Snapshot of each section's width at the time this clipper was created.
+  /// See the note on [VTicketcherPainter.sectionHeights] — same rationale.
   final List<double> sectionWidths;
 
   /// Creates a new [HTicketcherClipper].
   ///
   /// All parameters are required and should match those used by the painter.
-  const HTicketcherClipper({
+  HTicketcherClipper({
     required this.notchRadius,
     required this.decoration,
-    required this.sectionWidths,
-  });
+    required List<double> sectionWidths,
+  }) : sectionWidths = List<double>.unmodifiable(sectionWidths);
 
   @override
   Path getClip(Size size) {
@@ -85,7 +88,7 @@ class HTicketcherClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant HTicketcherClipper oldClipper) {
     return oldClipper.notchRadius != notchRadius ||
-        oldClipper.sectionWidths != sectionWidths ||
+        !listsEqualWithEpsilon(oldClipper.sectionWidths, sectionWidths) ||
         oldClipper.decoration != decoration;
   }
 }

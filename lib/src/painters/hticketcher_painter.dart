@@ -52,11 +52,16 @@ class HTicketcherPainter extends CustomPainter {
   /// A larger value creates more rounded notches.
   final double notchRadius;
 
-  /// The widths of each section in the ticket.
+  /// Snapshot of each section's width at the time this painter was created.
   ///
   /// Each value represents the width of one section from left to right.
   /// The number of sections is determined by the length of this list.
   /// Dividers and notches are automatically placed between sections.
+  ///
+  /// IMPORTANT: must be a copy of the State's internal list (see the
+  /// equivalent note on [VTicketcherPainter.sectionHeights]). Holding the
+  /// State's list by reference defeats `shouldRepaint`, since the State
+  /// mutates the list in place after measurement.
   final List<double> sectionWidths;
 
   /// The decoration properties for the ticket.
@@ -90,12 +95,12 @@ class HTicketcherPainter extends CustomPainter {
   /// - [sectionBackgroundImages]: Optional map of resolved images for section backgrounds
   HTicketcherPainter({
     required this.notchRadius,
-    required this.sectionWidths,
+    required List<double> sectionWidths,
     required this.decoration,
     required this.sections,
     this.decorationBackgroundImage,
     this.sectionBackgroundImages = const {},
-  });
+  }) : sectionWidths = List<double>.unmodifiable(sectionWidths);
 
   // ---------------------------------------------------------------------------
   // Cached Paint objects. See VTicketcherPainter for rationale; the same

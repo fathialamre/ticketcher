@@ -1,3 +1,11 @@
+## 1.3.1
+
+### Breaking changes
+* **Removed** `AnimatedTicketcher`, `AnimatedTicketcherController`, `TicketAnimation`, and `AnimationType`. The animation layer was a thin wrapper over Flutter's built-in `FadeTransition` / `SlideTransition` / `ScaleTransition` / `Transform` and added more surface area than value. Wrap a `Ticketcher` / `VTicketcher` / `HTicketcher` in those transitions directly if you need entry/exit effects.
+
+### Bug fixes
+* Fixed dividers and notches drawing at the top of the ticket (y=0) instead of between sections — reproducible whenever a parent re-render or animation raced the first paint. Root cause: `VTicketcherPainter` / `HTicketcherPainter` / `VTicketcherClipper` / `HTicketcherClipper` stored the per-section size list **by reference** to the State's mutable list. The State measures each section in a `WidgetsBinding.instance.addPostFrameCallback` and mutates that list in place, so the new painter and the OLD painter both pointed at the same (already-mutated) list. `shouldRepaint(oldDelegate)` then compared two equal lists and returned false, leaving the very first paint — the one made before measurement, with all-zero heights — cached forever inside the new `RepaintBoundary` from 1.3.0. Painter / clipper constructors now snapshot the list with `List<double>.unmodifiable(...)`.
+
 ## 1.3.0
 
 ### Behavior changes

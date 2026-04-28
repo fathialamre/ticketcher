@@ -1,5 +1,4 @@
 import 'package:example/show_cases/advanced_dividers_showcase.dart';
-import 'package:example/show_cases/animation_showcase.dart';
 import 'package:example/show_cases/blur_effect_showcase.dart';
 import 'package:example/show_cases/colored_ticket.dart';
 import 'package:example/show_cases/flight.dart';
@@ -49,12 +48,6 @@ final List<ExampleItem> examples = [
     title: 'Advanced Dividers',
     subtitle: 'Tear lines & gradient dividers',
     page: const AdvancedDividersShowcase(),
-  ),
-  ExampleItem(
-    icon: Icons.animation,
-    title: 'Animations',
-    subtitle: 'Fade, slide, scale, flip',
-    page: const AnimationShowcase(),
   ),
   ExampleItem(
     icon: Icons.format_color_fill,
