@@ -20,6 +20,7 @@ and the Flutter guide for
   <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/points/ticketcher.svg" alt="Pub Points"></a>
   <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/likes/ticketcher.svg" alt="Pub Likes"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+  <img src="https://img.shields.io/badge/tests-51%20passing-brightgreen.svg" alt="Tests: 51 passing">
 </p>
 
 # Ticketcher
@@ -89,11 +90,11 @@ code.
   - [Width Control](#width-control)
   - [Notch Radius](#notch-radius)
   - [Notch Shapes](#notch-shapes-new)
-  - [Animations](#animations-new)
 - [Important Usage Notes](#important-usage-notes)
   - [Assertions](#assertions)
   - [Best Practices](#best-practices)
 - [Examples](#examples)
+- [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -108,7 +109,6 @@ code.
 - **✨ Watermarks**: Text and widget watermarks with positioning, opacity, and rotation
 - **✨ Blur Effects**: Backdrop blur, frosted glass, and gaussian blur for modern glassmorphism aesthetics
 - **✨ Notch Shapes**: Multiple notch shapes including semicircle, triangle, square, and diamond
-- **✨ Animations**: Entry/exit animations and flip effects
 - **✨ Gradient Dividers**: Dividers with gradient colors
 - **✨ Section Gradients**: Per-section gradient backgrounds (Linear, Radial, Sweep)
 - Custom border radius for any corner
@@ -125,7 +125,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^1.3.0
+  ticketcher: ^1.3.1
 ```
 
 ## Usage
@@ -1123,75 +1123,6 @@ Available notch shapes:
 - `NotchShape.square` - Rectangular notches
 - `NotchShape.diamond` - Diamond-shaped notches
 
-### Animations (New!)
-
-Add entry/exit animations to your tickets using `AnimatedTicketcher`.
-
-```dart
-// Fade in animation
-AnimatedTicketcher(
-  animation: TicketAnimation.fadeIn(
-    duration: Duration(milliseconds: 500),
-  ),
-  sections: [
-    Section(child: Text('Section 1')),
-    Section(child: Text('Section 2')),
-  ],
-)
-
-// Slide up animation
-AnimatedTicketcher(
-  animation: TicketAnimation.slideUp(
-    duration: Duration(milliseconds: 400),
-    curve: Curves.easeOutCubic,
-  ),
-  sections: [...],
-)
-
-// Scale animation
-AnimatedTicketcher(
-  animation: TicketAnimation.scale(
-    duration: Duration(milliseconds: 300),
-    curve: Curves.easeOutBack,
-  ),
-  sections: [...],
-)
-
-// Flip animation (for double-sided tickets)
-AnimatedTicketcher(
-  animation: TicketAnimation.flip(
-    duration: Duration(milliseconds: 600),
-    curve: Curves.easeInOut,
-  ),
-  sections: [...],
-)
-```
-
-**Using AnimatedTicketcherController:**
-```dart
-final controller = AnimatedTicketcherController();
-
-AnimatedTicketcher(
-  animation: TicketAnimation.fadeIn(),
-  controller: controller,
-  sections: [...],
-)
-
-// Programmatically control animations
-controller.playEntry();
-controller.playExit();
-controller.flip(); // For flip animation with backSide
-```
-
-Available animation types:
-- `AnimationType.fadeIn` - Fade in/out
-- `AnimationType.slideUp` - Slide from bottom
-- `AnimationType.slideDown` - Slide from top
-- `AnimationType.slideLeft` - Slide from left
-- `AnimationType.slideRight` - Slide from right
-- `AnimationType.scale` - Scale/zoom
-- `AnimationType.flip` - 3D flip for double-sided tickets
-
 ### Tear Line Divider (New!)
 
 A special divider style with scissors icon for indicating where to tear the ticket.
@@ -1383,6 +1314,24 @@ Ticketcher(
 ```
 
 Check out the [example](example) directory for more detailed examples of different ticket styles and configurations, including the new blur effects showcase and gradient border examples.
+
+## Testing
+
+The package ships with **full test coverage** — 51 unit and widget tests covering every public model, painter, clipper, and widget surface:
+
+- Model equality & `hashCode` — `Section`, `TicketDivider` (and all 8 style subclasses), `TicketWatermark`, `TicketcherDecoration` (transitive)
+- Painter `shouldRepaint` semantics + per-section size snapshot regression
+- Clipper `shouldReclip` semantics
+- `RepaintBoundary` placement and ancestor-rebuild isolation
+- `BlurWrapper` zero-sigma fast-path and full-blur paths
+- `ImageResolver` listener lifecycle (load, evict, dispose, in-flight cleanup)
+- Smoke tests for `Ticketcher`, `VTicketcher`, `HTicketcher`
+
+Run locally:
+
+```bash
+flutter test
+```
 
 ## Contributing
 
