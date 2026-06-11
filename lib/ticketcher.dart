@@ -3,6 +3,7 @@ export 'src/models/border_dash.dart';
 export 'src/models/border_pattern.dart';
 export 'src/models/border_shape.dart';
 export 'src/models/notch_shape.dart';
+export 'src/models/punch_hole.dart';
 export 'src/models/section.dart';
 export 'src/models/ticket_divider.dart';
 export 'src/models/ticket_radius.dart';
