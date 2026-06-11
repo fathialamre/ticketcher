@@ -9,6 +9,7 @@ import '../models/ticket_radius.dart';
 import '../models/ticket_divider.dart';
 import '../models/ticket_watermark.dart';
 import '_equality.dart';
+import 'path_dasher.dart';
 import 'ticket_path_builder.dart';
 
 /// A custom painter that draws a vertical ticket with customizable sections, borders, and dividers.
@@ -445,6 +446,244 @@ class VTicketcherPainter extends CustomPainter {
     canvas.restore();
   }
 
+  /// Draws one divider at vertical position [y] using [divider]'s style.
+  void _drawDividerAt(
+    Canvas canvas,
+    Size size,
+    TicketDivider divider,
+    double y,
+  ) {
+    final effectiveNotchRadius = decoration.notchStyle?.radius ?? notchRadius;
+    final startX = effectiveNotchRadius + (divider.padding ?? 0.0);
+    final endX = size.width - effectiveNotchRadius - (divider.padding ?? 0.0);
+
+    // Create paint with gradient support
+    final dividerPaint = _dividerLinePaint
+      ..strokeWidth = divider.thickness ?? 1.0;
+
+    if (divider.gradient != null) {
+      dividerPaint.shader = divider.gradient!.createShader(
+        Rect.fromLTRB(startX, y - 10, endX, y + 10),
+      );
+    } else {
+      dividerPaint.shader = null;
+      dividerPaint.color = divider.color ?? Colors.grey;
+    }
+
+    switch (divider.style) {
+      case DividerStyle.solid:
+        canvas.drawLine(Offset(startX, y), Offset(endX, y), dividerPaint);
+        break;
+      case DividerStyle.dashed:
+        final dashWidth = divider.dashWidth ?? 10.0;
+        final dashSpace = divider.dashSpace ?? 7.0;
+        final availableWidth = endX - startX;
+        if (availableWidth <= 0) break;
+        final numSegments =
+            ((availableWidth + dashSpace) / (dashWidth + dashSpace))
+                .floor();
+        if (numSegments <= 0) break;
+        final adjustedDashSpace =
+            (availableWidth - (numSegments * dashWidth)) /
+            (numSegments > 1 ? (numSegments - 1) : 1);
+        var currentX = startX;
+        for (int j = 0; j < numSegments; j++) {
+          canvas.drawLine(
+            Offset(currentX, y),
+            Offset(currentX + dashWidth, y),
+            dividerPaint,
+          );
+          currentX += dashWidth + adjustedDashSpace;
+        }
+        break;
+      case DividerStyle.circles:
+        final circleRadius = divider.circleRadius ?? 4.0;
+        final circleSpacing = divider.circleSpacing ?? 8.0;
+        final availableWidth = endX - startX;
+        if (availableWidth <= 0) break;
+        final numCircles =
+            ((availableWidth + circleSpacing) /
+                    (2 * circleRadius + circleSpacing))
+                .floor();
+        if (numCircles <= 0) break;
+        final adjustedCircleSpace =
+            (availableWidth - (numCircles * 2 * circleRadius)) /
+            (numCircles > 1 ? (numCircles - 1) : 1);
+        var currentX = startX + circleRadius;
+        final circlePaint = _dividerFillPaint
+          ..color = divider.color ?? Colors.grey;
+
+        for (int j = 0; j < numCircles; j++) {
+          canvas.drawCircle(Offset(currentX, y), circleRadius, circlePaint);
+          currentX += 2 * circleRadius + adjustedCircleSpace;
+        }
+        break;
+      case DividerStyle.dotted:
+        final dotSize = divider.dotSize ?? 2.0;
+        final dotSpacing = divider.dotSpacing ?? 8.0;
+        final availableWidth = endX - startX;
+        if (availableWidth <= 0) break;
+        final numDots =
+            ((availableWidth + dotSpacing) / (dotSize + dotSpacing))
+                .floor();
+        if (numDots <= 0) break;
+        final adjustedDotSpace =
+            (availableWidth - (numDots * dotSize)) /
+            (numDots > 1 ? (numDots - 1) : 1);
+        var currentX = startX;
+        final dotPaint = _dividerFillPaint
+          ..color = divider.color ?? Colors.grey;
+        for (int j = 0; j < numDots; j++) {
+          canvas.drawCircle(
+            Offset(currentX + dotSize / 2, y),
+            dotSize / 2,
+            dotPaint,
+          );
+          currentX += dotSize + adjustedDotSpace;
+        }
+        break;
+      case DividerStyle.doubleLine:
+        final lineSpacing = divider.lineSpacing ?? 4.0;
+        canvas.drawLine(
+          Offset(startX, y - lineSpacing / 2),
+          Offset(endX, y - lineSpacing / 2),
+          dividerPaint,
+        );
+        canvas.drawLine(
+          Offset(startX, y + lineSpacing / 2),
+          Offset(endX, y + lineSpacing / 2),
+          dividerPaint,
+        );
+        break;
+      case DividerStyle.wave:
+        final path = Path();
+        path.moveTo(startX, y);
+        final waveHeight = divider.waveHeight ?? 4.0;
+        final waveWidth = divider.waveWidth ?? 8.0;
+        final availableWidth = endX - startX;
+        final numWaves = (availableWidth / waveWidth).floor();
+        if (numWaves <= 0) break;
+        final adjustedWaveWidth = availableWidth / numWaves;
+        var currentX = startX;
+
+        for (int j = 0; j < numWaves; j++) {
+          final midX = currentX + adjustedWaveWidth / 2;
+          final endX = currentX + adjustedWaveWidth;
+          path.quadraticBezierTo(midX, y + waveHeight, endX, y);
+          currentX = endX;
+        }
+        canvas.drawPath(path, dividerPaint);
+        break;
+      case DividerStyle.smoothWave:
+        final path = Path();
+        path.moveTo(startX, y);
+        final waveHeight = divider.waveHeight ?? 8.0; // amplitude
+        final waveWidth = divider.waveWidth ?? 8.0; // wave period
+        final availableWidth = endX - startX;
+        final numWaves = (availableWidth / waveWidth).floor();
+        if (numWaves <= 0) break;
+        final adjustedWaveWidth = availableWidth / numWaves;
+        var currentX = startX;
+
+        for (int j = 0; j < numWaves; j++) {
+          final midX = currentX + adjustedWaveWidth / 2;
+          final endX = currentX + adjustedWaveWidth;
+          // Alternate wave direction
+          final currentWaveHeight = (j % 2 == 0) ? waveHeight : -waveHeight;
+          path.quadraticBezierTo(midX, y + currentWaveHeight, endX, y);
+          currentX = endX;
+        }
+        canvas.drawPath(path, dividerPaint);
+        break;
+      case DividerStyle.tearLine:
+        _drawTearLineDivider(
+          canvas: canvas,
+          y: y,
+          startX: startX,
+          endX: endX,
+          divider: divider,
+          dividerPaint: dividerPaint,
+          isHorizontal: true,
+        );
+        break;
+    }
+  }
+
+  /// Draws the top border pattern across the top edge, bulging ABOVE y=0
+  /// (mirror of the bottom pattern, which bulges below size.height).
+  ///
+  /// The path must already be at (0, 0); on return it is at (size.width, 0).
+  /// Top corner radii are excluded by the VTicketcher constructor assert.
+  void _drawTopPattern(Path path, Size size) {
+    final style = decoration.topBorderStyle!;
+    // Full width: unlike the bottom pattern, no corner radii to subtract —
+    // the VTicketcher constructor assert forbids top radii with a pattern.
+    final availableWidth = size.width;
+
+    if (style.shape == BorderShape.arc) {
+      // Mirror of the bottom arc pattern: alternating arcs and gaps with the
+      // leftover space distributed across the gaps.
+      final arcWidth = style.height * 2;
+      final gapWidth = style.height;
+      final numArcs =
+          ((availableWidth - gapWidth) / (arcWidth + gapWidth)).floor();
+      if (numArcs <= 0) {
+        path.lineTo(size.width, 0);
+        return;
+      }
+      final totalPatternWidth = (numArcs * (arcWidth + gapWidth)) + gapWidth;
+      final extraSpace = availableWidth - totalPatternWidth;
+      final extraGapWidth = extraSpace / (numArcs + 1);
+
+      var currentX = 0.0;
+      path.lineTo(currentX + gapWidth + extraGapWidth, 0);
+      currentX += gapWidth + extraGapWidth;
+
+      for (int i = 0; i < numArcs; i++) {
+        path.arcToPoint(
+          Offset(currentX + arcWidth, 0),
+          radius: Radius.circular(style.height),
+          clockwise: false,
+        );
+        currentX += arcWidth;
+        if (i < numArcs - 1) {
+          path.lineTo(currentX + gapWidth + extraGapWidth, 0);
+          currentX += gapWidth + extraGapWidth;
+        }
+      }
+      if (currentX < size.width) {
+        path.lineTo(size.width, 0);
+      }
+    } else {
+      final numSegments = (availableWidth / style.width).floor();
+      if (numSegments <= 0) {
+        path.lineTo(size.width, 0);
+        return;
+      }
+      final adjustedWidth = availableWidth / numSegments;
+      var currentX = 0.0;
+
+      while (currentX < size.width) {
+        final nextX = (currentX + adjustedWidth).clamp(0.0, size.width);
+        final midX = (currentX + nextX) / 2;
+
+        switch (style.shape) {
+          case BorderShape.wave:
+            path.quadraticBezierTo(midX, -style.height, nextX, 0);
+            break;
+          case BorderShape.sharp:
+            path.lineTo(midX, -style.height);
+            path.lineTo(nextX, 0);
+            break;
+          case BorderShape.arc:
+            // Handled above
+            break;
+        }
+        currentX = nextX;
+      }
+    }
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     // Draw stacked layers first
@@ -480,23 +719,28 @@ class VTicketcherPainter extends CustomPainter {
       }
     }
 
-    // Start from the top-left corner
-    if (shouldRoundCorner(TicketCorner.topLeft)) {
-      path.moveTo(radius, 0);
-    } else {
+    // Start from the top-left corner and draw the top edge (optionally
+    // patterned — pattern excludes top corner radii via constructor assert).
+    if (decoration.topBorderStyle != null) {
       path.moveTo(0, 0);
-    }
-
-    // Top edge and top-right corner
-    if (shouldRoundCorner(TicketCorner.topRight)) {
-      path.lineTo(size.width - radius, 0);
-      path.arcToPoint(
-        Offset(size.width, radius),
-        radius: Radius.circular(radius),
-        clockwise: direction == RadiusDirection.inward,
-      );
+      _drawTopPattern(path, size);
     } else {
-      path.lineTo(size.width, 0);
+      if (shouldRoundCorner(TicketCorner.topLeft)) {
+        path.moveTo(radius, 0);
+      } else {
+        path.moveTo(0, 0);
+      }
+
+      if (shouldRoundCorner(TicketCorner.topRight)) {
+        path.lineTo(size.width - radius, 0);
+        path.arcToPoint(
+          Offset(size.width, radius),
+          radius: Radius.circular(radius),
+          clockwise: direction == RadiusDirection.inward,
+        );
+      } else {
+        path.lineTo(size.width, 0);
+      }
     }
 
     // Calculate cumulative heights for each section
@@ -662,16 +906,26 @@ class VTicketcherPainter extends CustomPainter {
     // Close the path to ensure a smooth connection
     path.close();
 
-    // Draw shadow if specified
-    if (decoration.shadow != null) {
-      final shadow = decoration.shadow!;
-      final shadowPath = Path.from(path);
-      shadowPath.shift(Offset(shadow.offset.dx, shadow.offset.dy));
+    // Punch holes: subtract them from the outline so background, shadows,
+    // and the border stroke all respect the cutouts.
+    final holes = decoration.punchHoles;
+    final Path outline = (holes == null || holes.isEmpty)
+        ? path
+        : TicketPathBuilder.subtractPunchHoles(path, size, holes);
 
+    // Draw shadows if specified. `shadows` wins over the legacy single
+    // `shadow`; an explicit empty list disables shadows entirely.
+    final resolvedShadows = decoration.shadows ??
+        (decoration.shadow != null
+            ? <BoxShadow>[decoration.shadow!]
+            : const <BoxShadow>[]);
+    for (final shadow in resolvedShadows) {
+      final shadowPath = outline.shift(shadow.offset);
       final shadowPaint = _shadowPaint
         ..color = shadow.color
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius);
-
+        ..maskFilter = shadow.blurRadius > 0
+            ? MaskFilter.blur(BlurStyle.normal, shadow.blurRadius)
+            : null;
       canvas.drawPath(shadowPath, shadowPaint);
     }
 
@@ -683,7 +937,7 @@ class VTicketcherPainter extends CustomPainter {
         canvas: canvas,
         image: decorationBackgroundImage!,
         rect: Offset.zero & size,
-        clipPath: path,
+        clipPath: outline,
         fit: decoration.backgroundImageFit,
         alignment: decoration.backgroundImageAlignment,
         opacity: decoration.backgroundImageOpacity,
@@ -693,13 +947,13 @@ class VTicketcherPainter extends CustomPainter {
       final backgroundPaint = _backgroundPaint
         ..color = const Color(0xFF000000)
         ..shader = decoration.gradient!.createShader(Offset.zero & size);
-      canvas.drawPath(path, backgroundPaint);
+      canvas.drawPath(outline, backgroundPaint);
     } else {
       // Paint solid color background
       final backgroundPaint = _backgroundPaint
         ..shader = null
         ..color = decoration.backgroundColor;
-      canvas.drawPath(path, backgroundPaint);
+      canvas.drawPath(outline, backgroundPaint);
     }
 
     // Draw section-specific backgrounds (images, gradients, or colors)
@@ -708,11 +962,16 @@ class VTicketcherPainter extends CustomPainter {
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
       var sectionHeight = sectionHeights[i];
+      var sectionY = currentY;
+      if (i == 0 && decoration.topBorderStyle != null) {
+        sectionHeight += decoration.topBorderStyle!.height;
+        sectionY -= decoration.topBorderStyle!.height;
+      }
       if (i == sections.length - 1 && decoration.bottomBorderStyle != null) {
         sectionHeight += decoration.bottomBorderStyle!.height;
       }
 
-      final sectionRect = Rect.fromLTWH(0, currentY, size.width, sectionHeight);
+      final sectionRect = Rect.fromLTWH(0, sectionY, size.width, sectionHeight);
 
       // Check if section has background image
       if (sectionBackgroundImages.containsKey(i)) {
@@ -720,7 +979,7 @@ class VTicketcherPainter extends CustomPainter {
           canvas: canvas,
           image: sectionBackgroundImages[i]!,
           rect: sectionRect,
-          clipPath: path,
+          clipPath: outline,
           fit: section.backgroundImageFit,
           alignment: section.backgroundImageAlignment,
           opacity: section.backgroundImageOpacity,
@@ -731,7 +990,7 @@ class VTicketcherPainter extends CustomPainter {
           ..color = const Color(0xFF000000)
           ..shader = section.gradient!.createShader(sectionRect);
         canvas.save();
-        canvas.clipPath(path);
+        canvas.clipPath(outline);
         canvas.drawRect(sectionRect, sectionPaint);
         canvas.restore();
       } else if (section.color != null) {
@@ -740,7 +999,7 @@ class VTicketcherPainter extends CustomPainter {
           ..shader = null
           ..color = section.color!;
         canvas.save();
-        canvas.clipPath(path);
+        canvas.clipPath(outline);
         canvas.drawRect(sectionRect, sectionPaint);
         canvas.restore();
       }
@@ -765,171 +1024,19 @@ class VTicketcherPainter extends CustomPainter {
         borderPaint.strokeWidth = decoration.border!.top.width;
       }
 
-      canvas.drawPath(path, borderPaint);
+      final strokePath = decoration.borderDash != null
+          ? dashPath(outline, decoration.borderDash!)
+          : outline;
+      canvas.drawPath(strokePath, borderPaint);
     }
 
-    // Draw dividers between ticket sections
-    if (decoration.divider != null) {
-      final divider = decoration.divider!;
-      final effectiveNotchRadius = decoration.notchStyle?.radius ?? notchRadius;
-
-      for (int i = 0; i < sectionHeights.length - 1; i++) {
-        final y = cumulativeHeights[i];
-        final startX = effectiveNotchRadius + (divider.padding ?? 0.0);
-        final endX =
-            size.width - effectiveNotchRadius - (divider.padding ?? 0.0);
-
-        // Create paint with gradient support
-        final dividerPaint = _dividerLinePaint
-          ..strokeWidth = divider.thickness ?? 1.0;
-
-        if (divider.gradient != null) {
-          dividerPaint.shader = divider.gradient!.createShader(
-            Rect.fromLTRB(startX, y - 10, endX, y + 10),
-          );
-        } else {
-          dividerPaint.shader = null;
-          dividerPaint.color = divider.color ?? Colors.grey;
-        }
-
-        switch (divider.style) {
-          case DividerStyle.solid:
-            canvas.drawLine(Offset(startX, y), Offset(endX, y), dividerPaint);
-            break;
-          case DividerStyle.dashed:
-            final dashWidth = divider.dashWidth ?? 10.0;
-            final dashSpace = divider.dashSpace ?? 7.0;
-            final availableWidth = endX - startX;
-            if (availableWidth <= 0) break;
-            final numSegments =
-                ((availableWidth + dashSpace) / (dashWidth + dashSpace))
-                    .floor();
-            if (numSegments <= 0) break;
-            final adjustedDashSpace =
-                (availableWidth - (numSegments * dashWidth)) /
-                (numSegments > 1 ? (numSegments - 1) : 1);
-            var currentX = startX;
-            for (int j = 0; j < numSegments; j++) {
-              canvas.drawLine(
-                Offset(currentX, y),
-                Offset(currentX + dashWidth, y),
-                dividerPaint,
-              );
-              currentX += dashWidth + adjustedDashSpace;
-            }
-            break;
-          case DividerStyle.circles:
-            final circleRadius = divider.circleRadius ?? 4.0;
-            final circleSpacing = divider.circleSpacing ?? 8.0;
-            final availableWidth = endX - startX;
-            if (availableWidth <= 0) break;
-            final numCircles =
-                ((availableWidth + circleSpacing) /
-                        (2 * circleRadius + circleSpacing))
-                    .floor();
-            if (numCircles <= 0) break;
-            final adjustedCircleSpace =
-                (availableWidth - (numCircles * 2 * circleRadius)) /
-                (numCircles > 1 ? (numCircles - 1) : 1);
-            var currentX = startX + circleRadius;
-            final circlePaint = _dividerFillPaint
-              ..color = divider.color ?? Colors.grey;
-
-            for (int j = 0; j < numCircles; j++) {
-              canvas.drawCircle(Offset(currentX, y), circleRadius, circlePaint);
-              currentX += 2 * circleRadius + adjustedCircleSpace;
-            }
-            break;
-          case DividerStyle.dotted:
-            final dotSize = divider.dotSize ?? 2.0;
-            final dotSpacing = divider.dotSpacing ?? 8.0;
-            final availableWidth = endX - startX;
-            if (availableWidth <= 0) break;
-            final numDots =
-                ((availableWidth + dotSpacing) / (dotSize + dotSpacing))
-                    .floor();
-            if (numDots <= 0) break;
-            final adjustedDotSpace =
-                (availableWidth - (numDots * dotSize)) /
-                (numDots > 1 ? (numDots - 1) : 1);
-            var currentX = startX;
-            final dotPaint = _dividerFillPaint
-              ..color = divider.color ?? Colors.grey;
-            for (int j = 0; j < numDots; j++) {
-              canvas.drawCircle(
-                Offset(currentX + dotSize / 2, y),
-                dotSize / 2,
-                dotPaint,
-              );
-              currentX += dotSize + adjustedDotSpace;
-            }
-            break;
-          case DividerStyle.doubleLine:
-            final lineSpacing = divider.lineSpacing ?? 4.0;
-            canvas.drawLine(
-              Offset(startX, y - lineSpacing / 2),
-              Offset(endX, y - lineSpacing / 2),
-              dividerPaint,
-            );
-            canvas.drawLine(
-              Offset(startX, y + lineSpacing / 2),
-              Offset(endX, y + lineSpacing / 2),
-              dividerPaint,
-            );
-            break;
-          case DividerStyle.wave:
-            final path = Path();
-            path.moveTo(startX, y);
-            final waveHeight = divider.waveHeight ?? 4.0;
-            final waveWidth = divider.waveWidth ?? 8.0;
-            final availableWidth = endX - startX;
-            final numWaves = (availableWidth / waveWidth).floor();
-            if (numWaves <= 0) break;
-            final adjustedWaveWidth = availableWidth / numWaves;
-            var currentX = startX;
-
-            for (int j = 0; j < numWaves; j++) {
-              final midX = currentX + adjustedWaveWidth / 2;
-              final endX = currentX + adjustedWaveWidth;
-              path.quadraticBezierTo(midX, y + waveHeight, endX, y);
-              currentX = endX;
-            }
-            canvas.drawPath(path, dividerPaint);
-            break;
-          case DividerStyle.smoothWave:
-            final path = Path();
-            path.moveTo(startX, y);
-            final waveHeight = divider.waveHeight ?? 8.0; // amplitude
-            final waveWidth = divider.waveWidth ?? 8.0; // wave period
-            final availableWidth = endX - startX;
-            final numWaves = (availableWidth / waveWidth).floor();
-            if (numWaves <= 0) break;
-            final adjustedWaveWidth = availableWidth / numWaves;
-            var currentX = startX;
-
-            for (int j = 0; j < numWaves; j++) {
-              final midX = currentX + adjustedWaveWidth / 2;
-              final endX = currentX + adjustedWaveWidth;
-              // Alternate wave direction
-              final currentWaveHeight = (j % 2 == 0) ? waveHeight : -waveHeight;
-              path.quadraticBezierTo(midX, y + currentWaveHeight, endX, y);
-              currentX = endX;
-            }
-            canvas.drawPath(path, dividerPaint);
-            break;
-          case DividerStyle.tearLine:
-            _drawTearLineDivider(
-              canvas: canvas,
-              y: y,
-              startX: startX,
-              endX: endX,
-              divider: divider,
-              dividerPaint: dividerPaint,
-              isHorizontal: true,
-            );
-            break;
-        }
-      }
+    // Draw dividers between ticket sections. A section's `dividerAfter`
+    // overrides the decoration-level divider for that boundary; null means
+    // no divider there.
+    for (int i = 0; i < sectionHeights.length - 1; i++) {
+      final divider = sections[i].dividerAfter ?? decoration.divider;
+      if (divider == null) continue;
+      _drawDividerAt(canvas, size, divider, cumulativeHeights[i]);
     }
 
     // Draw watermark if specified

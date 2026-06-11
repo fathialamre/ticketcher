@@ -98,6 +98,40 @@ void main() {
       );
       expect(b.shouldRepaint(a), isFalse);
     });
+
+    test('different shadows ⇒ true', () {
+      final a = _vp();
+      final b = _vp(
+        decoration: const TicketcherDecoration(
+          shadows: [BoxShadow(color: Colors.red, blurRadius: 4)],
+        ),
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
+
+    test('different punchHoles ⇒ true', () {
+      final a = _vp();
+      final b = _vp(
+        decoration: const TicketcherDecoration(
+          punchHoles: [PunchHole(radius: 6)],
+        ),
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
+
+    test('different Section.dividerAfter ⇒ true', () {
+      final a = _vp();
+      final b = _vp(
+        sections: [
+          Section(
+            child: const Text('A'),
+            dividerAfter: TicketDivider.solid(color: Colors.red),
+          ),
+          const Section(child: Text('B')),
+        ],
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
   });
 
   group('HTicketcherPainter.shouldRepaint', () {
@@ -130,6 +164,40 @@ void main() {
       final a = _hp(decoration: aDec);
       final b = _hp(decoration: bDec);
       expect(b.shouldRepaint(a), isFalse);
+    });
+
+    test('different shadows ⇒ true', () {
+      final a = _hp();
+      final b = _hp(
+        decoration: const TicketcherDecoration(
+          shadows: [BoxShadow(color: Colors.red, blurRadius: 4)],
+        ),
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
+
+    test('different punchHoles ⇒ true', () {
+      final a = _hp();
+      final b = _hp(
+        decoration: const TicketcherDecoration(
+          punchHoles: [PunchHole(radius: 6)],
+        ),
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
+
+    test('different Section.dividerAfter ⇒ true', () {
+      final a = _hp();
+      final b = _hp(
+        sections: [
+          Section(
+            child: const Text('A'),
+            dividerAfter: TicketDivider.solid(color: Colors.red),
+          ),
+          const Section(child: Text('B')),
+        ],
+      );
+      expect(b.shouldRepaint(a), isTrue);
     });
   });
 }

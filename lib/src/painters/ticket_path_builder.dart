@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/notch_shape.dart';
+import '../models/punch_hole.dart';
 import '../models/ticketcher_decoration.dart';
 import '../models/ticket_radius.dart';
 
@@ -191,6 +192,10 @@ class TicketPathBuilder {
   /// - [sectionHeights]: The heights of each section
   /// - [includeBottomPattern]: Whether to include the bottom border pattern (for painting)
   ///
+  /// Note: border patterns (`topBorderStyle` / `bottomBorderStyle`) are never
+  /// part of this path — clipping and watermark bounds use the straight
+  /// edges; the patterns bulge outside them and exist only in the painters.
+  ///
   /// Returns a [Path] object representing the ticket outline.
   static Path buildVerticalTicketPath({
     required Size size,
@@ -318,7 +323,10 @@ class TicketPathBuilder {
 
     // Close the path
     path.close();
-    return path;
+
+    final holes = decoration.punchHoles;
+    if (holes == null || holes.isEmpty) return path;
+    return subtractPunchHoles(path, size, holes);
   }
 
   /// Builds a path for a horizontal ticket.
@@ -450,6 +458,52 @@ class TicketPathBuilder {
 
     // Close the path
     path.close();
-    return path;
+
+    final holes = decoration.punchHoles;
+    if (holes == null || holes.isEmpty) return path;
+    return subtractPunchHoles(path, size, holes);
+  }
+
+  /// Subtracts [holes] from [outline] and returns the combined path.
+  ///
+  /// Hole centers are resolved as `alignment.withinRect(Offset.zero & size)
+  /// + offset`. [NotchShape.semicircle] cuts a full circle; the other shapes
+  /// cut a square/diamond/triangle with half-extent `radius`.
+  static Path subtractPunchHoles(
+    Path outline,
+    Size size,
+    List<PunchHole> holes,
+  ) {
+    if (holes.isEmpty) return outline;
+    final holesPath = Path();
+    for (final hole in holes) {
+      final center =
+          hole.alignment.withinRect(Offset.zero & size) + hole.offset;
+      final r = hole.radius;
+      switch (hole.shape) {
+        case NotchShape.semicircle:
+          holesPath.addOval(Rect.fromCircle(center: center, radius: r));
+          break;
+        case NotchShape.square:
+          holesPath.addRect(
+            Rect.fromCenter(center: center, width: r * 2, height: r * 2),
+          );
+          break;
+        case NotchShape.diamond:
+          holesPath.moveTo(center.dx, center.dy - r);
+          holesPath.lineTo(center.dx + r, center.dy);
+          holesPath.lineTo(center.dx, center.dy + r);
+          holesPath.lineTo(center.dx - r, center.dy);
+          holesPath.close();
+          break;
+        case NotchShape.triangle:
+          holesPath.moveTo(center.dx, center.dy - r);
+          holesPath.lineTo(center.dx + r, center.dy + r);
+          holesPath.lineTo(center.dx - r, center.dy + r);
+          holesPath.close();
+          break;
+      }
+    }
+    return Path.combine(PathOperation.difference, outline, holesPath);
   }
 }
