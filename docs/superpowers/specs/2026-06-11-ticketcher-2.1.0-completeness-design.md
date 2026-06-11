@@ -81,15 +81,17 @@ TicketcherDecoration(
 
 - `VTicketcherPainter`: inverse of the existing bottom-pattern logic
   (`vticketcher_painter.dart:542` pattern drawing, `:711` last-section height
-  adjustment):
-  - `topInset = topBorderStyle?.height ?? 0`.
-  - Outline path starts at `y = topInset` and the patterned edge is drawn across the
-    top between `y = 0` and `y = topInset` (sharp/wave/arc, same generators as bottom,
-    vertically mirrored).
-  - First section's painted region extends by the inset exactly as the painter
-    extends the last section's region for the bottom pattern
-    (`vticketcher_painter.dart:711`), mirrored; notch Y positions and divider
-    Y positions shift down by `topInset`.
+  adjustment). The bottom pattern bulges OUTWARD past `size.height`
+  (`size.height + style.height`); the top pattern mirrors this by bulging
+  above `y = 0` into negative coordinates. Nothing shifts:
+  - Patterned top edge drawn left→right between `(0,0)` and `(size.width, 0)`
+    with peaks at `y = -style.height` (sharp/wave/arc, same generators as
+    bottom, vertically mirrored).
+  - First section's painted fill region extends upward by the pattern height
+    (`sectionY -= style.height; sectionHeight += style.height` for `i == 0`),
+    exactly as `HTicketcherPainter` already extends the first section for
+    `leftBorderStyle` (`hticketcher_painter.dart:793-795`).
+  - Notch and divider positions are unchanged.
 - Clipper (`TicketPathBuilder.buildVerticalTicketPath`): keeps the straight top edge —
   identical to how the bottom pattern is handled for clipping today (content is
   clipped to the bounding outline; the pattern lives in the painter).
