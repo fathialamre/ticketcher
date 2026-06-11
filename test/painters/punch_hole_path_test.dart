@@ -72,7 +72,7 @@ void main() {
       expect(path.contains(const Offset(100, 165)), isTrue);
     });
 
-    test('triangle hole shape cuts a downward-pointing triangle', () {
+    test('triangle hole shape cuts an upward-pointing triangle', () {
       final path = TicketPathBuilder.buildVerticalTicketPath(
         size: const Size(200, 300),
         notchRadius: 10,

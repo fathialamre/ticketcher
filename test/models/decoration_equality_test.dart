@@ -99,8 +99,8 @@ void main() {
     test('null shadows != empty shadows (fallthrough-vs-disable semantic)', () {
       const withNull = TicketcherDecoration();
       const withEmpty = TicketcherDecoration(shadows: []);
+      // hashCode collision would be legal, so only equality is asserted.
       expect(withNull, isNot(equals(withEmpty)));
-      expect(withNull.hashCode, isNot(withEmpty.hashCode));
     });
   });
 }

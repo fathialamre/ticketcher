@@ -13,8 +13,9 @@ import 'notch_shape.dart';
 ///
 /// [shape] reuses [NotchShape]; for an interior hole, [NotchShape.semicircle]
 /// renders as a full circle. [radius] is the circle radius, or the half-extent
-/// for square/diamond/triangle. Triangle punches a downward-pointing triangle
-/// (apex at the top); diamond punches an axis-aligned rhombus.
+/// for square/diamond/triangle. Triangle punches an upward-pointing triangle
+/// (apex at the top, base at the bottom); diamond punches an axis-aligned
+/// rhombus.
 ///
 /// Placement sanity (keeping holes away from notches, dividers, and edges)
 /// is the caller's responsibility. A divider line crossing a hole paints
