@@ -1,6 +1,7 @@
 import 'package:example/show_cases/advanced_dividers_showcase.dart';
 import 'package:example/show_cases/blur_effect_showcase.dart';
 import 'package:example/show_cases/colored_ticket.dart';
+import 'package:example/show_cases/completeness_showcase.dart';
 import 'package:example/show_cases/flight.dart';
 import 'package:example/show_cases/flight_multi_section.dart';
 import 'package:example/show_cases/gradient_border_ticket.dart';
@@ -36,6 +37,13 @@ class ExampleItem {
 }
 
 final List<ExampleItem> examples = [
+  // New Features v2.1.0
+  ExampleItem(
+    icon: Icons.new_releases_outlined,
+    title: '2.1.0 Features',
+    subtitle: 'Shadows, dashes, holes & more',
+    page: const CompletenessShowcase(),
+  ),
   // New Features v1.0.0
   ExampleItem(
     icon: Icons.change_history,
