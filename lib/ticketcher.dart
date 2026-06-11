@@ -1,4 +1,5 @@
 export 'src/models/blur_effect.dart';
+export 'src/models/border_dash.dart';
 export 'src/models/border_pattern.dart';
 export 'src/models/border_shape.dart';
 export 'src/models/notch_shape.dart';
