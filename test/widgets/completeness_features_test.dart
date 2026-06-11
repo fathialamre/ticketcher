@@ -145,4 +145,35 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('topBorderStyle with top radius asserts', (tester) async {
+    expect(
+      () => VTicketcher(
+        sections: _twoSections,
+        decoration: const TicketcherDecoration(
+          topBorderStyle: BorderPattern(shape: BorderShape.sharp),
+          borderRadius: TicketRadius(radius: 8, corner: TicketCorner.top),
+        ),
+      ),
+      throwsAssertionError,
+    );
+  });
+
+  testWidgets('topBorderStyle paints without errors for all three shapes',
+      (tester) async {
+    for (final shape in [BorderShape.wave, BorderShape.sharp, BorderShape.arc]) {
+      await pumpTicket(
+        tester,
+        VTicketcher(
+          sections: _twoSections,
+          width: 300,
+          decoration: TicketcherDecoration(
+            borderRadius: TicketRadius.zero,
+            topBorderStyle: BorderPattern(shape: shape, height: 8, width: 20),
+          ),
+        ),
+      );
+      expect(tester.takeException(), isNull, reason: 'shape: $shape');
+    }
+  });
 }

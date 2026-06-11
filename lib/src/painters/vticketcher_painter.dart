@@ -609,6 +609,81 @@ class VTicketcherPainter extends CustomPainter {
     }
   }
 
+  /// Draws the top border pattern across the top edge, bulging ABOVE y=0
+  /// (mirror of the bottom pattern, which bulges below size.height).
+  ///
+  /// The path must already be at (0, 0); on return it is at (size.width, 0).
+  /// Top corner radii are excluded by the VTicketcher constructor assert.
+  void _drawTopPattern(Path path, Size size) {
+    final style = decoration.topBorderStyle!;
+    // Full width: unlike the bottom pattern, no corner radii to subtract —
+    // the VTicketcher constructor assert forbids top radii with a pattern.
+    final availableWidth = size.width;
+
+    if (style.shape == BorderShape.arc) {
+      // Mirror of the bottom arc pattern: alternating arcs and gaps with the
+      // leftover space distributed across the gaps.
+      final arcWidth = style.height * 2;
+      final gapWidth = style.height;
+      final numArcs =
+          ((availableWidth - gapWidth) / (arcWidth + gapWidth)).floor();
+      if (numArcs <= 0) {
+        path.lineTo(size.width, 0);
+        return;
+      }
+      final totalPatternWidth = (numArcs * (arcWidth + gapWidth)) + gapWidth;
+      final extraSpace = availableWidth - totalPatternWidth;
+      final extraGapWidth = extraSpace / (numArcs + 1);
+
+      var currentX = 0.0;
+      path.lineTo(currentX + gapWidth + extraGapWidth, 0);
+      currentX += gapWidth + extraGapWidth;
+
+      for (int i = 0; i < numArcs; i++) {
+        path.arcToPoint(
+          Offset(currentX + arcWidth, 0),
+          radius: Radius.circular(style.height),
+          clockwise: false,
+        );
+        currentX += arcWidth;
+        if (i < numArcs - 1) {
+          path.lineTo(currentX + gapWidth + extraGapWidth, 0);
+          currentX += gapWidth + extraGapWidth;
+        }
+      }
+      if (currentX < size.width) {
+        path.lineTo(size.width, 0);
+      }
+    } else {
+      final numSegments = (availableWidth / style.width).floor();
+      if (numSegments <= 0) {
+        path.lineTo(size.width, 0);
+        return;
+      }
+      final adjustedWidth = availableWidth / numSegments;
+      var currentX = 0.0;
+
+      while (currentX < size.width) {
+        final nextX = (currentX + adjustedWidth).clamp(0.0, size.width);
+        final midX = (currentX + nextX) / 2;
+
+        switch (style.shape) {
+          case BorderShape.wave:
+            path.quadraticBezierTo(midX, -style.height, nextX, 0);
+            break;
+          case BorderShape.sharp:
+            path.lineTo(midX, -style.height);
+            path.lineTo(nextX, 0);
+            break;
+          case BorderShape.arc:
+            // Handled above
+            break;
+        }
+        currentX = nextX;
+      }
+    }
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     // Draw stacked layers first
@@ -644,23 +719,28 @@ class VTicketcherPainter extends CustomPainter {
       }
     }
 
-    // Start from the top-left corner
-    if (shouldRoundCorner(TicketCorner.topLeft)) {
-      path.moveTo(radius, 0);
-    } else {
+    // Start from the top-left corner and draw the top edge (optionally
+    // patterned — pattern excludes top corner radii via constructor assert).
+    if (decoration.topBorderStyle != null) {
       path.moveTo(0, 0);
-    }
-
-    // Top edge and top-right corner
-    if (shouldRoundCorner(TicketCorner.topRight)) {
-      path.lineTo(size.width - radius, 0);
-      path.arcToPoint(
-        Offset(size.width, radius),
-        radius: Radius.circular(radius),
-        clockwise: direction == RadiusDirection.inward,
-      );
+      _drawTopPattern(path, size);
     } else {
-      path.lineTo(size.width, 0);
+      if (shouldRoundCorner(TicketCorner.topLeft)) {
+        path.moveTo(radius, 0);
+      } else {
+        path.moveTo(0, 0);
+      }
+
+      if (shouldRoundCorner(TicketCorner.topRight)) {
+        path.lineTo(size.width - radius, 0);
+        path.arcToPoint(
+          Offset(size.width, radius),
+          radius: Radius.circular(radius),
+          clockwise: direction == RadiusDirection.inward,
+        );
+      } else {
+        path.lineTo(size.width, 0);
+      }
     }
 
     // Calculate cumulative heights for each section
@@ -875,11 +955,16 @@ class VTicketcherPainter extends CustomPainter {
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
       var sectionHeight = sectionHeights[i];
+      var sectionY = currentY;
+      if (i == 0 && decoration.topBorderStyle != null) {
+        sectionHeight += decoration.topBorderStyle!.height;
+        sectionY -= decoration.topBorderStyle!.height;
+      }
       if (i == sections.length - 1 && decoration.bottomBorderStyle != null) {
         sectionHeight += decoration.bottomBorderStyle!.height;
       }
 
-      final sectionRect = Rect.fromLTWH(0, currentY, size.width, sectionHeight);
+      final sectionRect = Rect.fromLTWH(0, sectionY, size.width, sectionHeight);
 
       // Check if section has background image
       if (sectionBackgroundImages.containsKey(i)) {

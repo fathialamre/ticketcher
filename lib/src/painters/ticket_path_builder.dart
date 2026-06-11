@@ -191,6 +191,10 @@ class TicketPathBuilder {
   /// - [sectionHeights]: The heights of each section
   /// - [includeBottomPattern]: Whether to include the bottom border pattern (for painting)
   ///
+  /// Note: border patterns (`topBorderStyle` / `bottomBorderStyle`) are never
+  /// part of this path — clipping and watermark bounds use the straight
+  /// edges; the patterns bulge outside them and exist only in the painters.
+  ///
   /// Returns a [Path] object representing the ticket outline.
   static Path buildVerticalTicketPath({
     required Size size,
