@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'border_pattern.dart';
 import 'blur_effect.dart';
+import 'border_dash.dart';
 import 'notch_shape.dart';
+import 'punch_hole.dart';
 import 'ticket_divider.dart';
 import 'ticket_radius.dart';
 import 'ticket_watermark.dart';
@@ -120,6 +123,31 @@ class TicketcherDecoration {
   final BorderPattern? leftBorderStyle;
   final BorderPattern? rightBorderStyle;
   final BoxShadow? shadow;
+
+  /// Multiple shadows under the ticket, drawn in list order.
+  ///
+  /// When non-null this takes precedence over the legacy single [shadow].
+  /// An explicit empty list disables shadows entirely.
+  final List<BoxShadow>? shadows;
+
+  /// Border pattern for the TOP edge (wave, sharp, arc).
+  ///
+  /// Vertical tickets only — horizontal tickets ignore it (their top edge
+  /// carries the section notches). Cannot be combined with a top corner
+  /// radius; `VTicketcher` asserts this.
+  final BorderPattern? topBorderStyle;
+
+  /// Dash pattern for the outer border stroke.
+  ///
+  /// Only takes effect when [border] or [borderGradient] is set.
+  final BorderDash? borderDash;
+
+  /// Holes punched through the ticket shape.
+  ///
+  /// Cutouts are honored by background, shadows, blur clipping, and the
+  /// border stroke (which rings each hole).
+  final List<PunchHole>? punchHoles;
+
   final StackEffect stackEffect;
   final TicketWatermark? watermark;
   final BlurEffect? blurEffect;
@@ -154,6 +182,10 @@ class TicketcherDecoration {
     this.leftBorderStyle,
     this.rightBorderStyle,
     this.shadow,
+    this.shadows,
+    this.topBorderStyle,
+    this.borderDash,
+    this.punchHoles,
     this.stackEffect = const StackEffect(),
     this.watermark,
     this.blurEffect,
@@ -179,6 +211,10 @@ class TicketcherDecoration {
     BorderPattern? leftBorderStyle,
     BorderPattern? rightBorderStyle,
     BoxShadow? shadow,
+    List<BoxShadow>? shadows,
+    BorderPattern? topBorderStyle,
+    BorderDash? borderDash,
+    List<PunchHole>? punchHoles,
     StackEffect? stackEffect,
     TicketWatermark? watermark,
     BlurEffect? blurEffect,
@@ -200,6 +236,10 @@ class TicketcherDecoration {
       leftBorderStyle: leftBorderStyle ?? this.leftBorderStyle,
       rightBorderStyle: rightBorderStyle ?? this.rightBorderStyle,
       shadow: shadow ?? this.shadow,
+      shadows: shadows ?? this.shadows,
+      topBorderStyle: topBorderStyle ?? this.topBorderStyle,
+      borderDash: borderDash ?? this.borderDash,
+      punchHoles: punchHoles ?? this.punchHoles,
       stackEffect: stackEffect ?? this.stackEffect,
       watermark: watermark ?? this.watermark,
       blurEffect: blurEffect ?? this.blurEffect,
@@ -228,6 +268,10 @@ class TicketcherDecoration {
         other.leftBorderStyle == leftBorderStyle &&
         other.rightBorderStyle == rightBorderStyle &&
         other.shadow == shadow &&
+        listEquals(other.shadows, shadows) &&
+        other.topBorderStyle == topBorderStyle &&
+        other.borderDash == borderDash &&
+        listEquals(other.punchHoles, punchHoles) &&
         other.stackEffect == stackEffect &&
         other.watermark == watermark &&
         other.blurEffect == blurEffect &&
@@ -251,6 +295,10 @@ class TicketcherDecoration {
     leftBorderStyle,
     rightBorderStyle,
     shadow,
+    shadows == null ? null : Object.hashAll(shadows!),
+    topBorderStyle,
+    borderDash,
+    punchHoles == null ? null : Object.hashAll(punchHoles!),
     stackEffect,
     watermark,
     blurEffect,
