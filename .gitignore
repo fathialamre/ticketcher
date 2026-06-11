@@ -50,3 +50,6 @@ app.*.map.json
 # Claude Code
 CLAUDE.md
 .superpowers/
+
+# Internal design docs (kept local, excluded from repo and pub tarball)
+docs/
