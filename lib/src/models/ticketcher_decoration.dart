@@ -107,6 +107,10 @@ class StackEffect {
 /// * Stacked layers effect using [stackEffect]
 /// * Blur and glassmorphism effects using [blurEffect]
 /// * Custom notch shapes using [notchStyle]
+/// * Multiple layered shadows using [shadows]
+/// * Top border pattern using [topBorderStyle] (vertical tickets only)
+/// * Dashed outer border using [borderDash]
+/// * Punch holes using [punchHoles]
 @immutable
 class TicketcherDecoration {
   /// Maximum number of stacked layers allowed
