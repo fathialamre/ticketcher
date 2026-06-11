@@ -176,4 +176,34 @@ void main() {
       expect(tester.takeException(), isNull, reason: 'shape: $shape');
     }
   });
+
+  testWidgets('punch holes paint without errors (V and H)', (tester) async {
+    const holeDecoration = TicketcherDecoration(
+      border: Border.fromBorderSide(BorderSide(color: Colors.purple)),
+      punchHoles: [
+        PunchHole(alignment: Alignment.topCenter, offset: Offset(0, 15), radius: 7),
+        PunchHole(
+          alignment: Alignment.bottomRight,
+          offset: Offset(-20, -20),
+          radius: 6,
+          shape: NotchShape.diamond,
+        ),
+      ],
+    );
+    await pumpTicket(
+      tester,
+      VTicketcher(
+        sections: _twoSections,
+        width: 300,
+        decoration: holeDecoration,
+      ),
+    );
+    expect(tester.takeException(), isNull);
+
+    await pumpTicket(
+      tester,
+      HTicketcher(sections: _twoSections, decoration: holeDecoration),
+    );
+    expect(tester.takeException(), isNull);
+  });
 }
