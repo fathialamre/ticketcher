@@ -906,6 +906,13 @@ class VTicketcherPainter extends CustomPainter {
     // Close the path to ensure a smooth connection
     path.close();
 
+    // Punch holes: subtract them from the outline so background, shadows,
+    // and the border stroke all respect the cutouts.
+    final holes = decoration.punchHoles;
+    final Path outline = (holes == null || holes.isEmpty)
+        ? path
+        : TicketPathBuilder.subtractPunchHoles(path, size, holes);
+
     // Draw shadows if specified. `shadows` wins over the legacy single
     // `shadow`; an explicit empty list disables shadows entirely.
     final resolvedShadows = decoration.shadows ??
@@ -913,7 +920,7 @@ class VTicketcherPainter extends CustomPainter {
             ? <BoxShadow>[decoration.shadow!]
             : const <BoxShadow>[]);
     for (final shadow in resolvedShadows) {
-      final shadowPath = path.shift(shadow.offset);
+      final shadowPath = outline.shift(shadow.offset);
       final shadowPaint = _shadowPaint
         ..color = shadow.color
         ..maskFilter = shadow.blurRadius > 0
@@ -930,7 +937,7 @@ class VTicketcherPainter extends CustomPainter {
         canvas: canvas,
         image: decorationBackgroundImage!,
         rect: Offset.zero & size,
-        clipPath: path,
+        clipPath: outline,
         fit: decoration.backgroundImageFit,
         alignment: decoration.backgroundImageAlignment,
         opacity: decoration.backgroundImageOpacity,
@@ -940,13 +947,13 @@ class VTicketcherPainter extends CustomPainter {
       final backgroundPaint = _backgroundPaint
         ..color = const Color(0xFF000000)
         ..shader = decoration.gradient!.createShader(Offset.zero & size);
-      canvas.drawPath(path, backgroundPaint);
+      canvas.drawPath(outline, backgroundPaint);
     } else {
       // Paint solid color background
       final backgroundPaint = _backgroundPaint
         ..shader = null
         ..color = decoration.backgroundColor;
-      canvas.drawPath(path, backgroundPaint);
+      canvas.drawPath(outline, backgroundPaint);
     }
 
     // Draw section-specific backgrounds (images, gradients, or colors)
@@ -972,7 +979,7 @@ class VTicketcherPainter extends CustomPainter {
           canvas: canvas,
           image: sectionBackgroundImages[i]!,
           rect: sectionRect,
-          clipPath: path,
+          clipPath: outline,
           fit: section.backgroundImageFit,
           alignment: section.backgroundImageAlignment,
           opacity: section.backgroundImageOpacity,
@@ -983,7 +990,7 @@ class VTicketcherPainter extends CustomPainter {
           ..color = const Color(0xFF000000)
           ..shader = section.gradient!.createShader(sectionRect);
         canvas.save();
-        canvas.clipPath(path);
+        canvas.clipPath(outline);
         canvas.drawRect(sectionRect, sectionPaint);
         canvas.restore();
       } else if (section.color != null) {
@@ -992,7 +999,7 @@ class VTicketcherPainter extends CustomPainter {
           ..shader = null
           ..color = section.color!;
         canvas.save();
-        canvas.clipPath(path);
+        canvas.clipPath(outline);
         canvas.drawRect(sectionRect, sectionPaint);
         canvas.restore();
       }
@@ -1018,8 +1025,8 @@ class VTicketcherPainter extends CustomPainter {
       }
 
       final strokePath = decoration.borderDash != null
-          ? dashPath(path, decoration.borderDash!)
-          : path;
+          ? dashPath(outline, decoration.borderDash!)
+          : outline;
       canvas.drawPath(strokePath, borderPaint);
     }
 
