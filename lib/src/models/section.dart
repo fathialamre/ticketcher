@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'ticket_divider.dart';
+
 /// A widget that wraps its child with padding and optional width constraints.
 ///
 /// Example:
@@ -36,6 +38,13 @@ class Section {
   final Color? color;
   final VoidCallback? onTap;
 
+  /// The divider drawn at the boundary AFTER this section (between this
+  /// section and the next one). Overrides the decoration-level
+  /// `TicketcherDecoration.divider` for that boundary only.
+  ///
+  /// Ignored on the last section — there is no boundary after it.
+  final TicketDivider? dividerAfter;
+
   /// The gradient to use as the section background
   final Gradient? gradient;
 
@@ -57,6 +66,7 @@ class Section {
     this.widthFactor,
     this.color,
     this.onTap,
+    this.dividerAfter,
     this.gradient,
     this.backgroundImage,
     this.backgroundImageFit = BoxFit.cover,
@@ -73,6 +83,7 @@ class Section {
     double? widthFactor,
     Color? color,
     VoidCallback? onTap,
+    TicketDivider? dividerAfter,
     Gradient? gradient,
     ImageProvider? backgroundImage,
     BoxFit? backgroundImageFit,
@@ -85,6 +96,7 @@ class Section {
       widthFactor: widthFactor ?? this.widthFactor,
       color: color ?? this.color,
       onTap: onTap ?? this.onTap,
+      dividerAfter: dividerAfter ?? this.dividerAfter,
       gradient: gradient ?? this.gradient,
       backgroundImage: backgroundImage ?? this.backgroundImage,
       backgroundImageFit: backgroundImageFit ?? this.backgroundImageFit,
@@ -104,6 +116,7 @@ class Section {
         other.widthFactor == widthFactor &&
         other.color == color &&
         other.onTap == onTap &&
+        other.dividerAfter == dividerAfter &&
         other.gradient == gradient &&
         other.backgroundImage == backgroundImage &&
         other.backgroundImageFit == backgroundImageFit &&
@@ -118,6 +131,7 @@ class Section {
     widthFactor,
     color,
     onTap,
+    dividerAfter,
     gradient,
     backgroundImage,
     backgroundImageFit,

@@ -35,5 +35,31 @@ void main() {
       expect(a, equals(b));
       expect(a.hashCode, b.hashCode);
     });
+
+    test('differing dividerAfter ⇒ unequal', () {
+      const child = Text('hi');
+      final a = Section(
+        child: child,
+        dividerAfter: TicketDivider.solid(color: Colors.red),
+      );
+      final b = Section(
+        child: child,
+        dividerAfter: TicketDivider.solid(color: Colors.blue),
+      );
+      final c = Section(
+        child: child,
+        dividerAfter: TicketDivider.solid(color: Colors.red),
+      );
+      expect(a, isNot(equals(b)));
+      expect(a, equals(c));
+      expect(a.hashCode, c.hashCode);
+    });
+
+    test('copyWith carries dividerAfter', () {
+      final divider = TicketDivider.dashed(color: Colors.grey);
+      final a = Section(child: const Text('hi'), dividerAfter: divider);
+      expect(a.copyWith().dividerAfter, divider);
+      expect(a.copyWith(), equals(a));
+    });
   });
 }
