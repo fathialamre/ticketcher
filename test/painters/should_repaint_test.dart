@@ -118,6 +118,20 @@ void main() {
       );
       expect(b.shouldRepaint(a), isTrue);
     });
+
+    test('different Section.dividerAfter ⇒ true', () {
+      final a = _vp();
+      final b = _vp(
+        sections: [
+          Section(
+            child: const Text('A'),
+            dividerAfter: TicketDivider.solid(color: Colors.red),
+          ),
+          const Section(child: Text('B')),
+        ],
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
   });
 
   group('HTicketcherPainter.shouldRepaint', () {
@@ -168,6 +182,20 @@ void main() {
         decoration: const TicketcherDecoration(
           punchHoles: [PunchHole(radius: 6)],
         ),
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
+
+    test('different Section.dividerAfter ⇒ true', () {
+      final a = _hp();
+      final b = _hp(
+        sections: [
+          Section(
+            child: const Text('A'),
+            dividerAfter: TicketDivider.solid(color: Colors.red),
+          ),
+          const Section(child: Text('B')),
+        ],
       );
       expect(b.shouldRepaint(a), isTrue);
     });
