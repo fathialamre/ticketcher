@@ -115,4 +115,34 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('dashed gradient border paints without errors', (tester) async {
+    await pumpTicket(
+      tester,
+      VTicketcher(
+        sections: _twoSections,
+        width: 300,
+        decoration: const TicketcherDecoration(
+          borderGradient: LinearGradient(colors: [Colors.amber, Colors.red]),
+          borderWidth: 2,
+          borderDash: BorderDash(dash: 7, gap: 5),
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('dashed solid border paints without errors (H)', (tester) async {
+    await pumpTicket(
+      tester,
+      HTicketcher(
+        sections: _twoSections,
+        decoration: const TicketcherDecoration(
+          border: Border.fromBorderSide(BorderSide(color: Colors.teal, width: 2)),
+          borderDash: BorderDash(dash: 6, gap: 4),
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
+  });
 }
