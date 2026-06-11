@@ -662,16 +662,19 @@ class VTicketcherPainter extends CustomPainter {
     // Close the path to ensure a smooth connection
     path.close();
 
-    // Draw shadow if specified
-    if (decoration.shadow != null) {
-      final shadow = decoration.shadow!;
-      final shadowPath = Path.from(path);
-      shadowPath.shift(Offset(shadow.offset.dx, shadow.offset.dy));
-
+    // Draw shadows if specified. `shadows` wins over the legacy single
+    // `shadow`; an explicit empty list disables shadows entirely.
+    final resolvedShadows = decoration.shadows ??
+        (decoration.shadow != null
+            ? <BoxShadow>[decoration.shadow!]
+            : const <BoxShadow>[]);
+    for (final shadow in resolvedShadows) {
+      final shadowPath = path.shift(shadow.offset);
       final shadowPaint = _shadowPaint
         ..color = shadow.color
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadow.blurRadius);
-
+        ..maskFilter = shadow.blurRadius > 0
+            ? MaskFilter.blur(BlurStyle.normal, shadow.blurRadius)
+            : null;
       canvas.drawPath(shadowPath, shadowPaint);
     }
 

@@ -128,6 +128,9 @@ class TicketcherDecoration {
   ///
   /// When non-null this takes precedence over the legacy single [shadow].
   /// An explicit empty list disables shadows entirely.
+  ///
+  /// Note: [BoxShadow.spreadRadius] is not applied; only [BoxShadow.offset],
+  /// [BoxShadow.color], and [BoxShadow.blurRadius] are used.
   final List<BoxShadow>? shadows;
 
   /// Border pattern for the TOP edge (wave, sharp, arc).
