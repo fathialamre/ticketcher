@@ -49,3 +49,4 @@ app.*.map.json
 
 # Claude Code
 CLAUDE.md
+.superpowers/
