@@ -9,6 +9,7 @@ import '../models/ticket_radius.dart';
 import '../models/ticket_divider.dart';
 import '../models/ticket_watermark.dart';
 import '_equality.dart';
+import 'path_dasher.dart';
 import 'ticket_path_builder.dart';
 
 /// A custom painter that draws a vertical ticket with customizable sections, borders, and dividers.
@@ -931,7 +932,10 @@ class VTicketcherPainter extends CustomPainter {
         borderPaint.strokeWidth = decoration.border!.top.width;
       }
 
-      canvas.drawPath(path, borderPaint);
+      final strokePath = decoration.borderDash != null
+          ? dashPath(path, decoration.borderDash!)
+          : path;
+      canvas.drawPath(strokePath, borderPaint);
     }
 
     // Draw dividers between ticket sections. A section's `dividerAfter`

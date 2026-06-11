@@ -9,6 +9,7 @@ import '../models/ticket_divider.dart';
 import '../models/border_shape.dart';
 import '../models/ticket_watermark.dart';
 import '_equality.dart';
+import 'path_dasher.dart';
 import 'ticket_path_builder.dart';
 
 /// A custom painter that draws a horizontal ticket with customizable sections, borders, and dividers.
@@ -1011,11 +1012,15 @@ class HTicketcherPainter extends CustomPainter {
         borderPaint.strokeWidth = decoration.borderWidth;
       } else if (decoration.border != null) {
         // Use solid color border
+        borderPaint.shader = null;
         borderPaint.color = decoration.border!.top.color;
         borderPaint.strokeWidth = decoration.border!.top.width;
       }
 
-      canvas.drawPath(path, borderPaint);
+      final strokePath = decoration.borderDash != null
+          ? dashPath(path, decoration.borderDash!)
+          : path;
+      canvas.drawPath(strokePath, borderPaint);
     }
 
     // Draw dividers between ticket sections. A section's `dividerAfter`
