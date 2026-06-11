@@ -97,6 +97,14 @@ class VTicketcher extends StatefulWidget {
               decoration.borderRadius.corner != TicketCorner.all),
       'Cannot use bottomBorderStyle when there is a bottom border radius',
     );
+    assert(
+      decoration.topBorderStyle == null ||
+          (decoration.borderRadius.corner != TicketCorner.top &&
+              decoration.borderRadius.corner != TicketCorner.topLeft &&
+              decoration.borderRadius.corner != TicketCorner.topRight &&
+              decoration.borderRadius.corner != TicketCorner.all),
+      'Cannot use topBorderStyle when there is a top border radius',
+    );
   }
 
   @override
