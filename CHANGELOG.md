@@ -1,3 +1,20 @@
+## 2.1.0
+
+### New features
+* **Multiple shadows** — `TicketcherDecoration.shadows: List<BoxShadow>` draws layered shadows in list order. Takes precedence over the legacy single `shadow`; an explicit empty list disables shadows. (`BoxShadow.spreadRadius` is not applied — only offset, color, and blurRadius.)
+* **Top border pattern** — `TicketcherDecoration.topBorderStyle: BorderPattern` mirrors `bottomBorderStyle` on the top edge (wave/sharp/arc). Vertical tickets only; cannot combine with a top corner radius (asserted).
+* **Dashed outer border** — `TicketcherDecoration.borderDash: BorderDash(dash:, gap:)` strokes the outline as dashes, following corners, notches, and border patterns. Works with both solid `border` and `borderGradient`.
+* **Per-boundary dividers** — `Section.dividerAfter: TicketDivider` styles the boundary after that section, overriding the decoration-level `divider`. Mix tear lines, waves, and dashes in one ticket.
+* **Punch holes** — `TicketcherDecoration.punchHoles: List<PunchHole>` cuts true holes through the ticket (background, shadows, blur clip, and border stroke all respect them). Position by `alignment` + `offset`; shapes: circle, square, diamond, triangle.
+
+### Bug fixes
+* Shadow `offset` was never applied: both painters called `Path.shift` (which returns a new path) and discarded the result. Offsets now work for `shadow` and `shadows`.
+* `HTicketcherPainter` did not reset the border paint's shader when switching from a gradient border to a solid border, leaving a stale gradient.
+
+### Other
+* Extracted divider drawing into `_drawDividerAt` in both painters (pure refactor enabling per-boundary dividers).
+* New shared geometry: `TicketPathBuilder.subtractPunchHoles`, `dashPath` helper. No new dependencies.
+
 ## 2.0.0
 
 ### Breaking changes

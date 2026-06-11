@@ -90,6 +90,12 @@ code.
   - [Width Control](#width-control)
   - [Notch Radius](#notch-radius)
   - [Notch Shapes](#notch-shapes-new)
+- [2.1.0 Features](#210-features)
+  - [Multiple Shadows](#multiple-shadows)
+  - [Top Border Pattern](#top-border-pattern-vertical-only)
+  - [Dashed Outer Border](#dashed-outer-border)
+  - [Per-Boundary Dividers](#per-boundary-dividers)
+  - [Punch Holes](#punch-holes)
 - [Important Usage Notes](#important-usage-notes)
   - [Assertions](#assertions)
   - [Best Practices](#best-practices)
@@ -111,6 +117,11 @@ code.
 - **✨ Notch Shapes**: Multiple notch shapes including semicircle, triangle, square, and diamond
 - **✨ Gradient Dividers**: Dividers with gradient colors
 - **✨ Section Gradients**: Per-section gradient backgrounds (Linear, Radial, Sweep)
+- 🌑 **Multiple Shadows**: Layer several `BoxShadow`s for colored glow effects
+- 🧾 **Top Border Pattern**: Receipt-style torn top edge (wave, sharp, arc)
+- ✂️ **Dashed Outer Border**: Classic coupon cut-line that follows notches and corners
+- 🪄 **Per-Boundary Dividers**: A different divider style at every section boundary
+- 🕳️ **Punch Holes**: True cutouts for lanyards and tags
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -125,7 +136,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^2.0.0
+  ticketcher: ^2.1.0
 ```
 
 ## Usage
@@ -1332,6 +1343,71 @@ Run locally:
 ```bash
 flutter test
 ```
+
+## 2.1.0 Features
+
+### Multiple Shadows
+
+```dart
+Ticketcher(
+  sections: [...],
+  decoration: TicketcherDecoration(
+    shadows: [
+      BoxShadow(color: Color(0x806366F1), blurRadius: 6, offset: Offset(0, 3)),
+      BoxShadow(color: Color(0x59EC4899), blurRadius: 18, offset: Offset(0, 10)),
+    ],
+  ),
+)
+```
+
+`shadows` wins over the legacy `shadow` when both are set; `shadows: []` disables shadows. `BoxShadow.spreadRadius` is not applied.
+
+### Top Border Pattern (vertical only)
+
+```dart
+TicketcherDecoration(
+  borderRadius: TicketRadius.zero, // no top radius with a top pattern
+  topBorderStyle: BorderPattern(shape: BorderShape.sharp, height: 8, width: 20),
+)
+```
+
+### Dashed Outer Border
+
+```dart
+TicketcherDecoration(
+  borderGradient: LinearGradient(colors: [Colors.amber, Colors.red]),
+  borderWidth: 2,
+  borderDash: BorderDash(dash: 7, gap: 5),
+)
+```
+
+Requires `border` or `borderGradient`. The dashes follow the full ticket outline.
+
+### Per-Boundary Dividers
+
+```dart
+Ticketcher(
+  sections: [
+    Section(child: header, dividerAfter: TicketDivider.tearLine(color: Colors.grey)),
+    Section(child: body, dividerAfter: TicketDivider.smoothWave(color: Colors.purple)),
+    Section(child: stub), // last section: no boundary after it
+  ],
+)
+```
+
+`Section.dividerAfter` overrides the decoration-level `divider` for that boundary only.
+
+### Punch Holes
+
+```dart
+TicketcherDecoration(
+  punchHoles: [
+    PunchHole(alignment: Alignment.topCenter, offset: Offset(0, 15), radius: 7),
+  ],
+)
+```
+
+Holes are true cutouts — background, shadows, blur, and the border stroke all respect them.
 
 ## Contributing
 
