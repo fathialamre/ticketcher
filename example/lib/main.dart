@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'show_cases/circle_divider.dart';
 import 'show_cases/wave_divider.dart';
 import 'show_cases/smooth_wave_divider.dart';
+import 'show_cases/stitching_showcase.dart';
 
 class ExampleItem {
   final IconData icon;
@@ -38,6 +39,12 @@ class ExampleItem {
 
 final List<ExampleItem> examples = [
   // New Features v2.1.0
+  ExampleItem(
+    icon: Icons.straighten,
+    title: 'Stitching Border',
+    subtitle: 'Inset dashed thread following the outline',
+    page: const StitchingShowcase(),
+  ),
   ExampleItem(
     icon: Icons.new_releases_outlined,
     title: '2.1.0 Features',
