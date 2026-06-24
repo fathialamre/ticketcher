@@ -58,11 +58,18 @@ void main() {
       final b = path.getBounds();
       expect(b.left, greaterThanOrEqualTo(12 - 0.5));
       expect(b.right, lessThanOrEqualTo(400 - 12 + 0.5));
+      expect(b.top, greaterThanOrEqualTo(12 - 0.5));
+      expect(b.bottom, lessThanOrEqualTo(200 - 12 + 0.5));
     });
 
     test('notch indents the top edge at the section boundary', () {
       expect(path.contains(const Offset(100, 18)), isTrue);
       expect(path.contains(const Offset(200, 18)), isFalse);
+    });
+
+    test('notch indents the bottom edge at the section boundary', () {
+      expect(path.contains(const Offset(100, 182)), isTrue);
+      expect(path.contains(const Offset(200, 182)), isFalse);
     });
   });
 }

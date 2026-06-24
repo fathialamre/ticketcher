@@ -124,7 +124,7 @@ code.
 - ✂️ **Dashed Outer Border**: Classic coupon cut-line that follows notches and corners
 - 🪄 **Per-Boundary Dividers**: A different divider style at every section boundary
 - 🕳️ **Punch Holes**: True cutouts for lanyards and tags
-- 🧵 **Stitching border**: Inset dashed "thread" line that follows the full outline for a sewn/coupon look
+- 🧵 **Stitching Border**: Inset dashed "thread" line that follows the full outline for a sewn/coupon look
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -1386,6 +1386,8 @@ TicketcherDecoration(
 
 Requires `border` or `borderGradient`. The dashes follow the full ticket outline.
 
+## 2.2.0 Features
+
 ### Stitching Border
 
 Add an inset dashed "thread" line that follows the ticket outline — corners and
@@ -1442,27 +1444,6 @@ TicketcherDecoration(
 ```
 
 Holes are true cutouts — background, shadows, blur, and the border stroke all respect them.
-
-## 2.2.0 Features
-
-### Stitching Border
-
-```dart
-TicketcherDecoration(
-  backgroundColor: const Color(0xFF19A8B8),
-  borderRadius: const TicketRadius(radius: 24),
-  stitch: const TicketStitch(
-    color: Colors.white,
-    inset: 12,
-    length: 7,
-    spacing: 7,
-    thickness: 2,
-    cap: StrokeCap.round,
-  ),
-)
-```
-
-Works in both vertical and horizontal orientations. Independent of `border` / `borderDash`.
 
 ## Contributing
 
