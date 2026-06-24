@@ -1,3 +1,11 @@
+## 2.2.0
+
+- **Stitching border**: new `TicketStitch` on `TicketcherDecoration.stitch` — an
+  inset dashed "thread" line that follows the full outline (rounded corners +
+  section notches) for a sewn/stitched look. Configurable `color`, `inset`,
+  `length`, `spacing`, `thickness`, and `cap`. Works in both orientations and is
+  independent of `border` / `borderDash`. Purely additive.
+
 ## 2.1.0
 
 ### New features
