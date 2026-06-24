@@ -7,6 +7,7 @@ import 'notch_shape.dart';
 import 'punch_hole.dart';
 import 'ticket_divider.dart';
 import 'ticket_radius.dart';
+import 'ticket_stitch.dart';
 import 'ticket_watermark.dart';
 
 /// A class that defines the stacked layers effect for a ticket.
@@ -110,6 +111,7 @@ class StackEffect {
 /// * Multiple layered shadows using [shadows]
 /// * Top border pattern using [topBorderStyle] (vertical tickets only)
 /// * Dashed outer border using [borderDash]
+/// * Stitched (inset dashed) border using [stitch]
 /// * Punch holes using [punchHoles]
 @immutable
 class TicketcherDecoration {
@@ -148,6 +150,11 @@ class TicketcherDecoration {
   ///
   /// Only takes effect when [border] or [borderGradient] is set.
   final BorderDash? borderDash;
+
+  /// Inset dashed "thread" line following the outline, for a stitched look.
+  ///
+  /// Independent of [border] / [borderDash]. Both orientations.
+  final TicketStitch? stitch;
 
   /// Holes punched through the ticket shape.
   ///
@@ -192,6 +199,7 @@ class TicketcherDecoration {
     this.shadows,
     this.topBorderStyle,
     this.borderDash,
+    this.stitch,
     this.punchHoles,
     this.stackEffect = const StackEffect(),
     this.watermark,
@@ -221,6 +229,7 @@ class TicketcherDecoration {
     List<BoxShadow>? shadows,
     BorderPattern? topBorderStyle,
     BorderDash? borderDash,
+    TicketStitch? stitch,
     List<PunchHole>? punchHoles,
     StackEffect? stackEffect,
     TicketWatermark? watermark,
@@ -246,6 +255,7 @@ class TicketcherDecoration {
       shadows: shadows ?? this.shadows,
       topBorderStyle: topBorderStyle ?? this.topBorderStyle,
       borderDash: borderDash ?? this.borderDash,
+      stitch: stitch ?? this.stitch,
       punchHoles: punchHoles ?? this.punchHoles,
       stackEffect: stackEffect ?? this.stackEffect,
       watermark: watermark ?? this.watermark,
@@ -278,6 +288,7 @@ class TicketcherDecoration {
         listEquals(other.shadows, shadows) &&
         other.topBorderStyle == topBorderStyle &&
         other.borderDash == borderDash &&
+        other.stitch == stitch &&
         listEquals(other.punchHoles, punchHoles) &&
         other.stackEffect == stackEffect &&
         other.watermark == watermark &&
@@ -305,6 +316,7 @@ class TicketcherDecoration {
     shadows == null ? null : Object.hashAll(shadows!),
     topBorderStyle,
     borderDash,
+    stitch,
     punchHoles == null ? null : Object.hashAll(punchHoles!),
     stackEffect,
     watermark,
