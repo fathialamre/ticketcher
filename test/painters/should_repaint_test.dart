@@ -132,6 +132,16 @@ void main() {
       );
       expect(b.shouldRepaint(a), isTrue);
     });
+
+    test('different stitch ⇒ true', () {
+      final a = _vp();
+      final b = _vp(
+        decoration: const TicketcherDecoration(
+          stitch: TicketStitch(color: Colors.white, inset: 10),
+        ),
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
   });
 
   group('HTicketcherPainter.shouldRepaint', () {
@@ -196,6 +206,16 @@ void main() {
           ),
           const Section(child: Text('B')),
         ],
+      );
+      expect(b.shouldRepaint(a), isTrue);
+    });
+
+    test('different stitch ⇒ true', () {
+      final a = _hp();
+      final b = _hp(
+        decoration: const TicketcherDecoration(
+          stitch: TicketStitch(color: Colors.white, inset: 10),
+        ),
       );
       expect(b.shouldRepaint(a), isTrue);
     });
