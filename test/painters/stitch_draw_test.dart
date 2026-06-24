@@ -12,7 +12,11 @@ class _RecordingCanvas implements Canvas {
   @override
   void drawPath(Path path, Paint paint) {
     drawPathCount++;
-    drawPathPaints.add(paint);
+    drawPathPaints.add(Paint()
+      ..style = paint.style
+      ..color = paint.color
+      ..strokeWidth = paint.strokeWidth
+      ..strokeCap = paint.strokeCap);
   }
 
   @override
@@ -77,6 +81,12 @@ void main() {
     ).paint(withStitch, size);
 
     expect(withStitch.drawPathCount, greaterThan(without.drawPathCount));
+    expect(
+      withStitch.drawPathPaints.any((p) =>
+          p.style == PaintingStyle.stroke &&
+          p.color == const Color(0xFFFFFFFF)),
+      isTrue,
+    );
   });
 
   test('degenerate inset skips the stitch draw (no extra path)', () {
