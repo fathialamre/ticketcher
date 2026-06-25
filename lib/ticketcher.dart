@@ -7,6 +7,7 @@ export 'src/models/punch_hole.dart';
 export 'src/models/section.dart';
 export 'src/models/ticket_divider.dart';
 export 'src/models/ticket_radius.dart';
+export 'src/models/ticket_stitch.dart';
 export 'src/models/ticket_watermark.dart';
 export 'src/models/ticketcher_decoration.dart';
 export 'src/widgets/hticketcher.dart';

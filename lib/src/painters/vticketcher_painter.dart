@@ -11,6 +11,7 @@ import '../models/ticket_watermark.dart';
 import '_equality.dart';
 import 'path_dasher.dart';
 import 'ticket_path_builder.dart';
+import '../models/border_dash.dart';
 
 /// A custom painter that draws a vertical ticket with customizable sections, borders, and dividers.
 ///
@@ -101,6 +102,9 @@ class VTicketcherPainter extends CustomPainter {
   final Paint _backgroundPaint = Paint()..style = PaintingStyle.fill;
   final Paint _sectionFillPaint = Paint()..style = PaintingStyle.fill;
   final Paint _borderPaint = Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeJoin = StrokeJoin.round;
+  final Paint _stitchPaint = Paint()
     ..style = PaintingStyle.stroke
     ..strokeJoin = StrokeJoin.round;
   final Paint _dividerLinePaint = Paint()..style = PaintingStyle.stroke;
@@ -1028,6 +1032,28 @@ class VTicketcherPainter extends CustomPainter {
           ? dashPath(outline, decoration.borderDash!)
           : outline;
       canvas.drawPath(strokePath, borderPaint);
+    }
+
+    // Draw the stitch line if specified: an inset dashed thread following the
+    // outline. Skipped when the inset would collapse the inset contour.
+    final stitch = decoration.stitch;
+    if (stitch != null && stitch.inset * 2 < size.shortestSide) {
+      final stitchOutline = TicketPathBuilder.buildVerticalStitchPath(
+        size: size,
+        notchRadius: notchRadius,
+        decoration: decoration,
+        sectionHeights: sectionHeights,
+        inset: stitch.inset,
+      );
+      final stitchPaint = _stitchPaint
+        ..color = stitch.color
+        ..strokeWidth = stitch.thickness
+        ..strokeCap = stitch.cap;
+      canvas.drawPath(
+        dashPath(stitchOutline,
+            BorderDash(dash: stitch.length, gap: stitch.spacing)),
+        stitchPaint,
+      );
     }
 
     // Draw dividers between ticket sections. A section's `dividerAfter`

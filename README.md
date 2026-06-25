@@ -96,6 +96,8 @@ code.
   - [Dashed Outer Border](#dashed-outer-border)
   - [Per-Boundary Dividers](#per-boundary-dividers)
   - [Punch Holes](#punch-holes)
+- [2.2.0 Features](#220-features)
+  - [Stitching Border](#stitching-border)
 - [Important Usage Notes](#important-usage-notes)
   - [Assertions](#assertions)
   - [Best Practices](#best-practices)
@@ -122,6 +124,7 @@ code.
 - ✂️ **Dashed Outer Border**: Classic coupon cut-line that follows notches and corners
 - 🪄 **Per-Boundary Dividers**: A different divider style at every section boundary
 - 🕳️ **Punch Holes**: True cutouts for lanyards and tags
+- 🧵 **Stitching Border**: Inset dashed "thread" line that follows the full outline for a sewn/coupon look
 - Custom border radius for any corner
 - Shadow effects
 - Section padding control
@@ -136,7 +139,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ticketcher: ^2.1.0
+  ticketcher: ^2.2.0
 ```
 
 ## Usage
@@ -1382,6 +1385,39 @@ TicketcherDecoration(
 ```
 
 Requires `border` or `borderGradient`. The dashes follow the full ticket outline.
+
+## 2.2.0 Features
+
+### Stitching Border
+
+Add an inset dashed "thread" line that follows the ticket outline — corners and
+section notches included — for a sewn / coupon look. It's independent of the
+outer `border`, so you can use either or both.
+
+```dart
+Ticketcher(
+  decoration: TicketcherDecoration(
+    backgroundColor: const Color(0xFF19A8B8),
+    borderRadius: const TicketRadius(radius: 24),
+    stitch: const TicketStitch(
+      color: Colors.white,
+      inset: 12,     // distance from the edge
+      length: 7,     // stitch (dash) length
+      spacing: 7,    // gap between stitches
+      thickness: 2,
+      cap: StrokeCap.round,
+    ),
+  ),
+  sections: [
+    Section(child: Text('ADMIT ONE')),
+    Section(child: Text('Row C · Seat 42')),
+  ],
+)
+```
+
+Notches are wrapped with a smooth rounded arc regardless of `notchStyle`. Keep
+`inset` below half the ticket's smallest dimension. Border patterns and punch
+holes are not traced by the stitch.
 
 ### Per-Boundary Dividers
 

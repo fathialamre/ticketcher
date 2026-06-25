@@ -102,5 +102,23 @@ void main() {
       // hashCode collision would be legal, so only equality is asserted.
       expect(withNull, isNot(equals(withEmpty)));
     });
+
+    test('differing stitch ⇒ unequal; content-equal ⇒ equal', () {
+      const a = TicketcherDecoration(stitch: TicketStitch(inset: 10));
+      const b = TicketcherDecoration(stitch: TicketStitch(inset: 14));
+      const c = TicketcherDecoration(stitch: TicketStitch(inset: 10));
+      expect(a, isNot(equals(b)));
+      expect(a, equals(c));
+      expect(a.hashCode, c.hashCode);
+    });
+
+    test('copyWith round-trips stitch', () {
+      const a = TicketcherDecoration(stitch: TicketStitch(inset: 10));
+      expect(a.copyWith(), equals(a));
+      expect(
+        a.copyWith(stitch: const TicketStitch(inset: 20)).stitch,
+        const TicketStitch(inset: 20),
+      );
+    });
   });
 }

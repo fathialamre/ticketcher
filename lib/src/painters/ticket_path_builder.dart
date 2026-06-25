@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import '../models/notch_shape.dart';
 import '../models/punch_hole.dart';
@@ -462,6 +464,198 @@ class TicketPathBuilder {
     final holes = decoration.punchHoles;
     if (holes == null || holes.isEmpty) return path;
     return subtractPunchHoles(path, size, holes);
+  }
+
+  /// Builds the inset "stitch" outline for a vertical ticket: the contour
+  /// offset inward by [inset], with corner radii reduced by [inset] and each
+  /// notch wrapped by a rounded arc of radius `notchRadius + inset` centred on
+  /// the original notch position. Border patterns and punch holes are ignored.
+  static Path buildVerticalStitchPath({
+    required Size size,
+    required double notchRadius,
+    required TicketcherDecoration decoration,
+    required List<double> sectionHeights,
+    required double inset,
+  }) {
+    final path = Path();
+    final r = decoration.borderRadius.radius;
+    final corner = decoration.borderRadius.corner;
+    final rr = math.max(0.0, r - inset);
+    final bool cw = decoration.borderRadius.direction == RadiusDirection.inward;
+
+    final double left = inset;
+    final double top = inset;
+    final double right = size.width - inset;
+    final double bottom = size.height - inset;
+
+    bool shouldRoundCorner(TicketCorner targetCorner) {
+      switch (corner) {
+        case TicketCorner.all:
+          return true;
+        case TicketCorner.top:
+          return targetCorner == TicketCorner.topLeft ||
+              targetCorner == TicketCorner.topRight;
+        case TicketCorner.bottom:
+          return targetCorner == TicketCorner.bottomLeft ||
+              targetCorner == TicketCorner.bottomRight;
+        case TicketCorner.none:
+          return false;
+        default:
+          return corner == targetCorner;
+      }
+    }
+
+    bool round(TicketCorner c) => shouldRoundCorner(c) && rr > 0;
+
+    final cumulative = <double>[];
+    double acc = 0;
+    for (final h in sectionHeights) {
+      acc += h;
+      cumulative.add(acc);
+    }
+
+    final nr = decoration.notchStyle?.radius ?? notchRadius;
+    final notchR = nr + inset;
+    final yj = math.sqrt(nr * nr + 2 * nr * inset);
+
+    path.moveTo(round(TicketCorner.topLeft) ? left + rr : left, top);
+
+    if (round(TicketCorner.topRight)) {
+      path.lineTo(right - rr, top);
+      path.arcToPoint(Offset(right, top + rr),
+          radius: Radius.circular(rr), clockwise: cw);
+    } else {
+      path.lineTo(right, top);
+    }
+
+    for (int i = 0; i < sectionHeights.length - 1; i++) {
+      final cy = cumulative[i];
+      path.lineTo(right, cy - yj);
+      path.arcToPoint(Offset(right, cy + yj),
+          radius: Radius.circular(notchR), clockwise: false);
+    }
+
+    path.lineTo(right, round(TicketCorner.bottomRight) ? bottom - rr : bottom);
+    if (round(TicketCorner.bottomRight)) {
+      path.arcToPoint(Offset(right - rr, bottom),
+          radius: Radius.circular(rr), clockwise: cw);
+    }
+
+    path.lineTo(round(TicketCorner.bottomLeft) ? left + rr : left, bottom);
+    if (round(TicketCorner.bottomLeft)) {
+      path.arcToPoint(Offset(left, bottom - rr),
+          radius: Radius.circular(rr), clockwise: cw);
+    }
+
+    for (int i = sectionHeights.length - 2; i >= 0; i--) {
+      final cy = cumulative[i];
+      path.lineTo(left, cy + yj);
+      path.arcToPoint(Offset(left, cy - yj),
+          radius: Radius.circular(notchR), clockwise: false);
+    }
+
+    path.lineTo(left, round(TicketCorner.topLeft) ? top + rr : top);
+    if (round(TicketCorner.topLeft)) {
+      path.arcToPoint(Offset(left + rr, top),
+          radius: Radius.circular(rr), clockwise: cw);
+    }
+
+    path.close();
+    return path;
+  }
+
+  /// Horizontal mirror of [buildVerticalStitchPath]: notches sit on the top and
+  /// bottom edges.
+  static Path buildHorizontalStitchPath({
+    required Size size,
+    required double notchRadius,
+    required TicketcherDecoration decoration,
+    required List<double> sectionWidths,
+    required double inset,
+  }) {
+    final path = Path();
+    final r = decoration.borderRadius.radius;
+    final corner = decoration.borderRadius.corner;
+    final rr = math.max(0.0, r - inset);
+    final bool cw = decoration.borderRadius.direction == RadiusDirection.inward;
+
+    final double left = inset;
+    final double top = inset;
+    final double right = size.width - inset;
+    final double bottom = size.height - inset;
+
+    bool shouldRoundCorner(TicketCorner targetCorner) {
+      switch (corner) {
+        case TicketCorner.all:
+          return true;
+        case TicketCorner.top:
+          return targetCorner == TicketCorner.topLeft ||
+              targetCorner == TicketCorner.topRight;
+        case TicketCorner.bottom:
+          return targetCorner == TicketCorner.bottomLeft ||
+              targetCorner == TicketCorner.bottomRight;
+        case TicketCorner.none:
+          return false;
+        default:
+          return corner == targetCorner;
+      }
+    }
+
+    bool round(TicketCorner c) => shouldRoundCorner(c) && rr > 0;
+
+    final cumulative = <double>[];
+    double acc = 0;
+    for (final w in sectionWidths) {
+      acc += w;
+      cumulative.add(acc);
+    }
+
+    final nr = decoration.notchStyle?.radius ?? notchRadius;
+    final notchR = nr + inset;
+    final xj = math.sqrt(nr * nr + 2 * nr * inset);
+
+    path.moveTo(round(TicketCorner.topLeft) ? left + rr : left, top);
+
+    for (int i = 0; i < sectionWidths.length - 1; i++) {
+      final cx = cumulative[i];
+      path.lineTo(cx - xj, top);
+      path.arcToPoint(Offset(cx + xj, top),
+          radius: Radius.circular(notchR), clockwise: false);
+    }
+
+    path.lineTo(round(TicketCorner.topRight) ? right - rr : right, top);
+    if (round(TicketCorner.topRight)) {
+      path.arcToPoint(Offset(right, top + rr),
+          radius: Radius.circular(rr), clockwise: cw);
+    }
+
+    path.lineTo(right, round(TicketCorner.bottomRight) ? bottom - rr : bottom);
+    if (round(TicketCorner.bottomRight)) {
+      path.arcToPoint(Offset(right - rr, bottom),
+          radius: Radius.circular(rr), clockwise: cw);
+    }
+
+    for (int i = sectionWidths.length - 2; i >= 0; i--) {
+      final cx = cumulative[i];
+      path.lineTo(cx + xj, bottom);
+      path.arcToPoint(Offset(cx - xj, bottom),
+          radius: Radius.circular(notchR), clockwise: false);
+    }
+
+    path.lineTo(round(TicketCorner.bottomLeft) ? left + rr : left, bottom);
+    if (round(TicketCorner.bottomLeft)) {
+      path.arcToPoint(Offset(left, bottom - rr),
+          radius: Radius.circular(rr), clockwise: cw);
+    }
+
+    path.lineTo(left, round(TicketCorner.topLeft) ? top + rr : top);
+    if (round(TicketCorner.topLeft)) {
+      path.arcToPoint(Offset(left + rr, top),
+          radius: Radius.circular(rr), clockwise: cw);
+    }
+
+    path.close();
+    return path;
   }
 
   /// Subtracts [holes] from [outline] and returns the combined path.
