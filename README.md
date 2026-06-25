@@ -1394,6 +1394,10 @@ Add an inset dashed "thread" line that follows the ticket outline — corners an
 section notches included — for a sewn / coupon look. It's independent of the
 outer `border`, so you can use either or both.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stitching_border.png" width="250" alt="Stitching Border Example">
+</p>
+
 ```dart
 Ticketcher(
   decoration: TicketcherDecoration(
