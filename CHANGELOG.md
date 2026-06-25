@@ -5,6 +5,10 @@
   section notches) for a sewn/stitched look. Configurable `color`, `inset`,
   `length`, `spacing`, `thickness`, and `cap`. Works in both orientations and is
   independent of `border` / `borderDash`. Purely additive.
+- **Widget watermark fix**: `TicketWatermark.widget` now renders as a background
+  layer behind the section content and is clipped to the ticket shape (notches +
+  corners), instead of an unclipped foreground overlay that sat over a single
+  section. Alignment, size, opacity, rotation, and offset still apply.
 
 ## 2.1.0
 
