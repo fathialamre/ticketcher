@@ -31,9 +31,9 @@ class WatermarkShowcase extends StatelessWidget {
             ),
 
             _buildSection(
-              'Horizontal Icon Watermark',
-              'Icon watermark on horizontal ticket',
-              _buildHorizontalIconWatermark(),
+              'Horizontal Image Watermark',
+              'Image watermark as a clipped background',
+              _buildHorizontalImageWatermark(),
             ),
 
             // Vertical ticket examples
@@ -137,7 +137,7 @@ class WatermarkShowcase extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalIconWatermark() {
+  Widget _buildHorizontalImageWatermark() {
     return Ticketcher.horizontal(
       height: 150,
       sections: [
@@ -182,11 +182,19 @@ class WatermarkShowcase extends StatelessWidget {
         backgroundColor: Colors.green.shade50,
         border: Border.all(color: Colors.green.shade200),
         borderRadius: const TicketRadius(radius: 12),
+        // The widget (image) watermark renders as a clipped background layer
+        // behind the section content, spanning the whole ticket.
         watermark: const TicketWatermark.widget(
-          widget: Icon(Icons.flight, size: 60, color: Colors.green),
-          opacity: 0.2,
+          widget: Image(
+            image: NetworkImage(
+              'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
+            ),
+            fit: BoxFit.cover,
+          ),
+          opacity: 0.25,
           alignment: WatermarkAlignment.center,
-          rotation: 15,
+          width: 320,
+          height: 150,
         ),
       ),
     );

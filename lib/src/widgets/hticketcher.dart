@@ -7,6 +7,7 @@ import '../models/ticket_watermark.dart';
 import '../painters/hticketcher_painter.dart';
 import '../painters/image_resolver.dart';
 import 'blur_wrapper.dart';
+import 'ticket_clipper.dart';
 
 /// A widget that creates a horizontal ticket with customizable sections, borders, and dividers.
 ///
@@ -273,61 +274,74 @@ class _HTicketcherState extends State<HTicketcher> {
                       decorationBackgroundImage: _decorationBackgroundImage,
                       sectionBackgroundImages: _sectionBackgroundImages,
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children:
-                          List.generate(widget.sections.length, (index) {
-                        final section = widget.sections[index];
-                        return Expanded(
-                          flex: (section.widthFactor ?? 1.0).round(),
-                          child: GestureDetector(
-                            onTap: section.onTap,
-                            child: Container(
-                              key: _sectionKeys[index],
-                              padding: section.padding,
-                              child: section.child,
+                    child: _withWidgetWatermark(
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children:
+                            List.generate(widget.sections.length, (index) {
+                          final section = widget.sections[index];
+                          return Expanded(
+                            flex: (section.widthFactor ?? 1.0).round(),
+                            child: GestureDetector(
+                              onTap: section.onTap,
+                              child: Container(
+                                key: _sectionKeys[index],
+                                padding: section.padding,
+                                child: section.child,
+                              ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
+                      ),
                     ),
                   ),
                 ),
               ),
             );
 
-            // Build with overlays (watermark)
-            return _buildWithOverlays(ticketWidget);
+            return ticketWidget;
           },
         ),
       ),
     );
   }
 
-  /// Builds the ticket with all overlays (watermark)
-  Widget _buildWithOverlays(Widget ticketWidget) {
+  /// Wraps the section [content] so a widget watermark renders in the
+  /// background layer — behind the content and clipped to the ticket shape —
+  /// mirroring how text watermarks are painted. Returns [content] unchanged
+  /// when there is no widget watermark.
+  Widget _withWidgetWatermark(Widget content) {
+    final watermark = widget.decoration.watermark;
     final hasWidgetWatermark =
-        widget.decoration.watermark?.type == WatermarkType.widget &&
-        widget.decoration.watermark?.widget != null;
+        watermark?.type == WatermarkType.widget && watermark?.widget != null;
 
     if (!hasWidgetWatermark) {
-      return ticketWidget;
+      return content;
     }
 
     return Stack(
       children: [
-        ticketWidget,
-        if (hasWidgetWatermark)
-          _buildWidgetWatermarkOverlay(widget.decoration.watermark!),
+        Positioned.fill(
+          child: ClipPath(
+            clipper: HTicketcherClipper(
+              notchRadius: widget.notchRadius,
+              decoration: widget.decoration,
+              sectionWidths: _sectionWidths,
+            ),
+            child: _buildWidgetWatermark(watermark!),
+          ),
+        ),
+        content,
       ],
     );
   }
 
-  /// Builds the widget watermark overlay
+  /// Builds the styled, aligned widget watermark (size, opacity, rotation,
+  /// offset, alignment). Positioning and clipping are handled by the caller.
   ///
   /// Note: Widget watermarks do not support repeat functionality.
   /// Only text watermarks support repeating patterns.
-  Widget _buildWidgetWatermarkOverlay(TicketWatermark watermark) {
+  Widget _buildWidgetWatermark(TicketWatermark watermark) {
     Widget watermarkWidget = watermark.widget!;
 
     // Apply size constraints if specified
@@ -361,12 +375,10 @@ class _HTicketcherState extends State<HTicketcher> {
       );
     }
 
-    // Apply alignment and create positioned widget
-    return Positioned.fill(
-      child: Align(
-        alignment: watermark.flutterAlignment,
-        child: watermarkWidget,
-      ),
+    // Align within the (clipped) full-ticket bounds.
+    return Align(
+      alignment: watermark.flutterAlignment,
+      child: watermarkWidget,
     );
   }
 }
