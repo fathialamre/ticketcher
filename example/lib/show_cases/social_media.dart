@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class SocialMedia extends StatelessWidget {
   const SocialMedia({super.key});
 
@@ -24,17 +26,14 @@ class SocialMedia extends StatelessWidget {
                   shape: BorderShape.sharp,
                 ),
                 shadow: BoxShadow(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Mono.blue,
                   blurRadius: 4,
                   offset: Offset(0, 10),
                 ),
 
-                backgroundColor: Theme.of(context).cardColor,
+                backgroundColor: Mono.black,
                 border: Border.fromBorderSide(
-                  BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 2,
-                  ),
+                  BorderSide(color: Mono.black, width: 2),
                 ),
               ),
 
@@ -47,13 +46,8 @@ class SocialMedia extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 20,
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                            child: Icon(
-                              Icons.person,
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
+                            backgroundColor: Mono.blue,
+                            child: Icon(Icons.person, color: Mono.white),
                           ),
                           SizedBox(width: 10),
                           Column(
@@ -63,12 +57,16 @@ class SocialMedia extends StatelessWidget {
                                 'John Doe',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w800,
+                                  color: Mono.onDark,
                                 ),
                               ),
                               Text(
                                 'john.doe@example.com',
-                                style: TextStyle(fontSize: 12),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Mono.onDarkMuted,
+                                ),
                               ),
                             ],
                           ),
@@ -83,13 +81,22 @@ class SocialMedia extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Column(
                       children: [
-                        Icon(
-                          Icons.qr_code,
-                          size: 200,
-                          color: Theme.of(context).colorScheme.primary,
+                        Icon(Icons.qr_code, size: 200, color: Mono.white),
+                        Text(
+                          'Scan to follow',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Mono.onDarkMuted,
+                          ),
                         ),
-                        Text('Scan to follow', style: TextStyle(fontSize: 12)),
-                        Text('@john_doe', style: TextStyle(fontSize: 12)),
+                        Text(
+                          '@john_doe',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Mono.blueLight,
+                          ),
+                        ),
                       ],
                     ),
                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class FlightCardMultiSection extends StatelessWidget {
   const FlightCardMultiSection({super.key});
 
@@ -33,18 +35,15 @@ class FlightWidget extends StatelessWidget {
       child: Ticketcher(
         decoration: TicketcherDecoration(
           borderRadius: TicketRadius(radius: 20, corner: TicketCorner.top),
-          backgroundColor: Theme.of(context).cardColor,
-          border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2,
-          ),
+          backgroundColor: Mono.white,
+          border: Border.all(color: Mono.black, width: 2),
           shadow: BoxShadow(
-            color: Theme.of(context).colorScheme.primary,
+            color: Mono.blue,
             blurRadius: 3,
             offset: Offset(0, 10),
           ),
           divider: TicketDivider.dashed(
-            color: Theme.of(context).colorScheme.inversePrimary,
+            color: Mono.line,
             thickness: 1,
             dashWidth: 8,
             dashSpace: 6,
@@ -64,13 +63,13 @@ class FlightWidget extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
-                    color: Theme.of(context).colorScheme.primaryContainer,
+                    color: Mono.black,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Icon(Icons.airplanemode_active),
+                        Icon(Icons.airplanemode_active, color: Mono.onDark),
                         SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,8 +78,8 @@ class FlightWidget extends StatelessWidget {
                               "Libyan Airways",
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                             Row(
@@ -88,7 +87,7 @@ class FlightWidget extends StatelessWidget {
                                 Icon(
                                   Icons.access_time_outlined,
                                   size: 14,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: Mono.blueLight,
                                 ),
                                 SizedBox(width: 4),
                                 Row(
@@ -97,18 +96,14 @@ class FlightWidget extends StatelessWidget {
                                       "12:00 PM",
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
+                                        color: Mono.onDarkMuted,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     SizedBox(
                                       height: 10,
                                       child: VerticalDivider(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
+                                        color: Mono.onDarkMuted,
                                         thickness: 1,
                                       ),
                                     ),
@@ -116,9 +111,7 @@ class FlightWidget extends StatelessWidget {
                                       "Economy - Y",
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
+                                        color: Mono.onDarkMuted,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -140,13 +133,13 @@ class FlightWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Column(
                         children: [
-                          Text("MJI"),
+                          Text("MJI", style: Mono.caption),
                           Text(
                             "12:00",
                             style: TextStyle(
                               fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                              color: Mono.ink,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
@@ -156,13 +149,13 @@ class FlightWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          Text("MJI"),
+                          Text("MJI", style: Mono.caption),
                           Text(
                             "12:00",
                             style: TextStyle(
                               fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                              color: Mono.ink,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
@@ -187,13 +180,13 @@ class FlightWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Column(
                         children: [
-                          Text("MJI"),
+                          Text("MJI", style: Mono.caption),
                           Text(
                             "12:00",
                             style: TextStyle(
                               fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                              color: Mono.ink,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
@@ -203,13 +196,13 @@ class FlightWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          Text("MJI"),
+                          Text("MJI", style: Mono.caption),
                           Text(
                             "12:00",
                             style: TextStyle(
                               fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                              color: Mono.ink,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
@@ -230,8 +223,8 @@ class FlightWidget extends StatelessWidget {
                   "1350 USD",
                   style: TextStyle(
                     fontSize: 18,
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+                    color: Mono.blue,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 FilledButton(
@@ -240,8 +233,8 @@ class FlightWidget extends StatelessWidget {
                     "Book Flight",
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      color: Mono.onDark,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),

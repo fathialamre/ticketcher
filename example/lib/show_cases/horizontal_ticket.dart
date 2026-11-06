@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class HorizontalTicket extends StatelessWidget {
   const HorizontalTicket({super.key});
 
@@ -21,13 +23,10 @@ class HorizontalTicket extends StatelessWidget {
                 notchRadius: 12,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 16),
-                  backgroundColor: Colors.white,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1,
-                  ),
+                  backgroundColor: Mono.white,
+                  border: Border.all(color: Mono.black, width: 1),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(22),
+                    color: Mono.black.withValues(alpha: 0.09),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -35,14 +34,11 @@ class HorizontalTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 5,
                   ),
-                  divider: TicketDivider.solid(
-                    color: Theme.of(context).colorScheme.primary,
-                    thickness: 1,
-                  ),
+                  divider: TicketDivider.solid(color: Mono.black, thickness: 1),
                 ),
                 sections: [
                   Section(
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Mono.blue,
                     widthFactor: 1,
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -53,21 +49,21 @@ class HorizontalTicket extends StatelessWidget {
                           '50% OFF',
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'On your next purchase',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.grey.shade700),
+                              ?.copyWith(color: Mono.blueSoft),
                         ),
                       ],
                     ),
                   ),
                   Section(
-                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    color: Mono.white,
                     widthFactor: 2,
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -77,13 +73,17 @@ class HorizontalTicket extends StatelessWidget {
                         Text(
                           'CODE: SAVE50',
                           style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Valid until Dec 31, 2024',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: Colors.grey.shade600),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(color: Mono.ash),
                         ),
                       ],
                     ),
@@ -98,21 +98,11 @@ class HorizontalTicket extends StatelessWidget {
                 notchRadius: 8,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 12),
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.surfaceContainer,
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF1a2a6c),
-                      Color(0xFFb21f1f),
-                      Color(0xFFfdbb2d),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  border: Border.all(color: Colors.indigo.shade200, width: 1.5),
+                  backgroundColor: Mono.blueNight,
+                  gradient: Mono.gradientNight,
+                  border: Border.all(color: Mono.blueNight, width: 1.5),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(15),
+                    color: Mono.black.withValues(alpha: 0.06),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -121,7 +111,7 @@ class HorizontalTicket extends StatelessWidget {
                     height: 4,
                   ),
                   divider: TicketDivider.smoothWave(
-                    color: Colors.white,
+                    color: Mono.blueLight,
                     thickness: 1,
                   ),
                 ),
@@ -137,8 +127,8 @@ class HorizontalTicket extends StatelessWidget {
                           'AVATAR 2',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                         const SizedBox(height: 8),
@@ -146,7 +136,7 @@ class HorizontalTicket extends StatelessWidget {
                           'IMAX 3D',
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                color: Colors.white,
+                                color: Mono.blueSoft,
                                 fontWeight: FontWeight.w500,
                               ),
                         ),
@@ -164,23 +154,22 @@ class HorizontalTicket extends StatelessWidget {
                           'Row: G, Seat: 12',
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w700,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Today, 7:30 PM',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Mono.blueSoft),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Screen 3',
                           style: Theme.of(
                             context,
-                          ).textTheme.bodySmall?.copyWith(color: Colors.white),
+                          ).textTheme.bodySmall?.copyWith(color: Mono.blueSoft),
                         ),
                       ],
                     ),
@@ -195,10 +184,10 @@ class HorizontalTicket extends StatelessWidget {
                 notchRadius: 10,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 14),
-                  backgroundColor: Colors.white,
-                  border: Border.all(color: Colors.green.shade300, width: 1.5),
+                  backgroundColor: Mono.black,
+                  border: Border.all(color: Mono.graphite, width: 1.5),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(20),
+                    color: Mono.black.withValues(alpha: 0.08),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -207,7 +196,7 @@ class HorizontalTicket extends StatelessWidget {
                     height: 6,
                   ),
                   divider: TicketDivider.solid(
-                    color: Colors.green,
+                    color: Mono.graphite,
                     thickness: 1,
                   ),
                 ),
@@ -223,15 +212,15 @@ class HorizontalTicket extends StatelessWidget {
                           'VIP PASS',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(
-                                color: Colors.green.shade800,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Tech Conference',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.green.shade700),
+                              ?.copyWith(color: Mono.blueLight),
                         ),
                       ],
                     ),
@@ -247,15 +236,15 @@ class HorizontalTicket extends StatelessWidget {
                           'John Doe',
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
-                                color: Colors.green.shade800,
-                                fontWeight: FontWeight.w600,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w700,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Access All Areas',
                           style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: Colors.green.shade600),
+                              ?.copyWith(color: Mono.onDarkMuted),
                         ),
                       ],
                     ),
@@ -270,10 +259,10 @@ class HorizontalTicket extends StatelessWidget {
                 notchRadius: 10,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 14),
-                  backgroundColor: Colors.white,
-                  border: Border.all(color: Colors.purple.shade300, width: 1.5),
+                  backgroundColor: Mono.white,
+                  border: Border.all(color: Mono.line, width: 1.5),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(20),
+                    color: Mono.black.withValues(alpha: 0.08),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -287,7 +276,7 @@ class HorizontalTicket extends StatelessWidget {
                     height: 12,
                   ),
                   divider: TicketDivider.wave(
-                    color: Colors.purple,
+                    color: Mono.line,
                     thickness: 1,
                     waveHeight: 4,
                     waveWidth: 14,
@@ -305,21 +294,23 @@ class HorizontalTicket extends StatelessWidget {
                           'Section A, Row 15',
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
-                                color: Colors.purple.shade800,
-                                fontWeight: FontWeight.w600,
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w700,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'June 15, 2024 • 8:00 PM',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.purple.shade700),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: Mono.ink),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Madison Square Garden',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: Colors.purple.shade600),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(color: Mono.ash),
                         ),
                       ],
                     ),
@@ -335,8 +326,8 @@ class HorizontalTicket extends StatelessWidget {
                           'COLDPLAY',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(
-                                color: Colors.purple.shade800,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.blue,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                       ],
@@ -352,10 +343,10 @@ class HorizontalTicket extends StatelessWidget {
                 notchRadius: 10,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 14),
-                  backgroundColor: Colors.white,
-                  border: Border.all(color: Colors.purple.shade300, width: 1.5),
+                  backgroundColor: Mono.blue,
+                  border: Border.all(color: Mono.blue, width: 1.5),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(20),
+                    color: Mono.black.withValues(alpha: 0.08),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -364,7 +355,7 @@ class HorizontalTicket extends StatelessWidget {
                     height: 6,
                   ),
                   divider: TicketDivider.circles(
-                    color: Colors.purple,
+                    color: Mono.blueLight,
                     thickness: 2,
                     circleRadius: 2,
                     circleSpacing: 8,
@@ -383,15 +374,15 @@ class HorizontalTicket extends StatelessWidget {
                           'ROCK FEST',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(
-                                color: Colors.purple.shade800,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Summer Tour 2024',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.purple.shade700),
+                              ?.copyWith(color: Mono.blueSoft),
                         ),
                       ],
                     ),
@@ -407,15 +398,15 @@ class HorizontalTicket extends StatelessWidget {
                           'VIP Access',
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
-                                color: Colors.purple.shade800,
-                                fontWeight: FontWeight.w600,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w700,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Backstage Pass',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.purple.shade700),
+                              ?.copyWith(color: Mono.blueSoft),
                         ),
                       ],
                     ),
@@ -430,10 +421,10 @@ class HorizontalTicket extends StatelessWidget {
                 notchRadius: 10,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 14),
-                  backgroundColor: Colors.white,
-                  border: Border.all(color: Colors.blue.shade300, width: 1.5),
+                  backgroundColor: Mono.white,
+                  border: Border.all(color: Mono.black, width: 1.5),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(20),
+                    color: Mono.black.withValues(alpha: 0.08),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -442,7 +433,7 @@ class HorizontalTicket extends StatelessWidget {
                     height: 6,
                   ),
                   divider: TicketDivider.solid(
-                    color: Colors.blue,
+                    color: Mono.line,
                     thickness: 1.5,
                     padding: 8,
                   ),
@@ -459,15 +450,16 @@ class HorizontalTicket extends StatelessWidget {
                           'EXPRESS',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(
-                                color: Colors.blue.shade800,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.blue,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'First Class',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.blue.shade700),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: Mono.ash),
                         ),
                       ],
                     ),
@@ -483,15 +475,16 @@ class HorizontalTicket extends StatelessWidget {
                           'Platform 9¾',
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
-                                color: Colors.blue.shade800,
-                                fontWeight: FontWeight.w600,
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w700,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Departure: 11:00 AM',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.blue.shade700),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: Mono.ash),
                         ),
                       ],
                     ),

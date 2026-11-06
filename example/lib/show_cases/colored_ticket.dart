@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class ColoredTicket extends StatelessWidget {
   const ColoredTicket({super.key});
 
@@ -19,13 +21,10 @@ class ColoredTicket extends StatelessWidget {
                 notchRadius: 12,
                 decoration: TicketcherDecoration(
                   borderRadius: const TicketRadius(radius: 16),
-                  backgroundColor: Colors.white,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1,
-                  ),
+                  backgroundColor: Mono.white,
+                  border: Border.all(color: Mono.black, width: 1),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(22),
+                    color: Mono.black.withValues(alpha: 0.09),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -33,14 +32,11 @@ class ColoredTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 5,
                   ),
-                  divider: TicketDivider.solid(
-                    color: Theme.of(context).colorScheme.primary,
-                    thickness: 1,
-                  ),
+                  divider: TicketDivider.solid(color: Mono.black, thickness: 1),
                 ),
                 sections: [
                   Section(
-                    color: Colors.red.withAlpha(100),
+                    color: Mono.black,
                     widthFactor: 1,
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -51,21 +47,21 @@ class ColoredTicket extends StatelessWidget {
                           '50% OFF',
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'On your next purchase',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.grey.shade700),
+                              ?.copyWith(color: Mono.onDarkMuted),
                         ),
                       ],
                     ),
                   ),
                   Section(
-                    color: Colors.green.withAlpha(100),
+                    color: Mono.blue,
                     widthFactor: 2,
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -75,13 +71,17 @@ class ColoredTicket extends StatelessWidget {
                         Text(
                           'CODE: SAVE50',
                           style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Valid until Dec 31, 2024',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: Colors.grey.shade600),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(color: Mono.blueSoft),
                         ),
                       ],
                     ),
@@ -94,13 +94,10 @@ class ColoredTicket extends StatelessWidget {
                 notchRadius: 12,
                 decoration: TicketcherDecoration(
                   borderRadius: TicketRadius.zero,
-                  backgroundColor: Colors.white,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1,
-                  ),
+                  backgroundColor: Mono.white,
+                  border: Border.all(color: Mono.black, width: 1),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(22),
+                    color: Mono.black.withValues(alpha: 0.09),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -108,14 +105,11 @@ class ColoredTicket extends StatelessWidget {
                     shape: BorderShape.arc,
                     height: 5,
                   ),
-                  divider: TicketDivider.solid(
-                    color: Theme.of(context).colorScheme.primary,
-                    thickness: 1,
-                  ),
+                  divider: TicketDivider.solid(color: Mono.black, thickness: 1),
                 ),
                 sections: [
                   Section(
-                    color: Colors.blue.withAlpha(100),
+                    color: Mono.blueSoft,
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -125,15 +119,15 @@ class ColoredTicket extends StatelessWidget {
                           'VERTICAL',
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.blueDeep,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                       ],
                     ),
                   ),
                   Section(
-                    color: Colors.purple.withAlpha(100),
+                    color: Mono.white,
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +136,10 @@ class ColoredTicket extends StatelessWidget {
                         Text(
                           'TICKET',
                           style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                       ],
                     ),
@@ -155,13 +152,10 @@ class ColoredTicket extends StatelessWidget {
                 notchRadius: 12,
                 decoration: TicketcherDecoration(
                   borderRadius: TicketRadius.zero,
-                  backgroundColor: Colors.white,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1,
-                  ),
+                  backgroundColor: Mono.white,
+                  border: Border.all(color: Mono.black, width: 1),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(22),
+                    color: Mono.black.withValues(alpha: 0.09),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -169,14 +163,11 @@ class ColoredTicket extends StatelessWidget {
                     shape: BorderShape.sharp,
                     height: 5,
                   ),
-                  divider: TicketDivider.solid(
-                    color: Theme.of(context).colorScheme.primary,
-                    thickness: 1,
-                  ),
+                  divider: TicketDivider.solid(color: Mono.black, thickness: 1),
                 ),
                 sections: [
                   Section(
-                    color: Colors.blue.withAlpha(100),
+                    color: Mono.blue,
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -186,15 +177,15 @@ class ColoredTicket extends StatelessWidget {
                           'VERTICAL',
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                       ],
                     ),
                   ),
                   Section(
-                    color: Colors.orange.withAlpha(100),
+                    color: Mono.blueNight,
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -203,7 +194,10 @@ class ColoredTicket extends StatelessWidget {
                         Text(
                           'TICKET',
                           style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                       ],
                     ),
@@ -216,13 +210,10 @@ class ColoredTicket extends StatelessWidget {
                 notchRadius: 12,
                 decoration: TicketcherDecoration(
                   borderRadius: TicketRadius.zero,
-                  backgroundColor: Colors.white,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1,
-                  ),
+                  backgroundColor: Mono.white,
+                  border: Border.all(color: Mono.black, width: 1),
                   shadow: BoxShadow(
-                    color: Colors.black.withAlpha(22),
+                    color: Mono.black.withValues(alpha: 0.09),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -230,14 +221,11 @@ class ColoredTicket extends StatelessWidget {
                     shape: BorderShape.wave,
                     height: 5,
                   ),
-                  divider: TicketDivider.solid(
-                    color: Theme.of(context).colorScheme.primary,
-                    thickness: 1,
-                  ),
+                  divider: TicketDivider.solid(color: Mono.black, thickness: 1),
                 ),
                 sections: [
                   Section(
-                    color: Colors.blue.withAlpha(100),
+                    color: Mono.white,
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -247,15 +235,15 @@ class ColoredTicket extends StatelessWidget {
                           'VERTICAL',
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.blue,
+                                fontWeight: FontWeight.w800,
                               ),
                         ),
                       ],
                     ),
                   ),
                   Section(
-                    color: Colors.deepOrange.withAlpha(100),
+                    color: Mono.black,
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -264,7 +252,10 @@ class ColoredTicket extends StatelessWidget {
                         Text(
                           'TICKET',
                           style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(
+                                color: Mono.onDark,
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                       ],
                     ),

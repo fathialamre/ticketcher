@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class AdvancedDividersShowcase extends StatelessWidget {
   const AdvancedDividersShowcase({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Advanced Dividers'),
-        backgroundColor: Colors.cyan[700],
-        foregroundColor: Colors.white,
-      ),
-      backgroundColor: const Color(0xFFF0F4F8),
+      appBar: AppBar(title: const Text('Advanced Dividers')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -45,8 +42,8 @@ class AdvancedDividersShowcase extends StatelessWidget {
         title,
         style: const TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          fontWeight: FontWeight.w800,
+          color: Mono.ink,
         ),
       ),
     );
@@ -56,9 +53,9 @@ class AdvancedDividersShowcase extends StatelessWidget {
     return Ticketcher(
       decoration: TicketcherDecoration(
         borderRadius: TicketRadius(radius: 16, corner: TicketCorner.all),
-        backgroundColor: Colors.white,
-        border: Border.all(color: Colors.cyan[300]!, width: 1.5),
-        divider: TicketDivider.solid(color: Colors.cyan[300]!, thickness: 2),
+        backgroundColor: Mono.white,
+        border: Border.all(color: Mono.line, width: 1.5),
+        divider: TicketDivider.solid(color: Mono.line, thickness: 2),
       ),
       sections: [
         Section(
@@ -69,14 +66,10 @@ class AdvancedDividersShowcase extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.cyan[50],
+                  color: Mono.blueTint,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  Icons.horizontal_rule,
-                  color: Colors.cyan[700],
-                  size: 28,
-                ),
+                child: Icon(Icons.horizontal_rule, color: Mono.blue, size: 28),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -87,13 +80,14 @@ class AdvancedDividersShowcase extends StatelessWidget {
                       'Solid Divider',
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
+                        color: Mono.ink,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
+                    const Text(
                       'Clean straight line divider',
-                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                      style: TextStyle(fontSize: 13, color: Mono.ash),
                     ),
                   ],
                 ),
@@ -106,11 +100,11 @@ class AdvancedDividersShowcase extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Simple and elegant',
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey[500],
+                  color: Mono.ash,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -120,13 +114,13 @@ class AdvancedDividersShowcase extends StatelessWidget {
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.cyan[700],
+                  color: Mono.black,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Text(
                   'SOLID',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Mono.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
@@ -143,10 +137,10 @@ class AdvancedDividersShowcase extends StatelessWidget {
     return Ticketcher(
       decoration: TicketcherDecoration(
         borderRadius: TicketRadius(radius: 16, corner: TicketCorner.all),
-        backgroundColor: const Color(0xFFFFF8E1),
-        border: Border.all(color: Colors.orange[400]!, width: 1.5),
+        backgroundColor: Mono.blue,
+        border: Border.all(color: Mono.blue, width: 1.5),
         divider: TicketDivider.dashed(
-          color: Colors.orange[400]!,
+          color: Mono.blueLight,
           thickness: 2,
           dashWidth: 8,
           dashSpace: 4,
@@ -165,8 +159,8 @@ class AdvancedDividersShowcase extends StatelessWidget {
                     '20% OFF',
                     style: TextStyle(
                       fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepOrange,
+                      fontWeight: FontWeight.w800,
+                      color: Mono.onDark,
                     ),
                   ),
                   Container(
@@ -175,13 +169,13 @@ class AdvancedDividersShowcase extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.deepOrange,
+                      color: Mono.white,
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: const Text(
                       'COUPON',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Mono.blue,
                         fontWeight: FontWeight.bold,
                         fontSize: 10,
                       ),
@@ -192,7 +186,7 @@ class AdvancedDividersShowcase extends StatelessWidget {
               const SizedBox(height: 8),
               const Text(
                 'Valid for your next purchase',
-                style: TextStyle(fontSize: 14, color: Colors.black54),
+                style: TextStyle(fontSize: 14, color: Mono.blueSoft),
               ),
             ],
           ),
@@ -205,11 +199,11 @@ class AdvancedDividersShowcase extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'CODE',
                     style: TextStyle(
                       fontSize: 10,
-                      color: Colors.grey[600],
+                      color: Mono.blueSoft,
                       letterSpacing: 1,
                     ),
                   ),
@@ -217,17 +211,18 @@ class AdvancedDividersShowcase extends StatelessWidget {
                     'SAVE20',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: 2,
+                      color: Mono.onDark,
                     ),
                   ),
                 ],
               ),
-              Text(
+              const Text(
                 'Dashed divider',
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.orange[700],
+                  color: Mono.blueSoft,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -242,10 +237,10 @@ class AdvancedDividersShowcase extends StatelessWidget {
     return Ticketcher(
       decoration: TicketcherDecoration(
         borderRadius: TicketRadius(radius: 16, corner: TicketCorner.all),
-        backgroundColor: const Color(0xFF1A1A2E),
-        border: Border.all(color: Colors.purple[400]!, width: 1.5),
+        backgroundColor: Mono.black,
+        border: Border.all(color: Mono.graphite, width: 1.5),
         divider: TicketDivider.circles(
-          color: Colors.purple[400]!,
+          color: Mono.white.withValues(alpha: 0.35),
           thickness: 2,
           circleRadius: 4,
           circleSpacing: 12,
@@ -260,14 +255,12 @@ class AdvancedDividersShowcase extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.purple[400]!, Colors.pink[400]!],
-                  ),
+                  gradient: Mono.gradientBlue,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
                   Icons.circle_outlined,
-                  color: Colors.white,
+                  color: Mono.white,
                   size: 32,
                 ),
               ),
@@ -280,14 +273,14 @@ class AdvancedDividersShowcase extends StatelessWidget {
                       'Circle Divider',
                       style: TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        color: Mono.onDark,
                       ),
                     ),
                     SizedBox(height: 4),
                     Text(
                       'Beautiful circular pattern',
-                      style: TextStyle(fontSize: 13, color: Colors.white60),
+                      style: TextStyle(fontSize: 13, color: Mono.onDarkMuted),
                     ),
                   ],
                 ),
@@ -300,9 +293,9 @@ class AdvancedDividersShowcase extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildCircleStat('Radius', '4px', Colors.purple[400]!),
-              _buildCircleStat('Spacing', '12px', Colors.pink[400]!),
-              _buildCircleStat('Style', 'Filled', Colors.orange[400]!),
+              _buildCircleStat('Radius', '4px', Mono.blue),
+              _buildCircleStat('Spacing', '12px', Mono.blueLight),
+              _buildCircleStat('Style', 'Filled', Mono.white),
             ],
           ),
         ),
@@ -314,10 +307,10 @@ class AdvancedDividersShowcase extends StatelessWidget {
     return Ticketcher(
       decoration: TicketcherDecoration(
         borderRadius: TicketRadius(radius: 16, corner: TicketCorner.all),
-        backgroundColor: Colors.white,
-        border: Border.all(color: Colors.teal[400]!, width: 1.5),
+        backgroundColor: Mono.white,
+        border: Border.all(color: Mono.line, width: 1.5),
         divider: TicketDivider.wave(
-          color: Colors.teal[400]!,
+          color: Mono.line,
           thickness: 2,
           waveHeight: 4,
           waveWidth: 16,
@@ -332,12 +325,10 @@ class AdvancedDividersShowcase extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.teal[300]!, Colors.cyan[300]!],
-                  ),
+                  gradient: Mono.gradientInk,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.waves, color: Colors.white, size: 28),
+                child: const Icon(Icons.waves, color: Mono.white, size: 28),
               ),
               const SizedBox(width: 16),
               const Expanded(
@@ -348,13 +339,14 @@ class AdvancedDividersShowcase extends StatelessWidget {
                       'Wave Divider',
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
+                        color: Mono.ink,
                       ),
                     ),
                     SizedBox(height: 4),
                     Text(
                       'Smooth wave pattern divider',
-                      style: TextStyle(fontSize: 13, color: Colors.black54),
+                      style: TextStyle(fontSize: 13, color: Mono.ash),
                     ),
                   ],
                 ),
@@ -367,9 +359,9 @@ class AdvancedDividersShowcase extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Height: 4px • Width: 16px',
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                style: TextStyle(fontSize: 12, color: Mono.ash),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
@@ -377,13 +369,13 @@ class AdvancedDividersShowcase extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [Colors.teal, Colors.cyan]),
+                  gradient: Mono.gradientBlue,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Text(
                   'WAVE',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Mono.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 11,
                   ),
@@ -400,14 +392,10 @@ class AdvancedDividersShowcase extends StatelessWidget {
     return Ticketcher.horizontal(
       decoration: TicketcherDecoration(
         borderRadius: TicketRadius(radius: 12, corner: TicketCorner.all),
-        gradient: LinearGradient(
-          colors: [Colors.indigo[400]!, Colors.purple[400]!],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        border: Border.all(color: Colors.indigo[400]!, width: 1.5),
+        gradient: Mono.gradientNight,
+        border: Border.all(color: Mono.blueNight, width: 1.5),
         divider: TicketDivider.dashed(
-          color: Colors.white54,
+          color: Mono.blueLight,
           thickness: 2,
           dashWidth: 6,
           dashSpace: 4,
@@ -420,12 +408,12 @@ class AdvancedDividersShowcase extends StatelessWidget {
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.more_vert, color: Colors.white, size: 32),
+              Icon(Icons.more_vert, color: Mono.white, size: 32),
               SizedBox(height: 8),
               Text(
                 'VERTICAL',
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Mono.blueSoft,
                   fontSize: 10,
                   letterSpacing: 2,
                 ),
@@ -433,9 +421,9 @@ class AdvancedDividersShowcase extends StatelessWidget {
               Text(
                 'DASHED',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Mono.onDark,
                   fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ],
@@ -452,14 +440,14 @@ class AdvancedDividersShowcase extends StatelessWidget {
                 'Horizontal Ticket',
                 style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  color: Mono.onDark,
                 ),
               ),
               SizedBox(height: 4),
               Text(
                 'Dashed divider rendered vertically',
-                style: TextStyle(fontSize: 12, color: Colors.white70),
+                style: TextStyle(fontSize: 12, color: Mono.blueSoft),
               ),
             ],
           ),
@@ -479,14 +467,14 @@ class AdvancedDividersShowcase extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           label,
-          style: const TextStyle(fontSize: 10, color: Colors.white54),
+          style: const TextStyle(fontSize: 10, color: Mono.onDarkMuted),
         ),
         Text(
           value,
           style: const TextStyle(
             fontSize: 12,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+            color: Mono.onDark,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],
