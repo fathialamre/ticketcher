@@ -1,1458 +1,585 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/ticketcher.png" width="300" alt="Ticketcher Logo">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/logo/ticketcher_logo_dark.png">
+    <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/logo/ticketcher_logo.png" width="320" alt="Ticketcher logo: three fanned tickets in black, blue and light blue above the word ticketcher">
+  </picture>
 </p>
 
 <p align="center">
-  <a href="https://pub.dev/packages/ticketcher"><img src="https://img.shields.io/pub/v/ticketcher.svg" alt="Pub Version"></a>
-  <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/points/ticketcher.svg" alt="Pub Points"></a>
-  <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/likes/ticketcher.svg" alt="Pub Likes"></a>
+  <a href="https://pub.dev/packages/ticketcher"><img src="https://img.shields.io/pub/v/ticketcher.svg" alt="Pub version"></a>
+  <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/points/ticketcher.svg" alt="Pub points"></a>
+  <a href="https://pub.dev/packages/ticketcher/score"><img src="https://img.shields.io/pub/likes/ticketcher.svg" alt="Pub likes"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <img src="https://img.shields.io/badge/tests-51%20passing-brightgreen.svg" alt="Tests: 51 passing">
+  <img src="https://img.shields.io/badge/tests-157%20passing-brightgreen.svg" alt="Tests: 157 passing">
 </p>
 
 # Ticketcher
 
-Ticketcher is a powerful Flutter
-package for creating beautiful,
-highly customizable ticket-style
-cards and widgets. Effortlessly
-design event tickets, boarding
-passes, coupons, and more with
-support for unique border
-patterns,
-gradient backgrounds, custom
-notches, and flexible section
-layouts. Ticketcher makes it easy
-to add professional, interactive
-ticket designs to your Flutter
-apps with just a few lines of
-code.
+Ticket-shaped widgets for Flutter: event tickets, boarding passes, coupons,
+receipts and badges. You describe the sections; Ticketcher cuts the notches,
+draws the dividers and edges, and handles gradients, images, blur, stamps and
+3D flips.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/cover.png" width="420" alt="Three tickets fanned out: blue, white with a USED stamp, and black">
+</p>
 
-| ![Concert Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg)<br>Concert<br>Wave Divider | ![Flight Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight.jpeg)<br>Flight<br>Dashed Divider | ![Gradient](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg)<br>Gradient<br>Background | ![Train Ticket](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg)<br>Train<br>Solid Divider |
+## What's new in 2.3
+
+| Flip ticket | Status stamps | RTL & Arabic | Expired state |
 |:---:|:---:|:---:|:---:|
-| ![Circle Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg)<br>Circle<br>Pattern | ![Wave Divider](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg)<br>Wave<br>Pattern | ![Smooth Wave](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg)<br>Smooth<br>Wave | ![Multiple Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/flight_multiple_section.jpeg)<br>Multiple<br>Sections |
-| ![Coffee Sales](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/coffer_sales.jpeg)<br>Coffee<br>Sales | ![Stacked Effect](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stacked_effect.jpeg)<br>Stacked<br>Layers | ![Colored Sections](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/colored_sections.jpeg)<br>Colored<br>Sections | ![Gradient Background](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_background.png)<br>Gradient<br>Background |
-| ![Holographic Effects](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/holograplic_effects.png)<br>Holographic<br>Effects | ![Image Background 1](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_1.jpeg)<br>Image<br>Background | ![Image Background 2](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_2.jpeg)<br>Image<br>Backgrounds | ![Gradient Border](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_border.jpeg)<br>Gradient<br>Border |
+| <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/flip.png" width="200" alt="Ticket caught mid-flip next to its back face"> | <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/stamps.png" width="200" alt="Ticket with a USED stamp and three stamp shapes"> | <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/rtl.png" width="200" alt="Arabic right-to-left ticket with a seal stamp"> | <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/expired.png" width="200" alt="Active ticket next to a greyed-out expired ticket"> |
+| [`FlipTicketcher`](#flip-ticket) | [`TicketStamp`](#status-stamps) | [RTL](#rtl-and-arabic) | [`TicketStatus`](#expired-tickets) |
 
-## Table of Contents
+## Contents
 
-- [Features](#features)
 - [Installation](#installation)
-- [Usage](#usage)
-  - [Basic Usage](#basic-usage)
-  - [Horizontal Mode](#horizontal-mode)
-  - [Vertical Mode](#vertical-mode)
-  - [Interactive Sections](#interactive-sections)
-  - [Border Patterns](#border-patterns)
-  - [Dividers](#dividers)
-    - [Solid Divider](#solid-divider)
-    - [Dashed Divider](#dashed-divider)
-    - [Circle Divider](#circle-divider)
-    - [Wave Divider](#wave-divider)
-    - [Smooth Wave Divider](#smooth-wave-divider)
-    - [Dotted Divider](#dotted-divider)
-    - [Double Line Divider](#double-line-divider)
-  - [Background Styling](#background-styling)
-    - [Solid Color](#solid-color)
-    - [Gradient](#gradient)
-    - [Image Backgrounds](#image-backgrounds)
-  - [Colored Sections](#colored-sections)
-  - [Section Gradients](#section-gradients-new)
-  - [Border](#border)
-    - [Solid Color Border](#solid-color-border)
-    - [Gradient Border](#gradient-border-new)
-  - [Watermarks](#watermarks-new)
-    - [Text Watermarks](#text-watermarks)
-    - [Widget Watermarks](#widget-watermarks)
-    - [Watermark Positioning](#watermark-positioning)
-    - [Watermark Styling](#watermark-styling)
-  - [Blur Effects](#blur-effects-new)
-    - [Backdrop Blur](#backdrop-blur)
-    - [Frosted Glass](#frosted-glass)
-    - [Gaussian Blur](#gaussian-blur)
-  - [Shadow](#shadow)
-  - [Stacked Effect](#stacked-effect)
-  - [Section Padding](#section-padding)
-  - [Width Control](#width-control)
-  - [Notch Radius](#notch-radius)
-  - [Notch Shapes](#notch-shapes-new)
-- [2.1.0 Features](#210-features)
-  - [Multiple Shadows](#multiple-shadows)
-  - [Top Border Pattern](#top-border-pattern-vertical-only)
-  - [Dashed Outer Border](#dashed-outer-border)
-  - [Per-Boundary Dividers](#per-boundary-dividers)
-  - [Punch Holes](#punch-holes)
-- [2.2.0 Features](#220-features)
-  - [Stitching Border](#stitching-border)
-- [Important Usage Notes](#important-usage-notes)
-  - [Assertions](#assertions)
-  - [Best Practices](#best-practices)
-- [Examples](#examples)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Features
-
-- Create both vertical and horizontal ticket layouts
-- Interactive sections with individual tap callbacks
-- Customizable border patterns (wave, arc, sharp)
-- Multiple divider styles (solid, dashed, circles, wave, smooth wave, dotted, double line, tear line)
-- Gradient backgrounds and gradient borders
-- **✨ Image Backgrounds**: Global ticket or per-section image backgrounds with opacity and fit controls
-- **✨ Watermarks**: Text and widget watermarks with positioning, opacity, and rotation
-- **✨ Blur Effects**: Backdrop blur, frosted glass, and gaussian blur for modern glassmorphism aesthetics
-- **✨ Notch Shapes**: Multiple notch shapes including semicircle, triangle, square, and diamond
-- **✨ Gradient Dividers**: Dividers with gradient colors
-- **✨ Section Gradients**: Per-section gradient backgrounds (Linear, Radial, Sweep)
-- 🌑 **Multiple Shadows**: Layer several `BoxShadow`s for colored glow effects
-- 🧾 **Top Border Pattern**: Receipt-style torn top edge (wave, sharp, arc)
-- ✂️ **Dashed Outer Border**: Classic coupon cut-line that follows notches and corners
-- 🪄 **Per-Boundary Dividers**: A different divider style at every section boundary
-- 🕳️ **Punch Holes**: True cutouts for lanyards and tags
-- 🧵 **Stitching Border**: Inset dashed "thread" line that follows the full outline for a sewn/coupon look
-- Custom border radius for any corner
-- Shadow effects
-- Section padding control
-- Width and height control
-- Notch radius customization
-- Stacked effect for vertical tickets (creates a layered appearance in the last section)
-- Individual background colors for each section
+- [Quick start](#quick-start)
+- [Layout](#layout)
+- New in 2.3: [Flip ticket](#flip-ticket) · [Status stamps](#status-stamps) · [Expired tickets](#expired-tickets) · [RTL and Arabic](#rtl-and-arabic)
+- Shape: [Notches](#notches) · [Dividers](#dividers) · [Border patterns](#border-patterns) · [Corners](#corners)
+- Fill: [Colored sections](#colored-sections) · [Gradients](#gradients) · [Image backgrounds](#image-backgrounds) · [Blur and glass](#blur-and-glass)
+- Outline: [Borders](#borders) · [Stitching](#stitching) · [Shadows and punch holes](#shadows-and-punch-holes)
+- Extras: [Watermarks](#watermarks) · [Stack effect](#stack-effect) · [Interaction](#interaction)
+- [Rules and tips](#rules-and-tips) · [Example app](#example-app) · [Testing](#testing)
 
 ## Installation
 
-Add this to your package's `pubspec.yaml` file:
-
 ```yaml
 dependencies:
-  ticketcher: ^2.2.0
+  ticketcher: ^2.3.0
 ```
 
-## Usage
+```dart
+import 'package:ticketcher/ticketcher.dart';
+```
 
-### Basic Usage
+## Quick start
 
-The default mode is vertical. Here's a basic example:
+A ticket is a list of at least two `Section`s. Vertical is the default.
 
 ```dart
 Ticketcher(
-  sections: [
-    Section(
-      child: Text('First Section'),
-    ),
-    Section(
-      child: Text('Second Section'),
-    ),
-  ],
-)
-```
-
-### Horizontal Mode
-
-For horizontal layout, use the `horizontal` constructor:
-
-| ![Horizontal Ticket 1](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_1.jpeg) | ![Horizontal Ticket 2](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/horizontal_2.jpeg) |
-|:---:|:---:|
-
-```dart
-Ticketcher.horizontal(
-  height: 160,
-  sections: [
-    Section(
-      widthFactor: 1,
-      child: Text('Left Section'),
-    ),
-    Section(
-      widthFactor: 2,
-      child: Text('Right Section'),
-    ),
-  ],
-)
-```
-
-### Vertical Mode
-
-For vertical layout, you can use either the default constructor or the explicit `vertical` constructor:
-
-```dart
-Ticketcher.vertical(
-  sections: [
-    Section(
-      child: Text('Top Section'),
-    ),
-    Section(
-      child: Text('Bottom Section'),
-    ),
-  ],
-)
-```
-
-### Interactive Tickets
-
-#### Section-level Interaction
-
-Make your tickets interactive by adding tap callbacks to individual sections. Each section can have its own `onTap` function that gets called when the user taps on that specific section.
-
-```dart
-Ticketcher(
-  sections: [
-    Section(
-      child: Text('Header Section'),
-      onTap: () {
-        print('Header tapped!');
-        // Handle header tap
-      },
-    ),
-    Section(
-      child: Text('Content Section'),
-      onTap: () {
-        print('Content tapped!');
-        // Handle content tap
-      },
-    ),
-    Section(
-      child: Container(
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          'TAP TO CHECK-IN',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      onTap: () {
-        // Handle check-in action
-        _performCheckIn();
-      },
-    ),
-  ],
-  onTap: () {
-    print('Whole ticket tapped!');
-    // Handle ticket tap
-  },
-)
-```
-
-#### Interactive Examples
-
-**Flight Ticket with Check-in:**
-```dart
-Ticketcher(
-  sections: [
-    Section(
-      child: FlightHeader(),
-      onTap: () => _showFlightDetails(),
-    ),
-    Section(
-      child: FlightInfo(),
-      onTap: () => _showRouteMap(),
-    ),
-    Section(
-      child: CheckInButton(),
-      onTap: () => _performCheckIn(),
-    ),
-  ],
-  onTap: () {
-    print('Whole ticket tapped!');
-    // Handle ticket tap
-  },
-)
-```
-
-**Event Ticket with QR Code:**
-```dart
-Ticketcher.horizontal(
-  height: 200,
-  sections: [
-    Section(
-      widthFactor: 2,
-      child: EventDetails(),
-      onTap: () => _showEventInfo(),
-    ),
-    Section(
-      child: QRCodeWidget(),
-      onTap: () => _showQRCode(),
-    ),
-  ],
-  onTap: () {
-    print('Whole ticket tapped!');
-    // Handle ticket tap
-  },
-)
-```
-
-The `onTap` callback is completely optional. Sections without an `onTap` callback will not respond to taps, while sections with `onTap` will show a subtle tap effect and call your function when pressed.
-
-#### Whole-ticket Interaction
-
-You can also add a tap handler for the entire ticket using the `onTap` parameter. This works alongside section-level taps, with section taps taking precedence when tapping on a specific section.
-
-```dart
-Ticketcher.horizontal(
-  sections: [
-    // ... sections ...
-  ],
-  onTap: () {
-    // This will be called when tapping anywhere on the ticket
-    // except on sections that have their own onTap handler
-    print('Ticket tapped!');
-  },
-);
-```
-
-### Border Patterns
-
-Add decorative patterns to the edges of your ticket.
-
-```dart
-Ticketcher(
+  width: 320,
   decoration: TicketcherDecoration(
-    bottomBorderStyle: BorderPattern(
-      shape: BorderShape.wave, // or sharp, arc
-      height: 8.0,
-      width: 20.0,
-    ),
-  ),
-)
-```
-
-Available patterns:
-- `BorderShape.wave`: Creates a wavy pattern
-- `BorderShape.sharp`: Creates a zigzag pattern
-- `BorderShape.arc`: Creates a series of connected arcs
-
-### Dividers
-
-Add dividers between sections with various styles.
-
-Available divider styles:
-- `DividerStyle.solid` - A simple straight line
-- `DividerStyle.dashed` - A line made of dashes
-- `DividerStyle.circles` - A series of circles
-- `DividerStyle.wave` - A zigzag wave pattern
-- `DividerStyle.smoothWave` - A smooth curved wave pattern
-- `DividerStyle.dotted` - A series of evenly spaced dots
-- `DividerStyle.doubleLine` - Two parallel lines
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider(
-      color: Colors.grey,
-      thickness: 1.0,
-      style: DividerStyle.solid, // or dashed, circles, wave, smoothWave, dotted, doubleLine
-    ),
-  ),
-)
-```
-
-#### Solid Divider
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.solid(
-      color: Colors.grey,
-      thickness: 1.0,
-      padding: 8.0, // Add padding on both sides
-    ),
-  ),
-)
-```
-
-#### Dashed Divider
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.dashed(
-      color: Colors.grey,
-      thickness: 1.0,
-      dashWidth: 10.0,
-      dashSpace: 7.0,
-      padding: 8.0, // Add padding on both sides
-    ),
-  ),
-)
-```
-
-#### Circle Divider
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/circle_divider.jpeg" width="250" alt="Circle Divider Example">
-</p>
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.circles(
-      color: Colors.grey,
-      thickness: 2.0,
-      circleRadius: 4.0,
-      circleSpacing: 8.0,
-      padding: 8.0, // Add padding on both sides
-    ),
-  ),
-)
-```
-
-#### Wave Divider
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/wave_divider.jpeg" width="250" alt="Wave Divider Example">
-</p>
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.wave(
-      color: Colors.grey,
-      thickness: 2.0,
-      waveHeight: 6.0,
-      waveWidth: 12.0,
-      padding: 8.0, // Add padding on both sides
-    ),
-  ),
-)
-```
-
-#### Smooth Wave Divider
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/smooth_wave_divider.jpeg" width="250" alt="Smooth Wave Divider Example">
-</p>
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.smoothWave(
-      color: Colors.grey,
-      thickness: 2.0,
-      waveHeight: 6.0,
-      waveWidth: 12.0,
-      padding: 8.0, // Add padding on both sides
-    ),
-  ),
-)
-```
-
-#### Dotted Divider
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.dotted(
-      color: Colors.grey,
-      thickness: 2.0,
-      dotSize: 2.0,
-      dotSpacing: 8.0,
-      padding: 8.0, // Add padding on both sides
-    ),
-  ),
-)
-```
-
-#### Double Line Divider
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.doubleLine(
-      color: Colors.grey,
-      thickness: 1.5,
-      lineSpacing: 4.0,
-      padding: 8.0, // Add padding on both sides
-    ),
-  ),
-)
-```
-
-The `padding` property adds equal spacing on both sides of the divider. This is useful when you want to create some space between the divider and the edges of the ticket. The padding is applied symmetrically, meaning the same amount of space is added to both the left and right sides in vertical mode, or top and bottom sides in horizontal mode.
-
-### Background Styling
-
-#### Solid Color
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.white,
-  ),
-)
-```
-
-#### Gradient
-
-| ![Gradient Example](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient.jpeg) | ![Gradient Background](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_background.png) |
-|:---:|:---:|
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    gradient: LinearGradient(
-      colors: [Colors.blue, Colors.purple],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-  ),
-)
-```
-
-#### Image Backgrounds ✨ NEW
-
-Add background images to your entire ticket or individual sections. Images support various fit modes, opacity control, and alignment options.
-
-| ![Image Background Example 1](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_1.jpeg) | ![Image Background Example 2](https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/background_image_2.jpeg) |
-|:---:|:---:|
-
-**Global Ticket Background:**
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundImage: NetworkImage('https://example.com/image.jpg'),
-    backgroundImageFit: BoxFit.cover,
-    backgroundImageOpacity: 0.8,
-    backgroundImageAlignment: Alignment.center,
-  ),
-  sections: [
-    Section(child: Text('Section 1')),
-    Section(child: Text('Section 2')),
-  ],
-)
-```
-
-**Per-Section Background Images:**
-```dart
-Ticketcher(
-  sections: [
-    Section(
-      backgroundImage: AssetImage('assets/section1.png'),
-      backgroundImageFit: BoxFit.cover,
-      backgroundImageOpacity: 0.9,
-      child: Text('First Section'),
-    ),
-    Section(
-      backgroundImage: NetworkImage('https://example.com/section2.jpg'),
-      backgroundImageFit: BoxFit.contain,
-      backgroundImageOpacity: 1.0,
-      child: Text('Second Section'),
-    ),
-  ],
-)
-```
-
-**Image Properties:**
-- `backgroundImage`: Any `ImageProvider` (AssetImage, NetworkImage, MemoryImage, FileImage)
-- `backgroundImageFit`: How to fit the image (BoxFit.cover, contain, fill, fitWidth, fitHeight, scaleDown, none)
-- `backgroundImageOpacity`: Opacity from 0.0 (transparent) to 1.0 (opaque)
-- `backgroundImageAlignment`: How to align the image (Alignment.center, topLeft, bottomRight, etc.)
-
-**Background Precedence Order:**
-1. Section `backgroundImage` (highest priority)
-2. Section `color`
-3. Decoration `backgroundImage`
-4. Decoration `gradient`
-5. Decoration `backgroundColor` (lowest priority)
-
-**Combining Images with Other Backgrounds:**
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    // Global background image
-    backgroundImage: NetworkImage('https://example.com/texture.jpg'),
-    backgroundImageOpacity: 0.3,
-  ),
-  sections: [
-    Section(
-      // Section-specific solid color overlays the global image
-      color: Colors.blue.withOpacity(0.7),
-      child: Text('Section with Color'),
-    ),
-    Section(
-      // Section-specific image overrides everything
-      backgroundImage: AssetImage('assets/special.png'),
-      child: Text('Section with Image'),
-    ),
-  ],
-)
-```
-
-### Colored Sections
-
-Customize the background color of individual sections. If a section `color` is provided, it overrides the `backgroundColor` and `gradient` from `TicketcherDecoration` for that specific section. This allows for creating tickets with multi-colored parts.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/colored_sections.jpeg" width="250" alt="Colored Sections Example">
-</p>
-
-```dart
-Ticketcher(
-  sections: [
-    Section(
-      color: Colors.blue.shade100,
-      child: Text('First Section'),
-    ),
-    Section(
-      color: Colors.green.shade100,
-      child: Text('Second Section'),
-    ),
-  ],
-)
-```
-
-### Section Gradients (New!)
-
-Apply gradient backgrounds to individual sections using `LinearGradient`, `RadialGradient`, or `SweepGradient`. Each section can have its own unique gradient independent of other sections.
-
-**Linear Gradient:**
-```dart
-Ticketcher.horizontal(
-  height: 120,
-  sections: [
-    Section(
-      widthFactor: 1,
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-      ),
-      child: Text('Gradient Section 1'),
-    ),
-    Section(
-      widthFactor: 1,
-      gradient: const LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        colors: [Color(0xFFF093FB), Color(0xFFF5576C)],
-      ),
-      child: Text('Gradient Section 2'),
-    ),
-  ],
-)
-```
-
-**Radial Gradient:**
-```dart
-Ticketcher(
-  sections: [
-    Section(
-      gradient: RadialGradient(
-        center: Alignment.center,
-        radius: 1.0,
-        colors: [Colors.yellow, Colors.orange, Colors.red],
-      ),
-      child: Text('Radial Gradient'),
-    ),
-    Section(
-      color: Colors.white,
-      child: Text('Solid Color'),
-    ),
-  ],
-)
-```
-
-**Sweep Gradient:**
-```dart
-Ticketcher(
-  sections: [
-    Section(
-      gradient: const SweepGradient(
-        center: Alignment.center,
-        colors: [
-          Colors.red,
-          Colors.orange,
-          Colors.yellow,
-          Colors.green,
-          Colors.blue,
-          Colors.red,
-        ],
-      ),
-      child: Text('Rainbow Sweep'),
-    ),
-    Section(
-      child: Text('Plain Section'),
-    ),
-  ],
-)
-```
-
-**Background Precedence Order:**
-
-When multiple background options are specified, they follow this precedence (highest to lowest):
-1. `backgroundImage` - Section-specific image
-2. `gradient` - Section-specific gradient
-3. `color` - Section-specific solid color
-4. Decoration `backgroundImage` - Global ticket image
-5. Decoration `gradient` - Global ticket gradient
-6. Decoration `backgroundColor` - Global ticket color
-
-```dart
-// Example: gradient overrides color
-Section(
-  color: Colors.red,  // This will be ignored
-  gradient: LinearGradient(
-    colors: [Colors.blue, Colors.purple],
-  ),
-  child: Text('Gradient wins!'),
-)
-```
-
-### Border
-
-Add a border around your ticket using either solid colors or gradients.
-
-#### Solid Color Border
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    border: Border.all(
-      color: Colors.grey,
-      width: 1.0,
-    ),
-  ),
-)
-```
-
-#### Gradient Border (New!)
-Create stunning visual effects with gradient borders using any Flutter gradient type.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/gradient_border.jpeg" width="250" alt="Gradient Border Example">
-</p>
-
-```dart
-// Linear gradient border
-Ticketcher(
-  decoration: TicketcherDecoration(
-    borderGradient: LinearGradient(
-      colors: [Colors.red, Colors.orange, Colors.yellow, Colors.green, Colors.blue],
-    ),
-    borderWidth: 3.0,
-  ),
-)
-
-// Radial gradient border
-Ticketcher(
-  decoration: TicketcherDecoration(
-    borderGradient: RadialGradient(
-      colors: [Colors.purple, Colors.pink, Colors.orange],
-    ),
-    borderWidth: 2.5,
-  ),
-)
-
-// Sweep gradient for rainbow effects
-Ticketcher(
-  decoration: TicketcherDecoration(
-    borderGradient: SweepGradient(
-      colors: [
-        Colors.red, Colors.orange, Colors.yellow, Colors.green,
-        Colors.blue, Colors.indigo, Colors.purple, Colors.red,
-      ],
-    ),
-    borderWidth: 2.0,
-  ),
-)
-```
-
-**Note**: When both `border` and `borderGradient` are specified, the gradient border takes precedence. Use `borderWidth` to control the thickness of gradient borders.
-
-## Watermarks (New!)
-
-Add text or widget watermarks to your tickets for branding, security, or decorative purposes. Watermarks support positioning, opacity, rotation, and custom styling.
-
-### Text Watermarks
-
-Create text-based watermarks with custom styling and effects.
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    watermark: TicketWatermark.text(
-      text: 'CONFIDENTIAL',
-      opacity: 0.3,
-      alignment: WatermarkAlignment.center,
-      rotation: 45, // Rotate 45 degrees
-      style: TextStyle(
-        fontSize: 32,
-        fontWeight: FontWeight.bold,
-        color: Colors.red,
-      ),
-    ),
-  ),
-)
-```
-
-### Widget Watermarks
-
-Use any Flutter widget as a watermark, including icons, containers, or custom layouts.
-
-> **Note**: Widget watermarks do not support repeat functionality for performance reasons. If you need repeating patterns, use text watermarks instead.
-
-```dart
-// Icon watermark
-Ticketcher(
-  decoration: TicketcherDecoration(
-    watermark: TicketWatermark.widget(
-      widget: Icon(
-        Icons.verified,
-        size: 80,
-        color: Colors.blue,
-      ),
-      opacity: 0.2,
-      alignment: WatermarkAlignment.center,
-      rotation: 15,
-    ),
-  ),
-)
-
-// Custom widget watermark
-Ticketcher(
-  decoration: TicketcherDecoration(
-    watermark: TicketWatermark.widget(
-      widget: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: Colors.amber.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.amber, width: 2),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.star, color: Colors.amber, size: 16),
-            SizedBox(width: 4),
-            Text(
-              'PREMIUM',
-              style: TextStyle(
-                color: Colors.amber,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-      opacity: 0.7,
-      alignment: WatermarkAlignment.topRight,
-      offset: Offset(-10, 10), // Custom positioning
-    ),
-  ),
-)
-```
-
-### Watermark Positioning
-
-Control where your watermark appears with precise positioning options:
-
-```dart
-// Available alignment options
-WatermarkAlignment.topLeft
-WatermarkAlignment.topCenter
-WatermarkAlignment.topRight
-WatermarkAlignment.centerLeft
-WatermarkAlignment.center
-WatermarkAlignment.centerRight
-WatermarkAlignment.bottomLeft
-WatermarkAlignment.bottomCenter
-WatermarkAlignment.bottomRight
-
-// Example with custom offset
-TicketWatermark.text(
-  text: 'SAMPLE',
-  alignment: WatermarkAlignment.bottomRight,
-  offset: Offset(-20, -20), // 20 pixels from bottom and right edges
-)
-```
-
-### Watermark Styling
-
-Customize appearance with opacity, rotation, and size controls:
-
-```dart
-TicketWatermark.text(
-  text: 'DRAFT',
-  opacity: 0.15,        // Very subtle
-  rotation: 30,         // Rotate 30 degrees
-  alignment: WatermarkAlignment.center,
-  style: TextStyle(
-    fontSize: 64,
-    fontWeight: FontWeight.w900,
-    color: Colors.grey,
-  ),
-)
-
-// Repeated text watermarks across the ticket (only available for text watermarks)
-TicketWatermark.text(
-  text: 'COPY',
-  repeat: true,         // Repeat across ticket
-  repeatSpacing: 50,    // Space between repetitions
-  opacity: 0.1,
-  rotation: 15,
-)
-
-// Note: Widget watermarks do not support repeat functionality for performance reasons.
-// If you need repeated patterns, use text watermarks instead.
-```
-
-**Note**: Watermarks are rendered above the ticket content but below any interactive elements. For best results, use semi-transparent opacity values (0.1 - 0.3) to maintain content readability.
-
-## Blur Effects (New!)
-
-Add modern blur and glassmorphism effects to your tickets for premium, contemporary designs. Perfect for creating frosted glass aesthetics, backdrop filters, and soft focus effects.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/holograplic_effects.png" width="250" alt="Blur Effects Example">
-</p>
-
-### Backdrop Blur
-
-Creates a backdrop filter that blurs content behind the ticket while keeping the ticket content sharp.
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.white.withOpacity(0.1),
-    blurEffect: BlurEffect.backdrop(sigma: 10.0),
     borderRadius: const TicketRadius(radius: 16),
-    shadow: BoxShadow(
-      color: Colors.black.withOpacity(0.3),
-      blurRadius: 20,
-      offset: const Offset(0, 10),
-    ),
+    divider: TicketDivider.dashed(color: Colors.black26),
   ),
-)
-```
-
-### Frosted Glass
-
-Creates a frosted glass effect with backdrop blur and a tinted overlay for a premium glassmorphism aesthetic.
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.transparent,
-    blurEffect: BlurEffect.frosted(
-      sigma: 15.0,
-      tintColor: Colors.white,
-      opacity: 0.15,
-    ),
-    borderRadius: const TicketRadius(radius: 16),
-    border: Border.all(
-      color: Colors.white.withOpacity(0.2),
-      width: 1.5,
-    ),
-  ),
-)
-```
-
-### Gaussian Blur
-
-Applies blur directly to the ticket content itself for a soft focus effect.
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.white.withOpacity(0.9),
-    blurEffect: BlurEffect.gaussian(sigma: 3.0),
-    borderRadius: const TicketRadius(radius: 12),
-  ),
-)
-```
-
-#### Blur Effect Configuration
-
-```dart
-// Custom blur effect with full control
-BlurEffect(
-  sigma: 10.0,                    // Blur intensity (0-30)
-  style: BlurStyle.frosted,       // backdrop, frosted, or gaussian
-  tintColor: Colors.white,        // Overlay color for frosted effect
-  opacity: 0.2,                   // Overlay opacity (0.0-1.0)
-)
-
-// Available blur styles
-BlurEffect.backdrop(sigma: 10.0)     // Blurs background content
-BlurEffect.frosted(                  // Frosted glass with tint
-  sigma: 15.0,
-  tintColor: Colors.white,
-  opacity: 0.15,
-)
-BlurEffect.gaussian(sigma: 5.0)      // Blurs ticket content
-```
-
-**Note**: Blur effects work best with semi-transparent backgrounds and are perfect for creating modern glassmorphism designs. The `sigma` parameter controls blur intensity - higher values create more blur.
-
-### Shadow
-
-Add a shadow effect to your ticket.
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    shadow: BoxShadow(
-      color: Colors.black.withOpacity(0.2),
-      blurRadius: 4.0,
-      offset: Offset(0, 2),
-    ),
-  ),
-)
-```
-
-### Stacked Effect
-
-Add a stacked effect to your vertical ticket's last section. This creates a layered appearance that adds depth to your ticket design.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stacked_effect.jpeg" width="250" alt="Stacked Effect Example">
-</p>
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    stackEffect: StackEffect(
-      count: 2, // Number of stacked layers
-      offset: 8.0, // Vertical offset between layers
-      widthStep: 4.0, // Width reduction for each layer
-      color: Colors.grey.withOpacity(0.2), // Color of the stacked layers
-    ),
-  ),
-)
-```
-
-The stacked effect is only supported in vertical tickets and will be applied to the last section. You can customize:
-- `count`: Number of stacked layers (1-3)
-- `offset`: Vertical offset between each layer
-- `widthStep`: How much each layer is reduced in width
-- `color`: Color of the stacked layers (defaults to a light grey if not specified)
-
-Example with a more pronounced effect:
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    stackEffect: StackEffect(
-      count: 3,
-      offset: 12.0,
-      widthStep: 8.0,
-      color: Colors.blue.withOpacity(0.1),
-    ),
-  ),
-)
-```
-
-Note: The stacked effect is only available in vertical tickets and will be ignored in horizontal tickets.
-
-### Section Padding
-
-Customize the padding for each section.
-
-```dart
-Ticketcher(
-  sections: [
-    Section(
-      child: Text('First Section'),
-      padding: EdgeInsets.all(16.0),
-    ),
-    Section(
-      child: Text('Second Section'),
-      padding: EdgeInsets.all(16.0),
-    ),
+  sections: const [
+    Section(padding: EdgeInsets.all(20), child: Text('BEN → TIP')),
+    Section(padding: EdgeInsets.all(20), child: Text('Seat C·07')),
   ],
 )
 ```
 
-### Width Control
-
-Set a specific width for your ticket.
-
-```dart
-Ticketcher(
-  width: 300.0,
-  // ... other properties
-)
-```
-
-### Notch Radius
-
-Customize the radius of the notches that connect the sections.
-
-```dart
-Ticketcher(
-  notchRadius: 12.0,
-  // ... other properties
-)
-```
-
-### Notch Shapes (New!)
+## Layout
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/notch_shape_variations.jpeg" width="300" alt="Notch Shape Variations Example">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/boarding_pass.png" width="340" alt="Horizontal boarding pass with a blue gate stub">
 </p>
 
-Customize the shape of the notches between sections. Available shapes include semicircle (default), triangle, square, and diamond.
+`Ticketcher.vertical` stacks sections top to bottom and `Ticketcher.horizontal`
+lays them out left to right. In horizontal mode, `Section.widthFactor` splits the
+width: factors `2.6` and `1` give a 2.6 : 1 ratio.
 
 ```dart
-// Triangle notches
-Ticketcher(
-  decoration: TicketcherDecoration(
-    notchStyle: NotchStyle.triangle(radius: 12.0),
-  ),
-  sections: [...],
-)
-
-// Square notches
-Ticketcher(
-  decoration: TicketcherDecoration(
-    notchStyle: NotchStyle.square(radius: 10.0),
-  ),
-  sections: [...],
-)
-
-// Diamond notches
-Ticketcher(
-  decoration: TicketcherDecoration(
-    notchStyle: NotchStyle.diamond(radius: 10.0),
-  ),
-  sections: [...],
-)
-```
-
-Available notch shapes:
-- `NotchShape.semicircle` - Classic rounded notches (default)
-- `NotchShape.triangle` - V-shaped notches
-- `NotchShape.square` - Rectangular notches
-- `NotchShape.diamond` - Diamond-shaped notches
-
-### Tear Line Divider (New!)
-
-A special divider style with scissors icon for indicating where to tear the ticket.
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.tearLine(
-      color: Colors.grey,
-      scissorsPosition: ScissorsPosition.start,
-      scissorsSize: 16.0,
-    ),
-  ),
-  sections: [...],
-)
-```
-
-### Gradient Dividers (New!)
-
-Apply gradients to dividers for a more colorful look.
-
-```dart
-// Gradient solid divider
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.gradientSolid(
-      gradient: LinearGradient(
-        colors: [Colors.blue, Colors.purple],
-      ),
-      thickness: 2.0,
-    ),
-  ),
-  sections: [...],
-)
-
-// Gradient dashed divider
-Ticketcher(
-  decoration: TicketcherDecoration(
-    divider: TicketDivider.gradientDashed(
-      gradient: LinearGradient(
-        colors: [Colors.orange, Colors.red],
-      ),
-      thickness: 1.5,
-      dashWidth: 8.0,
-      dashSpace: 4.0,
-    ),
-  ),
-  sections: [...],
-)
-```
-
-## Important Usage Notes
-
-### Assertions
-
-The package includes several assertions to prevent invalid configurations:
-
-1. **Minimum Sections**
-   - Both vertical and horizontal tickets must have at least 2 sections
-   - Error message: "Vertical/Horizontal Ticketcher must have at least 2 sections"
-
-2. **Border Style and Radius Conflicts**
-   - In vertical mode, you cannot use `bottomBorderStyle` when there's a bottom border radius
-   - Error message: "Cannot use bottomBorderStyle when there is a bottom border radius"
-   - This applies to any bottom corner radius (bottom, bottomLeft, bottomRight, or all corners)
-
-### Best Practices
-
-1. **Section Width Factors**
-   - In horizontal mode, use `widthFactor` to control section widths
-   - The total of all width factors determines the relative sizes
-   - Example: `widthFactor: 1` and `widthFactor: 2` creates a 1:2 ratio
-
-2. **Border Patterns**
-   - Border patterns work best with straight edges
-   - Avoid using border patterns on edges with rounded corners
-   - For best results, use patterns on edges without radius
-
-3. **Dividers**
-   - Choose divider styles that complement your border patterns
-   - Consider using matching colors for borders and dividers
-   - Adjust thickness and spacing for better visual balance
-
-4. **Performance**
-   - Use `width` and `height` properties when you know the exact dimensions
-   - This helps avoid unnecessary layout calculations
-   - For dynamic content, let the widget calculate its own size
-
-## Examples
-
-### Gradient Border Showcase
-
-Here are some popular gradient border combinations:
-
-```dart
-// Neon cyber border
-Ticketcher(
+Ticketcher.horizontal(
+  height: 170,
   decoration: TicketcherDecoration(
     backgroundColor: Colors.black,
-    borderGradient: LinearGradient(
-      colors: [Color(0xFF00FFFF), Color(0xFF0080FF), Color(0xFF8000FF), Color(0xFFFF00FF)],
-    ),
-    borderWidth: 2.5,
-    shadow: BoxShadow(
-      color: Colors.cyan.withOpacity(0.5),
-      blurRadius: 15,
-      spreadRadius: 2,
-    ),
+    borderRadius: const TicketRadius(radius: 16),
+    divider: TicketDivider.dashed(color: Colors.white24),
   ),
-)
-
-// Sunset gradient border
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.white,
-    borderGradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [Color(0xFFFFD89B), Color(0xFFFF8A56), Color(0xFFFF6B6B)],
-    ),
-    borderWidth: 2.0,
-  ),
-)
-
-// Metallic gold border
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.white,
-    borderGradient: LinearGradient(
-      colors: [Color(0xFFFFD700), Color(0xFFFFA500), Color(0xFFFFD700), Color(0xFFB8860B)],
-    ),
-    borderWidth: 3.0,
-    shadow: BoxShadow(
-      color: Colors.amber.withOpacity(0.3),
-      blurRadius: 8,
-    ),
-  ),
+  sections: const [
+    Section(widthFactor: 2.6, padding: EdgeInsets.all(18), child: FlightDetails()),
+    Section(color: Color(0xFF2F5BFF), child: GateStub()),
+  ],
 )
 ```
 
-### Blur Effects Showcase
+| Widget parameter | What it does |
+|---|---|
+| `sections` | Two or more `Section`s. |
+| `width` / `height` | Fixed size. Vertical tickets size their height to content; horizontal tickets need a `height`. |
+| `notchRadius` | Size of the side notches at each section boundary (default `10`). |
+| `decoration` | A `TicketcherDecoration` with everything visual below. |
+| `onTap` | Tap handler for the whole ticket. |
 
-Here are some popular blur effect combinations for modern glassmorphism designs:
+`VTicketcher` and `HTicketcher` are the same widgets without the
+`Ticketcher` wrapper.
+
+## Flip ticket
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/flip.png" width="340" alt="Front face mid-flip beside the back face with a QR code">
+</p>
+
+`FlipTicketcher` holds a `front` and a `back` and turns between them in 3D.
+Both faces can be any widget; two tickets of the same size flip cleanest.
 
 ```dart
-// Premium frosted glass ticket
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.transparent,
-    blurEffect: BlurEffect.frosted(
-      sigma: 15.0,
-      tintColor: Colors.white,
-      opacity: 0.1,
-    ),
-    borderRadius: const TicketRadius(radius: 16),
-    border: Border.all(
-      color: Colors.white.withOpacity(0.3),
-      width: 1.5,
-    ),
-    shadow: BoxShadow(
-      color: Colors.black.withOpacity(0.2),
-      blurRadius: 20,
-      offset: const Offset(0, 10),
-    ),
-  ),
-)
+final flip = FlipTicketcherController();
 
-// Backdrop blur with gradient background
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.white.withOpacity(0.05),
-    blurEffect: BlurEffect.backdrop(sigma: 12.0),
-    borderRadius: const TicketRadius(radius: 20),
-    divider: TicketDivider.smoothWave(
-      color: Colors.white.withOpacity(0.4),
-      thickness: 2,
-    ),
-  ),
+FlipTicketcher(
+  controller: flip,                    // flip.flip(), flip.showFront(), flip.showBack()
+  trigger: FlipTrigger.tapOrSwipe,     // tap, swipe, tapOrSwipe or none
+  axis: Axis.horizontal,               // Axis.vertical turns top over bottom
+  duration: const Duration(milliseconds: 450),
+  front: Ticketcher.vertical(sections: frontSections),
+  back: Ticketcher.vertical(sections: backSections),
+  onFlip: (isFront) => debugPrint('showing front: $isFront'),
 )
+```
 
-// Soft focus gaussian blur
+A swipe follows the finger and settles on the nearest face, or flips on a fast
+fling. The back face is never shown mirrored. When the system asks for reduced
+motion, the faces swap without animating.
+
+## Status stamps
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/stamps.png" width="340" alt="Train ticket with a USED stamp, plus PAID, VIP and GATE B stamps">
+</p>
+
+`TicketcherDecoration.stamp` draws an inked rubber stamp on top of the ticket,
+clipped to its outline. Stamps never block taps on sections, and screen
+readers announce their text.
+
+```dart
 Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: Colors.white.withOpacity(0.8),
-    blurEffect: BlurEffect.gaussian(sigma: 2.5),
-    borderRadius: const TicketRadius(radius: 12),
+  decoration: const TicketcherDecoration(
+    stamp: TicketStamp.used(subtitle: '14 DEC 2026', animateIn: true),
+  ),
+  sections: sections,
+)
+```
+
+Presets: `TicketStamp.used()`, `.voided()`, `.paid()` and `.vip()`. Each takes
+`text`, `subtitle`, `color`, `rotation`, `alignment` and `animateIn`. For full
+control, build one yourself:
+
+```dart
+const TicketStamp(
+  text: 'GATE B',
+  subtitle: 'BOARDING',
+  shape: StampShape.ribbon,             // rectangle, roundedRectangle, circle, oval, seal, hexagon, ribbon
+  borderStyle: StampBorderStyle.double, // single, double, dashed
+  color: Color(0xFF2F5BFF),
+  rotation: -14,                        // degrees
+  alignment: Alignment(0.4, -0.2),
+  offset: Offset.zero,
+  opacity: 0.9,
+  inkTexture: true,                     // worn-ink speckle
+  animateIn: true,                      // thump in on first build
+)
+```
+
+To show a stamp on its own, outside a ticket, use
+`TicketStampMark(stamp: ...)`.
+
+## Expired tickets
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/expired.png" width="340" alt="Blue active ticket next to the same ticket greyed out with an EXPIRED stamp">
+</p>
+
+Set `status: TicketStatus.expired` and the ticket turns grey and dim, and is
+reported as disabled to screen readers. The stamp is drawn after the grey
+filter, so it stays in full color.
+
+```dart
+TicketcherDecoration(
+  status: TicketStatus.expired,
+  stamp: const TicketStamp.voided(text: 'EXPIRED', color: Colors.black),
+)
+```
+
+## RTL and Arabic
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/rtl.png" width="340" alt="Arabic book fair ticket laid out right to left with a seal stamp">
+</p>
+
+Tickets follow the ambient `Directionality`, and stamp text works in any
+script. When a stamp's text is Arabic, letter spacing is turned off so the
+letters stay joined.
+
+```dart
+Directionality(
+  textDirection: TextDirection.rtl,
+  child: Ticketcher(
+    decoration: const TicketcherDecoration(
+      stamp: TicketStamp(
+        text: 'مُستخدَمة',
+        subtitle: '١٤ ديسمبر',
+        shape: StampShape.seal,
+        borderStyle: StampBorderStyle.single,
+        alignment: Alignment(-0.8, -0.3),
+        textStyle: TextStyle(fontSize: 16),
+      ),
+    ),
+    sections: sections,
   ),
 )
 ```
 
-Check out the [example](example) directory for more detailed examples of different ticket styles and configurations, including the new blur effects showcase and gradient border examples.
+## Notches
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/notch_shapes.png" width="340" alt="Four tickets with semicircle, triangle, square and diamond notches">
+</p>
+
+```dart
+TicketcherDecoration(
+  notchStyle: const NotchStyle.diamond(radius: 12), // semicircle, triangle, square, diamond
+)
+```
+
+The widget's `notchRadius` sets the notch size when no `notchStyle` is given.
+
+## Dividers
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/dividers.png" width="340" alt="Five tickets with dashed, wave, circles, tear line and double line dividers">
+</p>
+
+A divider is drawn at every boundary between sections:
+
+```dart
+TicketcherDecoration(divider: TicketDivider.dashed(color: Colors.grey))
+```
+
+| Constructor | Extra options |
+|---|---|
+| `TicketDivider.solid` | – |
+| `TicketDivider.dashed` | `dashWidth`, `dashSpace` |
+| `TicketDivider.dotted` | `dotSize`, `dotSpacing` |
+| `TicketDivider.circles` | `circleRadius`, `circleSpacing` |
+| `TicketDivider.wave` | `waveHeight`, `waveWidth` |
+| `TicketDivider.smoothWave` | `waveHeight`, `waveWidth` |
+| `TicketDivider.doubleLine` | `lineSpacing` |
+| `TicketDivider.tearLine` | `dashWidth`, `dashSpace`, `scissorsSize` |
+| `TicketDivider.gradientSolid` | required `gradient` |
+| `TicketDivider.gradientDashed` | required `gradient`, `dashWidth`, `dashSpace` |
+
+Every style also takes `color` (except the gradient ones), `thickness` and
+`padding`. To use a different style at one boundary, set `dividerAfter` on the
+section before it:
+
+```dart
+sections: [
+  Section(child: header, dividerAfter: TicketDivider.tearLine(color: Colors.grey)),
+  Section(child: body, dividerAfter: TicketDivider.smoothWave(color: Colors.blue)),
+  Section(child: stub),
+]
+```
+
+## Border patterns
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/border_patterns.png" width="340" alt="Coupon with a wave bottom edge, receipt with sharp edges, and a raffle ticket with arc sides">
+</p>
+
+Cut a pattern into an outer edge: `BorderShape.wave`, `.sharp` or `.arc`.
+
+```dart
+TicketcherDecoration(
+  borderRadius: const TicketRadius(radius: 14, corner: TicketCorner.top),
+  bottomBorderStyle: const BorderPattern(shape: BorderShape.wave, height: 6, width: 16),
+)
+```
+
+- `topBorderStyle` and `bottomBorderStyle` work on vertical tickets.
+- `leftBorderStyle` and `rightBorderStyle` work on horizontal tickets.
+- The corners on a patterned edge must be square (asserted on vertical
+  tickets). Round only the other corners, or use `TicketRadius.zero`.
+
+## Corners
+
+```dart
+const TicketRadius(
+  radius: 16,
+  corner: TicketCorner.all,          // all, top, bottom, topLeft, topRight, bottomLeft, bottomRight, none
+  direction: RadiusDirection.inward, // inward (scooped) or outward (rounded)
+)
+```
+
+## Colored sections
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/colored_sections.png" width="340" alt="Ticket with black, blue and white sections">
+</p>
+
+```dart
+sections: const [
+  Section(color: Colors.black, child: header),
+  Section(color: Color(0xFF2F5BFF), child: details),
+  Section(color: Colors.white, child: passenger),
+]
+```
+
+A section's `color` overrides the decoration's `backgroundColor` for that
+section only.
+
+## Gradients
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/gradients.png" width="340" alt="One ticket with a single gradient, one with a gradient per section">
+</p>
+
+Fill the whole ticket with `decoration.gradient`, or give each section its
+own `Section.gradient`. Linear, radial and sweep gradients all work.
+
+```dart
+// Whole ticket
+TicketcherDecoration(
+  gradient: const LinearGradient(colors: [Color(0xFF0B1A5C), Color(0xFF2F5BFF)]),
+)
+
+// Per section
+Section(
+  gradient: const LinearGradient(colors: [Color(0xFF2A2A2A), Colors.black]),
+  child: header,
+)
+```
+
+A section's `gradient` takes precedence over its `color`.
+
+## Image backgrounds
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/image_background.png" width="340" alt="Ticket with a mountain photo background, and one with a photo in the top section only">
+</p>
+
+```dart
+// Whole ticket
+TicketcherDecoration(
+  backgroundColor: Colors.black,
+  backgroundImage: const NetworkImage('https://…/mountains.jpg'),
+  backgroundImageOpacity: 0.75,
+  backgroundImageFit: BoxFit.cover,
+  backgroundImageAlignment: Alignment.center,
+)
+
+// One section
+Section(
+  backgroundImage: const AssetImage('assets/stage.jpg'),
+  child: header,
+)
+```
+
+Any `ImageProvider` works. With an opacity below 1, the `backgroundColor` shows
+through, so a dark color keeps light text readable.
+
+## Blur and glass
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/blur.png" width="340" alt="Frosted glass ticket over blue shapes">
+</p>
+
+```dart
+TicketcherDecoration(
+  backgroundColor: Colors.white.withValues(alpha: 0.12),
+  blurEffect: const BlurEffect.frosted(), // sigma, tintColor, opacity
+)
+```
+
+| Constructor | Effect |
+|---|---|
+| `BlurEffect.backdrop(sigma:)` | Blurs whatever is behind the ticket. |
+| `BlurEffect.frosted(sigma:, tintColor:, opacity:)` | Backdrop blur plus a tint, for glassmorphism. |
+| `BlurEffect.gaussian(sigma:)` | Blurs the ticket's own content. |
+
+Backdrop blur only shows when something sits behind the ticket, such as an
+image, gradient or shapes.
+
+## Borders
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/gradient_border.png" width="340" alt="White ticket with a blue sweep-gradient border">
+</p>
+
+```dart
+// Solid
+TicketcherDecoration(border: Border.all(color: Colors.black, width: 2))
+
+// Gradient
+TicketcherDecoration(
+  borderWidth: 4,
+  borderGradient: const SweepGradient(
+    colors: [Color(0xFF2F5BFF), Color(0xFF8FA6FF), Colors.black, Color(0xFF2F5BFF)],
+  ),
+)
+
+// Dashed cut-line: needs border or borderGradient
+TicketcherDecoration(
+  border: Border.all(color: const Color(0xFF2F5BFF), width: 2),
+  borderDash: const BorderDash(dash: 8, gap: 5),
+)
+```
+
+Borders follow the notches, corners and edge patterns.
+
+## Stitching
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/stitching.png" width="340" alt="Blue and black tickets with an inset stitched line">
+</p>
+
+An inset dashed thread that follows the whole outline, like a sewn leather
+pass:
+
+```dart
+TicketcherDecoration(
+  stitch: const TicketStitch(
+    color: Colors.white,
+    inset: 9,          // distance from the edge
+    length: 6,         // dash length
+    spacing: 6,        // gap between dashes
+    thickness: 2,
+    cap: StrokeCap.round,
+  ),
+)
+```
+
+## Shadows and punch holes
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/punch_holes.png" width="340" alt="Two conference badges with lanyard holes, one with a soft shadow and one with a dashed border">
+</p>
+
+```dart
+TicketcherDecoration(
+  shadows: [
+    BoxShadow(color: Colors.black.withValues(alpha: 0.10), blurRadius: 2, offset: const Offset(0, 1)),
+    BoxShadow(color: Colors.black.withValues(alpha: 0.16), blurRadius: 30, offset: const Offset(0, 18)),
+  ],
+  punchHoles: const [
+    PunchHole(alignment: Alignment.topCenter, offset: Offset(0, 18), radius: 9),
+  ],
+)
+```
+
+- `shadows` layers several shadows. It wins over the single `shadow` when both
+  are set, and `shadows: []` turns shadows off. `spreadRadius` isn't applied.
+- Punch holes are real cutouts. The background, shadows, blur and border all
+  respect them. A hole's `shape` takes the same `NotchShape` values as notches.
+
+## Watermarks
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/watermark.png" width="340" alt="Black ticket with a repeating ORIGINAL text watermark, white ticket with a large icon watermark">
+</p>
+
+```dart
+// Repeating text
+TicketcherDecoration(
+  watermark: const TicketWatermark.text(
+    text: 'ORIGINAL',
+    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+    opacity: 0.35,
+    rotation: 330,      // degrees, 0 to 360
+    repeat: true,
+    repeatSpacing: 26,
+  ),
+)
+
+// Any widget
+TicketcherDecoration(
+  watermark: const TicketWatermark.widget(
+    widget: Icon(Icons.verified, size: 150),
+    width: 150,
+    height: 150,
+    opacity: 0.12,
+    alignment: WatermarkAlignment.center, // topLeft … bottomRight
+  ),
+)
+```
+
+## Stack effect
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/readme/stack_effect.png" width="340" alt="Day pass with a stacked layer peeking out below it">
+</p>
+
+Draws layers peeking out under a vertical ticket, like a pad of tickets:
+
+```dart
+TicketcherDecoration(
+  stackEffect: const StackEffect(
+    count: 3,       // up to StackEffect.maxCount (3)
+    offset: 10,     // vertical step between layers
+    widthStep: 18,  // how much narrower each layer is
+    color: Color(0xFF8FA6FF),
+  ),
+)
+```
+
+## Interaction
+
+Give a section its own `onTap`, and the ticket an `onTap` for everything
+else. A section's handler wins when its area is tapped.
+
+```dart
+Ticketcher(
+  onTap: () => openTicket(),
+  sections: [
+    Section(child: header, onTap: () => showDetails()),
+    Section(child: checkInButton, onTap: () => checkIn()),
+  ],
+)
+```
+
+Sections without `onTap` don't react to taps.
+
+## Rules and tips
+
+These configurations fail with an assertion in debug builds:
+
+- Fewer than two sections.
+- On a vertical ticket, a `topBorderStyle` or `bottomBorderStyle` on an edge
+  whose corners are rounded.
+- An opacity outside 0–1 (stamps, watermarks, blur, background images).
+- A watermark `rotation` outside 0–360.
+- A `StackEffect.count` above 3.
+- A zero or negative size: notch radius, stamp `borderWidth`, `BorderDash`
+  dash or gap, or `TicketStitch` measurements.
+
+Tips:
+
+- `borderDash` only draws when `border` or `borderGradient` is set.
+- Give horizontal tickets a `height`, and set `width` when you know it. A
+  fixed size saves layout work.
+- Use the same color family for the divider and the border, and keep dividers
+  thinner than the border.
+- Put backdrop-blur tickets over something with texture, or the blur won't
+  show.
+
+## Example app
+
+The [`example`](example) app has a page for every feature, all in one
+black-white-blue theme. The screenshots in this README come from
+[`example/lib/readme_shots.dart`](example/lib/readme_shots.dart). With an iPhone
+16 Pro simulator booted, regenerate them with:
+
+```bash
+cd example && tool/capture_readme_shots.sh
+```
 
 ## Testing
-
-The package ships with **full test coverage** — 51 unit and widget tests covering every public model, painter, clipper, and widget surface:
-
-- Model equality & `hashCode` — `Section`, `TicketDivider` (and all 8 style subclasses), `TicketWatermark`, `TicketcherDecoration` (transitive)
-- Painter `shouldRepaint` semantics + per-section size snapshot regression
-- Clipper `shouldReclip` semantics
-- `RepaintBoundary` placement and ancestor-rebuild isolation
-- `BlurWrapper` zero-sigma fast-path and full-blur paths
-- `ImageResolver` listener lifecycle (load, evict, dispose, in-flight cleanup)
-- Smoke tests for `Ticketcher`, `VTicketcher`, `HTicketcher`
-
-Run locally:
 
 ```bash
 flutter test
 ```
 
-## 2.1.0 Features
-
-### Multiple Shadows
-
-```dart
-Ticketcher(
-  sections: [...],
-  decoration: TicketcherDecoration(
-    shadows: [
-      BoxShadow(color: Color(0x806366F1), blurRadius: 6, offset: Offset(0, 3)),
-      BoxShadow(color: Color(0x59EC4899), blurRadius: 18, offset: Offset(0, 10)),
-    ],
-  ),
-)
-```
-
-`shadows` wins over the legacy `shadow` when both are set; `shadows: []` disables shadows. `BoxShadow.spreadRadius` is not applied.
-
-### Top Border Pattern (vertical only)
-
-```dart
-TicketcherDecoration(
-  borderRadius: TicketRadius.zero, // no top radius with a top pattern
-  topBorderStyle: BorderPattern(shape: BorderShape.sharp, height: 8, width: 20),
-)
-```
-
-### Dashed Outer Border
-
-```dart
-TicketcherDecoration(
-  borderGradient: LinearGradient(colors: [Colors.amber, Colors.red]),
-  borderWidth: 2,
-  borderDash: BorderDash(dash: 7, gap: 5),
-)
-```
-
-Requires `border` or `borderGradient`. The dashes follow the full ticket outline.
-
-## 2.2.0 Features
-
-### Stitching Border
-
-Add an inset dashed "thread" line that follows the ticket outline — corners and
-section notches included — for a sewn / coupon look. It's independent of the
-outer `border`, so you can use either or both.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/fathialamre/ticketcher/main/screenshots/stitching_border.png" width="250" alt="Stitching Border Example">
-</p>
-
-```dart
-Ticketcher(
-  decoration: TicketcherDecoration(
-    backgroundColor: const Color(0xFF19A8B8),
-    borderRadius: const TicketRadius(radius: 24),
-    stitch: const TicketStitch(
-      color: Colors.white,
-      inset: 12,     // distance from the edge
-      length: 7,     // stitch (dash) length
-      spacing: 7,    // gap between stitches
-      thickness: 2,
-      cap: StrokeCap.round,
-    ),
-  ),
-  sections: [
-    Section(child: Text('ADMIT ONE')),
-    Section(child: Text('Row C · Seat 42')),
-  ],
-)
-```
-
-Notches are wrapped with a smooth rounded arc regardless of `notchStyle`. Keep
-`inset` below half the ticket's smallest dimension. Border patterns and punch
-holes are not traced by the stitch.
-
-### Per-Boundary Dividers
-
-```dart
-Ticketcher(
-  sections: [
-    Section(child: header, dividerAfter: TicketDivider.tearLine(color: Colors.grey)),
-    Section(child: body, dividerAfter: TicketDivider.smoothWave(color: Colors.purple)),
-    Section(child: stub), // last section: no boundary after it
-  ],
-)
-```
-
-`Section.dividerAfter` overrides the decoration-level `divider` for that boundary only.
-
-### Punch Holes
-
-```dart
-TicketcherDecoration(
-  punchHoles: [
-    PunchHole(alignment: Alignment.topCenter, offset: Offset(0, 15), radius: 7),
-  ],
-)
-```
-
-Holes are true cutouts — background, shadows, blur, and the border stroke all respect them.
+The tests cover every public model (equality, `copyWith`, assertions), the
+painters and clippers, stamps and the expired state, the flip widget
+(gestures, controller, reduced motion), and smoke tests for both layouts.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Issues and pull requests are welcome.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT. See [LICENSE](LICENSE).
