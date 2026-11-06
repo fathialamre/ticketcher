@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" >
+    <g transform="translate(18 16) rotate(-16 23.0 36.0)">
+      <mask id="mma">
+        <rect width="46" height="72" rx="7" fill="#fff"/>
+        <circle cx="0" cy="44.64" r="6" fill="#000"/>
+        <circle cx="46" cy="44.64" r="6" fill="#000"/>
+      </mask>
+      <rect width="46" height="72" fill="#FFFFFF" mask="url(#mma)"/>
+    </g>
+    <g transform="translate(56 16) rotate(14 23.0 36.0)">
+      <mask id="mmb">
+        <rect width="46" height="72" rx="7" fill="#fff"/>
+        <circle cx="0" cy="44.64" r="6" fill="#000"/>
+        <circle cx="46" cy="44.64" r="6" fill="#000"/>
+      </mask>
+      <rect width="46" height="72" fill="#8FA6FF" mask="url(#mmb)"/>
+    </g>
+    <g transform="translate(37 10) rotate(0 23.0 36.0)">
+      <mask id="mmc">
+        <rect width="46" height="72" rx="7" fill="#fff"/>
+        <circle cx="0" cy="44.64" r="6" fill="#000"/>
+        <circle cx="46" cy="44.64" r="6" fill="#000"/>
+      </mask>
+      <rect width="46" height="72" fill="#2F5BFF" mask="url(#mmc)"/>
+    </g><line x1="44" y1="54.64" x2="76" y2="54.64" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="4 3" stroke-linecap="round"/></svg>

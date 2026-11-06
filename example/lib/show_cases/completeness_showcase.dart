@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 /// Showcases the five 2.1.0 features: multi-shadow, top border pattern,
 /// dashed outer border, per-boundary dividers, punch holes.
 class CompletenessShowcase extends StatelessWidget {
@@ -15,25 +17,26 @@ class CompletenessShowcase extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _label('Multi-shadow — layered colored glow'),
+            _label('Multi-shadow — layered blue glow'),
             Ticketcher(
               sections: _sections('Concert Pass', 'ROW 4 · SEAT 12'),
-              decoration: const TicketcherDecoration(
+              decoration: TicketcherDecoration(
+                backgroundColor: Mono.white,
                 shadows: [
                   BoxShadow(
-                    color: Color(0x806366F1),
+                    color: Mono.blue.withValues(alpha: 0.5),
                     blurRadius: 6,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                   BoxShadow(
-                    color: Color(0x59EC4899),
+                    color: Mono.blueLight.withValues(alpha: 0.35),
                     blurRadius: 18,
-                    offset: Offset(0, 10),
+                    offset: const Offset(0, 10),
                   ),
                   BoxShadow(
-                    color: Color(0x330F172A),
+                    color: Mono.black.withValues(alpha: 0.2),
                     blurRadius: 36,
-                    offset: Offset(0, 22),
+                    offset: const Offset(0, 22),
                   ),
                 ],
               ),
@@ -42,17 +45,18 @@ class CompletenessShowcase extends StatelessWidget {
             _label('Top border pattern — receipt-style torn edge'),
             Ticketcher(
               sections: _sections('Store Receipt', 'TOTAL \$42.00'),
-              decoration: const TicketcherDecoration(
+              decoration: TicketcherDecoration(
+                backgroundColor: Mono.white,
                 borderRadius: TicketRadius.zero,
-                topBorderStyle: BorderPattern(
+                topBorderStyle: const BorderPattern(
                   shape: BorderShape.sharp,
                   height: 8,
                   width: 20,
                 ),
                 shadow: BoxShadow(
-                  color: Colors.black26,
+                  color: Mono.black.withValues(alpha: 0.15),
                   blurRadius: 12,
-                  offset: Offset(0, 6),
+                  offset: const Offset(0, 6),
                 ),
               ),
             ),
@@ -61,9 +65,9 @@ class CompletenessShowcase extends StatelessWidget {
             Ticketcher(
               sections: _sections('25% OFF', 'CODE: TKT-25-OFF'),
               decoration: const TicketcherDecoration(
-                backgroundColor: Color(0xFFFFFBEB),
+                backgroundColor: Mono.blueTint,
                 borderGradient: LinearGradient(
-                  colors: [Color(0xFFF59E0B), Color(0xFFEF4444)],
+                  colors: [Mono.blueNight, Mono.blue],
                 ),
                 borderWidth: 2,
                 borderDash: BorderDash(dash: 7, gap: 5),
@@ -76,45 +80,54 @@ class CompletenessShowcase extends StatelessWidget {
                 Section(
                   padding: const EdgeInsets.all(20),
                   dividerAfter: TicketDivider.tearLine(
-                    color: Colors.grey,
+                    color: Mono.ash,
                     dashWidth: 5,
                     dashSpace: 4,
                     scissorsPosition: ScissorsPosition.start,
                   ),
                   child: const Text(
                     'Boarding Pass',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      color: Mono.ink,
+                    ),
                   ),
                 ),
                 Section(
                   padding: const EdgeInsets.all(20),
                   dividerAfter: TicketDivider.smoothWave(
-                    color: Colors.deepPurple,
+                    color: Mono.blue,
                     waveHeight: 6,
                     waveWidth: 10,
                   ),
-                  child: const Text('Gate B12 · Boarding 18:40'),
+                  child: const Text(
+                    'Gate B12 · Boarding 18:40',
+                    style: Mono.body,
+                  ),
                 ),
                 const Section(
                   padding: EdgeInsets.all(20),
-                  child: Text('Keep this stub'),
+                  child: Text('Keep this stub', style: Mono.caption),
                 ),
               ],
-              decoration: const TicketcherDecoration(
+              decoration: TicketcherDecoration(
+                backgroundColor: Mono.white,
                 shadow: BoxShadow(
-                  color: Colors.black26,
+                  color: Mono.black.withValues(alpha: 0.15),
                   blurRadius: 10,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ),
             ),
             const SizedBox(height: 40),
             _label('Punch hole — lanyard-ready cutout'),
             Ticketcher(
-              sections: _sections('VIP BACKSTAGE', 'ALL ACCESS'),
+              sections: _sections('VIP BACKSTAGE', 'ALL ACCESS', dark: true),
               decoration: const TicketcherDecoration(
+                backgroundColor: Mono.black,
                 border: Border.fromBorderSide(
-                  BorderSide(color: Color(0xFFD946EF), width: 1.5),
+                  BorderSide(color: Mono.blue, width: 1.5),
                 ),
                 punchHoles: [
                   PunchHole(
@@ -132,18 +145,28 @@ class CompletenessShowcase extends StatelessWidget {
     );
   }
 
-  List<Section> _sections(String title, String subtitle) {
+  List<Section> _sections(String title, String subtitle, {bool dark = false}) {
     return [
       Section(
         padding: const EdgeInsets.fromLTRB(20, 28, 20, 20),
         child: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 18,
+            color: dark ? Mono.onDark : Mono.ink,
+          ),
         ),
       ),
       Section(
         padding: const EdgeInsets.all(20),
-        child: Text(subtitle, style: const TextStyle(letterSpacing: 1.5)),
+        child: Text(
+          subtitle,
+          style: TextStyle(
+            letterSpacing: 1.5,
+            color: dark ? Mono.blueLight : Mono.ash,
+          ),
+        ),
       ),
     ];
   }
@@ -151,10 +174,7 @@ class CompletenessShowcase extends StatelessWidget {
   Widget _label(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 13, color: Colors.grey),
-      ),
+      child: Text(text, style: const TextStyle(fontSize: 13, color: Mono.ash)),
     );
   }
 }

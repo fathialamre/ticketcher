@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class GradientBorderTicket extends StatelessWidget {
   const GradientBorderTicket({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(title: const Text('Gradient Border Tickets')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -39,8 +40,9 @@ class GradientBorderTicket extends StatelessWidget {
           title,
           style: const TextStyle(
             fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.4,
+            color: Mono.ink,
           ),
         ),
         const SizedBox(height: 16),
@@ -55,21 +57,21 @@ class GradientBorderTicket extends StatelessWidget {
       notchRadius: 12,
       decoration: TicketcherDecoration(
         borderRadius: const TicketRadius(radius: 16),
-        backgroundColor: Colors.white,
+        backgroundColor: Mono.white,
         borderGradient: const LinearGradient(
           colors: [
-            Colors.red,
-            Colors.orange,
-            Colors.yellow,
-            Colors.green,
-            Colors.blue,
-            Colors.indigo,
-            Colors.purple,
+            Mono.black,
+            Mono.blueNight,
+            Mono.blueDeep,
+            Mono.blue,
+            Mono.blueLight,
+            Mono.blueSoft,
+            Mono.blueLight,
           ],
         ),
         borderWidth: 3.0,
         shadow: BoxShadow(
-          color: Colors.black.withValues(alpha: 0.1),
+          color: Mono.black.withValues(alpha: 0.08),
           blurRadius: 10,
           offset: const Offset(0, 5),
         ),
@@ -85,7 +87,7 @@ class GradientBorderTicket extends StatelessWidget {
               Text(
                 'RAINBOW TICKET',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Mono.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
@@ -94,7 +96,7 @@ class GradientBorderTicket extends StatelessWidget {
               SizedBox(height: 8),
               Text(
                 'Gradient Border Demo',
-                style: TextStyle(color: Colors.black54, fontSize: 14),
+                style: TextStyle(color: Mono.ash, fontSize: 14),
               ),
             ],
           ),
@@ -105,12 +107,12 @@ class GradientBorderTicket extends StatelessWidget {
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.palette, color: Colors.black54, size: 32),
+              Icon(Icons.palette, color: Mono.ash, size: 32),
               SizedBox(height: 8),
               Text(
                 'COLORFUL',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Mono.ink,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
@@ -128,19 +130,19 @@ class GradientBorderTicket extends StatelessWidget {
       notchRadius: 10,
       decoration: TicketcherDecoration(
         borderRadius: const TicketRadius(radius: 12),
-        backgroundColor: Colors.black,
+        backgroundColor: Mono.black,
         borderGradient: const LinearGradient(
           colors: [
-            Color(0xFF00FFFF),
-            Color(0xFF0080FF),
-            Color(0xFF8000FF),
-            Color(0xFFFF00FF),
-            Color(0xFF00FFFF),
+            Mono.blueLight,
+            Mono.blue,
+            Mono.blueDeep,
+            Mono.blue,
+            Mono.blueLight,
           ],
         ),
         borderWidth: 2.5,
         shadow: BoxShadow(
-          color: Colors.cyan.withValues(alpha: 0.5),
+          color: Mono.blue.withValues(alpha: 0.45),
           blurRadius: 15,
           spreadRadius: 2,
         ),
@@ -152,12 +154,12 @@ class GradientBorderTicket extends StatelessWidget {
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.flash_on, color: Colors.white, size: 28),
+              Icon(Icons.flash_on, color: Mono.blueLight, size: 28),
               SizedBox(height: 4),
               Text(
                 'NEON',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Mono.onDark,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
@@ -176,14 +178,14 @@ class GradientBorderTicket extends StatelessWidget {
               Text(
                 'CYBER BORDER',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Mono.onDark,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 'Electric Vibes',
-                style: TextStyle(color: Colors.white70, fontSize: 11),
+                style: TextStyle(color: Mono.onDarkMuted, fontSize: 11),
               ),
             ],
           ),
@@ -198,11 +200,11 @@ class GradientBorderTicket extends StatelessWidget {
       notchRadius: 8,
       decoration: TicketcherDecoration(
         borderRadius: const TicketRadius(radius: 14),
-        backgroundColor: Colors.white,
+        backgroundColor: Mono.white,
         borderGradient: const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFFFFD89B), Color(0xFFFF8A56), Color(0xFFFF6B6B)],
+          colors: [Mono.blueSoft, Mono.blueLight, Mono.blue],
         ),
         borderWidth: 2.0,
       ),
@@ -211,12 +213,12 @@ class GradientBorderTicket extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: const Column(
             children: [
-              Icon(Icons.wb_sunny, color: Colors.orange, size: 32),
+              Icon(Icons.wb_sunny, color: Mono.blue, size: 32),
               SizedBox(height: 8),
               Text(
                 'SUNSET',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Mono.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -229,7 +231,7 @@ class GradientBorderTicket extends StatelessWidget {
           child: const Text(
             'Golden Hour\nBorder',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black54, fontSize: 12),
+            style: TextStyle(color: Mono.ash, fontSize: 12),
           ),
         ),
       ],
@@ -242,14 +244,9 @@ class GradientBorderTicket extends StatelessWidget {
       notchRadius: 10,
       decoration: TicketcherDecoration(
         borderRadius: const TicketRadius(radius: 16),
-        backgroundColor: Colors.white,
+        backgroundColor: Mono.white,
         borderGradient: const LinearGradient(
-          colors: [
-            Color(0xFF667eea),
-            Color(0xFF764ba2),
-            Color(0xFF89f7fe),
-            Color(0xFF66a6ff),
-          ],
+          colors: [Mono.blueNight, Mono.blue, Mono.blueSoft, Mono.blueLight],
         ),
         borderWidth: 2.5,
       ),
@@ -260,11 +257,11 @@ class GradientBorderTicket extends StatelessWidget {
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.waves, color: Colors.blue, size: 28),
+              Icon(Icons.waves, color: Mono.blue, size: 28),
               Text(
                 'OCEAN',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Mono.ink,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
@@ -282,14 +279,14 @@ class GradientBorderTicket extends StatelessWidget {
               Text(
                 'Deep Blue Border',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Mono.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 'Marine Vibes',
-                style: TextStyle(color: Colors.black54, fontSize: 10),
+                style: TextStyle(color: Mono.ash, fontSize: 10),
               ),
             ],
           ),
@@ -304,19 +301,19 @@ class GradientBorderTicket extends StatelessWidget {
       notchRadius: 12,
       decoration: TicketcherDecoration(
         borderRadius: const TicketRadius(radius: 18),
-        backgroundColor: Colors.white,
+        backgroundColor: Mono.white,
         borderGradient: const LinearGradient(
           colors: [
-            Color(0xFFFFD700), // Gold
-            Color(0xFFFFA500), // Orange
-            Color(0xFFFFD700), // Gold
-            Color(0xFFB8860B), // Dark golden rod
-            Color(0xFFFFD700), // Gold
+            Mono.line, // Silver
+            Mono.ash, // Steel
+            Mono.panel, // Highlight
+            Mono.graphite, // Shadow
+            Mono.line, // Silver
           ],
         ),
         borderWidth: 3.0,
         shadow: BoxShadow(
-          color: Colors.amber.withValues(alpha: 0.3),
+          color: Mono.black.withValues(alpha: 0.15),
           blurRadius: 8,
           offset: const Offset(0, 4),
         ),
@@ -326,12 +323,12 @@ class GradientBorderTicket extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: const Column(
             children: [
-              Icon(Icons.star, color: Colors.amber, size: 32),
+              Icon(Icons.star, color: Mono.black, size: 32),
               SizedBox(height: 8),
               Text(
                 'PREMIUM',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Mono.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -344,7 +341,7 @@ class GradientBorderTicket extends StatelessWidget {
           child: const Text(
             'Golden\nBorder',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black54, fontSize: 12),
+            style: TextStyle(color: Mono.ash, fontSize: 12),
           ),
         ),
       ],

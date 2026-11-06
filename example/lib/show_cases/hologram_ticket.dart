@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class HologramTicket extends StatelessWidget {
   const HologramTicket({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Holographic Ticket'),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-      ),
+      appBar: AppBar(title: const Text('Holographic Ticket')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -24,24 +21,24 @@ class HologramTicket extends StatelessWidget {
                 radius: 20,
                 corner: TicketCorner.top,
               ),
-              // Holographic gradient effect similar to your image
+              // Iridescent foil: blue and white bands sweeping across the face
               gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFFFF69B4), // Hot pink
-                  Color(0xFF8A2BE2), // Blue violet
-                  Color(0xFF4169E1), // Royal blue
-                  Color(0xFF00BFFF), // Deep sky blue
-                  Color(0xFF00CED1), // Dark turquoise
-                  Color(0xFF32CD32), // Lime green
-                  Color(0xFFFFD700), // Gold
-                  Color(0xFFFF4500), // Orange red
+                  Mono.blueSoft,
+                  Mono.white,
+                  Mono.blueLight,
+                  Mono.fog,
+                  Mono.blueTint,
+                  Mono.blueLight,
+                  Mono.white,
+                  Mono.blueSoft,
                 ],
                 stops: [0.0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.0],
               ),
               shadow: BoxShadow(
-                color: Colors.cyan.withOpacity(0.3),
+                color: Mono.blue.withValues(alpha: 0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
                 spreadRadius: 5,
@@ -51,7 +48,7 @@ class HologramTicket extends StatelessWidget {
                 height: 8,
               ),
               divider: TicketDivider.dashed(
-                color: Colors.white.withOpacity(0.8),
+                color: Mono.blueDeep.withValues(alpha: 0.6),
                 thickness: 1.5,
                 dashWidth: 8,
                 dashSpace: 4,
@@ -69,15 +66,15 @@ class HologramTicket extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Mono.black,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: const Text(
                         'X3A',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Mono.onDark,
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w800,
                           letterSpacing: 2,
                         ),
                       ),
@@ -86,7 +83,7 @@ class HologramTicket extends StatelessWidget {
                     const Text(
                       '438948',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Mono.ink,
                         fontSize: 12,
                         letterSpacing: 1,
                       ),
@@ -94,7 +91,7 @@ class HologramTicket extends StatelessWidget {
                     const Text(
                       'DRAMA',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Mono.ink,
                         fontSize: 48,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 4,
@@ -106,7 +103,7 @@ class HologramTicket extends StatelessWidget {
                       'New Year\n2022',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Mono.ink,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
@@ -115,9 +112,9 @@ class HologramTicket extends StatelessWidget {
                     const Text(
                       'BOARDING PASS*',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Mono.ink,
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                         fontStyle: FontStyle.italic,
                         letterSpacing: 2,
                       ),
@@ -140,7 +137,7 @@ class HologramTicket extends StatelessWidget {
                             Text(
                               'DATE',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.7),
+                                color: Mono.ink.withValues(alpha: 0.7),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1,
@@ -149,9 +146,9 @@ class HologramTicket extends StatelessWidget {
                             const Text(
                               '08/04',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Mono.ink,
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -162,7 +159,7 @@ class HologramTicket extends StatelessWidget {
                             Text(
                               'CABIN',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.7),
+                                color: Mono.ink.withValues(alpha: 0.7),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1,
@@ -171,9 +168,9 @@ class HologramTicket extends StatelessWidget {
                             const Text(
                               'TOURIST CLASS',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Mono.ink,
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -190,7 +187,7 @@ class HologramTicket extends StatelessWidget {
                             Text(
                               'PASSENGER',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.7),
+                                color: Mono.ink.withValues(alpha: 0.7),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1,
@@ -199,14 +196,14 @@ class HologramTicket extends StatelessWidget {
                             const Text(
                               'SPT',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Mono.ink,
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
                         ),
-                        const Icon(Icons.flight, color: Colors.black, size: 32),
+                        const Icon(Icons.flight, color: Mono.ink, size: 32),
                       ],
                     ),
                     const SizedBox(height: 24),
@@ -215,7 +212,7 @@ class HologramTicket extends StatelessWidget {
                       width: double.infinity,
                       height: 60,
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Mono.black,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Row(
@@ -228,7 +225,7 @@ class HologramTicket extends StatelessWidget {
                                 vertical: 8,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Mono.white,
                                 borderRadius: BorderRadius.circular(1),
                               ),
                             ),
@@ -241,7 +238,7 @@ class HologramTicket extends StatelessWidget {
                       child: Text(
                         '640509 040147',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Mono.ink,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 2,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class WatermarkShowcase extends StatelessWidget {
   const WatermarkShowcase({super.key});
 
@@ -17,8 +19,9 @@ class WatermarkShowcase extends StatelessWidget {
               'Watermark Examples',
               style: TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.4,
+                color: Mono.ink,
               ),
             ),
             const SizedBox(height: 16),
@@ -62,14 +65,14 @@ class WatermarkShowcase extends StatelessWidget {
           title,
           style: const TextStyle(
             fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            fontWeight: FontWeight.w700,
+            color: Mono.ink,
           ),
         ),
         const SizedBox(height: 4),
         Text(
           description,
-          style: const TextStyle(fontSize: 14, color: Colors.grey),
+          style: const TextStyle(fontSize: 14, color: Mono.ash),
         ),
         const SizedBox(height: 12),
         ticket,
@@ -91,11 +94,21 @@ class WatermarkShowcase extends StatelessWidget {
               children: [
                 Text(
                   'Concert Ticket',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.onDark,
+                  ),
                 ),
                 SizedBox(height: 4),
-                Text('Flutter Band', style: TextStyle(fontSize: 14)),
-                Text('Dec 25, 2024', style: TextStyle(fontSize: 12)),
+                Text(
+                  'Flutter Band',
+                  style: TextStyle(fontSize: 14, color: Mono.onDark),
+                ),
+                Text(
+                  'Dec 25, 2024',
+                  style: TextStyle(fontSize: 12, color: Mono.blueSoft),
+                ),
               ],
             ),
           ),
@@ -108,29 +121,32 @@ class WatermarkShowcase extends StatelessWidget {
               children: [
                 Text(
                   'SEAT',
-                  style: TextStyle(fontSize: 10, color: Colors.grey),
+                  style: TextStyle(fontSize: 10, color: Mono.blueSoft),
                 ),
                 Text(
                   'A12',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.onDark,
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ],
-      decoration: TicketcherDecoration(
-        backgroundColor: Colors.blue.shade50,
-        border: Border.all(color: Colors.blue.shade200),
-        borderRadius: const TicketRadius(radius: 12),
-        watermark: const TicketWatermark.text(
+      decoration: const TicketcherDecoration(
+        backgroundColor: Mono.blue,
+        borderRadius: TicketRadius(radius: 12),
+        watermark: TicketWatermark.text(
           text: 'VALID',
           opacity: 0.3,
           alignment: WatermarkAlignment.center,
           style: TextStyle(
             fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
+            fontWeight: FontWeight.w800,
+            color: Mono.white,
           ),
         ),
       ),
@@ -150,11 +166,15 @@ class WatermarkShowcase extends StatelessWidget {
               children: [
                 Text(
                   'Boarding Pass',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.ink,
+                  ),
                 ),
                 SizedBox(height: 4),
-                Text('NYC → LAX', style: TextStyle(fontSize: 14)),
-                Text('FL123', style: TextStyle(fontSize: 12)),
+                Text('NYC → LAX', style: Mono.body),
+                Text('FL123', style: Mono.caption),
               ],
             ),
           ),
@@ -165,13 +185,14 @@ class WatermarkShowcase extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'GATE',
-                  style: TextStyle(fontSize: 10, color: Colors.grey),
-                ),
+                Text('GATE', style: TextStyle(fontSize: 10, color: Mono.ash)),
                 Text(
                   'B7',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.blue,
+                  ),
                 ),
               ],
             ),
@@ -179,8 +200,8 @@ class WatermarkShowcase extends StatelessWidget {
         ),
       ],
       decoration: TicketcherDecoration(
-        backgroundColor: Colors.green.shade50,
-        border: Border.all(color: Colors.green.shade200),
+        backgroundColor: Mono.white,
+        border: Border.all(color: Mono.line),
         borderRadius: const TicketRadius(radius: 12),
         // The widget (image) watermark renders as a clipped background layer
         // behind the section content, spanning the whole ticket.
@@ -212,12 +233,16 @@ class WatermarkShowcase extends StatelessWidget {
               children: [
                 Text(
                   'Event Pass',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.onDark,
+                  ),
                 ),
                 SizedBox(height: 8),
-                Text('FlutterConf 2024'),
-                Text('VIP Access'),
-                Text('All Areas'),
+                Text('FlutterConf 2024', style: TextStyle(color: Mono.onDark)),
+                Text('VIP Access', style: TextStyle(color: Mono.onDarkMuted)),
+                Text('All Areas', style: TextStyle(color: Mono.onDarkMuted)),
               ],
             ),
           ),
@@ -227,21 +252,27 @@ class WatermarkShowcase extends StatelessWidget {
             padding: EdgeInsets.all(16),
             child: Column(
               children: [
-                Text('ID', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                Text(
+                  'ID',
+                  style: TextStyle(fontSize: 12, color: Mono.onDarkMuted),
+                ),
                 Text(
                   '001',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.blueLight,
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ],
-      decoration: TicketcherDecoration(
-        backgroundColor: Colors.purple.shade50,
-        border: Border.all(color: Colors.purple.shade200),
-        borderRadius: const TicketRadius(radius: 12),
-        watermark: const TicketWatermark.text(
+      decoration: const TicketcherDecoration(
+        backgroundColor: Mono.black,
+        borderRadius: TicketRadius(radius: 12),
+        watermark: TicketWatermark.text(
           text: 'VIP',
           opacity: 0.15,
           alignment: WatermarkAlignment.center,
@@ -250,8 +281,8 @@ class WatermarkShowcase extends StatelessWidget {
           repeatSpacing: 10,
           style: TextStyle(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.purple,
+            fontWeight: FontWeight.w800,
+            color: Mono.blueLight,
           ),
         ),
       ),
@@ -269,12 +300,16 @@ class WatermarkShowcase extends StatelessWidget {
               children: [
                 Text(
                   'Premium Pass',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.ink,
+                  ),
                 ),
                 SizedBox(height: 8),
-                Text('Elite Member'),
-                Text('Valid: 2024'),
-                Text('Benefits: All'),
+                Text('Elite Member', style: Mono.body),
+                Text('Valid: 2024', style: Mono.body),
+                Text('Benefits: All', style: Mono.body),
               ],
             ),
           ),
@@ -288,7 +323,7 @@ class WatermarkShowcase extends StatelessWidget {
                   children: [
                     Text(
                       'LEVEL',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                      style: TextStyle(fontSize: 12, color: Mono.ash),
                     ),
                   ],
                 ),
@@ -296,8 +331,8 @@ class WatermarkShowcase extends StatelessWidget {
                   'GOLD',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.amber,
+                    fontWeight: FontWeight.w800,
+                    color: Mono.blue,
                   ),
                 ),
               ],
@@ -306,11 +341,11 @@ class WatermarkShowcase extends StatelessWidget {
         ),
       ],
       decoration: TicketcherDecoration(
-        backgroundColor: Colors.amber.shade50,
-        border: Border.all(color: Colors.amber.shade200),
+        backgroundColor: Mono.white,
+        border: Border.all(color: Mono.line),
         borderRadius: const TicketRadius(radius: 12),
         watermark: const TicketWatermark.widget(
-          widget: Icon(Icons.star, size: 80, color: Colors.amber),
+          widget: Icon(Icons.star, size: 80, color: Mono.ash),
           opacity: 0.2,
           alignment: WatermarkAlignment.center,
         ),

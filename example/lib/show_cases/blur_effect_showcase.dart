@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class BlurEffectShowcase extends StatelessWidget {
   const BlurEffectShowcase({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
-      appBar: AppBar(
-        title: const Text('Blur Effects Showcase'),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-      ),
+      appBar: AppBar(title: const Text('Blur Effects Showcase')),
       body: Container(
-        decoration: BoxDecoration(
+        // Dark backdrop so the glass has something to blur against.
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Colors.purple.shade900,
-              Colors.blue.shade900,
-              Colors.teal.shade900,
-            ],
+            colors: [Mono.black, Mono.blueNight, Mono.blueDeep],
           ),
         ),
         child: ListView(
@@ -31,15 +25,15 @@ class BlurEffectShowcase extends StatelessWidget {
             const Text(
               'Blur & Glassmorphism Effects',
               style: TextStyle(
-                color: Colors.white,
+                color: Mono.onDark,
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(height: 8),
             const Text(
               'Modern frosted glass aesthetics for premium tickets',
-              style: TextStyle(color: Colors.white70, fontSize: 14),
+              style: TextStyle(color: Mono.onDarkMuted, fontSize: 14),
             ),
             const SizedBox(height: 32),
 
@@ -50,15 +44,15 @@ class BlurEffectShowcase extends StatelessWidget {
               ticket: Ticketcher.vertical(
                 width: double.infinity,
                 decoration: TicketcherDecoration(
-                  backgroundColor: Colors.white.withOpacity(0.1),
+                  backgroundColor: Mono.white.withValues(alpha: 0.1),
                   blurEffect: const BlurEffect.backdrop(sigma: 10),
                   borderRadius: const TicketRadius(radius: 16),
                   divider: TicketDivider.dashed(
-                    color: Colors.white.withOpacity(0.3),
+                    color: Mono.white.withValues(alpha: 0.3),
                     thickness: 1,
                   ),
                   shadow: BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Mono.black.withValues(alpha: 0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -72,7 +66,7 @@ class BlurEffectShowcase extends StatelessWidget {
                         const Text(
                           'PREMIUM EVENT',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Mono.onDark,
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 2,
@@ -82,12 +76,12 @@ class BlurEffectShowcase extends StatelessWidget {
                         Text(
                           'Glass Morphism',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Mono.onDark,
                             fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w800,
                             shadows: [
                               Shadow(
-                                color: Colors.black.withOpacity(0.3),
+                                color: Mono.black.withValues(alpha: 0.3),
                                 offset: const Offset(0, 2),
                                 blurRadius: 4,
                               ),
@@ -98,7 +92,7 @@ class BlurEffectShowcase extends StatelessWidget {
                         Text(
                           'Concert Experience',
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Mono.onDark.withValues(alpha: 0.8),
                             fontSize: 14,
                           ),
                         ),
@@ -116,7 +110,7 @@ class BlurEffectShowcase extends StatelessWidget {
                             Text(
                               'DATE',
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
+                                color: Mono.onDark.withValues(alpha: 0.6),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -124,9 +118,9 @@ class BlurEffectShowcase extends StatelessWidget {
                             const Text(
                               'Dec 25, 2024',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Mono.onDark,
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -137,7 +131,7 @@ class BlurEffectShowcase extends StatelessWidget {
                             Text(
                               'SEAT',
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
+                                color: Mono.onDark.withValues(alpha: 0.6),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -145,9 +139,9 @@ class BlurEffectShowcase extends StatelessWidget {
                             const Text(
                               'A-12',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Mono.onDark,
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -169,20 +163,20 @@ class BlurEffectShowcase extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   blurEffect: BlurEffect.frosted(
                     sigma: 15,
-                    tintColor: Colors.white,
+                    tintColor: Mono.white,
                     opacity: 0.15,
                   ),
                   borderRadius: const TicketRadius(radius: 16),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Mono.white.withValues(alpha: 0.2),
                     width: 1.5,
                   ),
                   divider: TicketDivider.smoothWave(
-                    color: Colors.white.withOpacity(0.3),
+                    color: Mono.white.withValues(alpha: 0.3),
                     thickness: 2,
                   ),
                   shadow: BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Mono.black.withValues(alpha: 0.2),
                     blurRadius: 15,
                     offset: const Offset(0, 8),
                   ),
@@ -199,18 +193,18 @@ class BlurEffectShowcase extends StatelessWidget {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.cyan.withOpacity(0.3),
+                            color: Mono.blue.withValues(alpha: 0.35),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: Colors.cyan.withOpacity(0.5),
+                              color: Mono.blueLight.withValues(alpha: 0.6),
                             ),
                           ),
                           child: const Text(
                             'VIP ACCESS',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Mono.onDark,
                               fontSize: 10,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
                               letterSpacing: 1,
                             ),
                           ),
@@ -219,16 +213,16 @@ class BlurEffectShowcase extends StatelessWidget {
                         const Text(
                           'Frosted Elegance',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Mono.onDark,
                             fontSize: 26,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Winter Gala 2024',
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Mono.onDark.withValues(alpha: 0.8),
                             fontSize: 14,
                           ),
                         ),
@@ -256,16 +250,16 @@ class BlurEffectShowcase extends StatelessWidget {
               ticket: Ticketcher.horizontal(
                 height: 180,
                 decoration: TicketcherDecoration(
-                  backgroundColor: Colors.white.withOpacity(0.9),
+                  backgroundColor: Mono.white.withValues(alpha: 0.9),
                   blurEffect: const BlurEffect.gaussian(sigma: 3),
                   borderRadius: const TicketRadius(radius: 12),
                   divider: TicketDivider.circles(
-                    color: Colors.purple.withOpacity(0.3),
+                    color: Mono.blue.withValues(alpha: 0.3),
                     circleRadius: 3,
                     thickness: 1.5,
                   ),
                   shadow: BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Mono.black.withValues(alpha: 0.2),
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),
@@ -281,7 +275,7 @@ class BlurEffectShowcase extends StatelessWidget {
                         Text(
                           'SOFT FOCUS',
                           style: TextStyle(
-                            color: Colors.purple.shade700,
+                            color: Mono.blue,
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.5,
@@ -291,26 +285,19 @@ class BlurEffectShowcase extends StatelessWidget {
                         const Text(
                           'Dreamy Vibes',
                           style: TextStyle(
-                            color: Colors.black87,
+                            color: Mono.ink,
                             fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                         const SizedBox(height: 12),
                         Row(
                           children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.purple.shade400,
-                              size: 16,
-                            ),
+                            Icon(Icons.location_on, color: Mono.blue, size: 16),
                             const SizedBox(width: 4),
                             Text(
                               'Skyline Venue',
-                              style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontSize: 12,
-                              ),
+                              style: TextStyle(color: Mono.ash, fontSize: 12),
                             ),
                           ],
                         ),
@@ -322,16 +309,12 @@ class BlurEffectShowcase extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.qr_code_2,
-                          color: Colors.purple.shade700,
-                          size: 60,
-                        ),
+                        Icon(Icons.qr_code_2, color: Mono.ink, size: 60),
                         const SizedBox(height: 8),
                         Text(
                           '#GT2024',
                           style: TextStyle(
-                            color: Colors.grey.shade600,
+                            color: Mono.ash,
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                           ),
@@ -356,9 +339,9 @@ class BlurEffectShowcase extends StatelessWidget {
       child: Text(
         title,
         style: const TextStyle(
-          color: Colors.white,
+          color: Mono.onDark,
           fontSize: 18,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
@@ -373,7 +356,7 @@ class BlurEffectShowcase extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
+              color: Mono.onDark.withValues(alpha: 0.7),
               fontSize: 13,
             ),
           ),
@@ -387,7 +370,7 @@ class BlurEffectShowcase extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
+        color: Mono.white.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -395,7 +378,7 @@ class BlurEffectShowcase extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: Mono.onDark.withValues(alpha: 0.7),
               fontSize: 10,
               fontWeight: FontWeight.w600,
             ),
@@ -404,9 +387,9 @@ class BlurEffectShowcase extends StatelessWidget {
           Text(
             value,
             style: const TextStyle(
-              color: Colors.white,
+              color: Mono.onDark,
               fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],

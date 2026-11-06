@@ -7,6 +7,7 @@ import 'notch_shape.dart';
 import 'punch_hole.dart';
 import 'ticket_divider.dart';
 import 'ticket_radius.dart';
+import 'ticket_stamp.dart';
 import 'ticket_stitch.dart';
 import 'ticket_watermark.dart';
 
@@ -113,6 +114,8 @@ class StackEffect {
 /// * Dashed outer border using [borderDash]
 /// * Stitched (inset dashed) border using [stitch]
 /// * Punch holes using [punchHoles]
+/// * Rubber-stamp overlay using [stamp]
+/// * Expired (greyed-out) state using [status]
 @immutable
 class TicketcherDecoration {
   /// Maximum number of stacked layers allowed
@@ -162,6 +165,14 @@ class TicketcherDecoration {
   /// border stroke (which rings each hole).
   final List<PunchHole>? punchHoles;
 
+  /// Rubber-stamp mark ("USED", "VOID", custom text) drawn above the
+  /// content, clipped to the ticket outline. Both orientations.
+  final TicketStamp? stamp;
+
+  /// Lifecycle state. [TicketStatus.expired] greys out and dims the ticket
+  /// (the [stamp] stays in full color). Defaults to [TicketStatus.active].
+  final TicketStatus status;
+
   final StackEffect stackEffect;
   final TicketWatermark? watermark;
   final BlurEffect? blurEffect;
@@ -201,6 +212,8 @@ class TicketcherDecoration {
     this.borderDash,
     this.stitch,
     this.punchHoles,
+    this.stamp,
+    this.status = TicketStatus.active,
     this.stackEffect = const StackEffect(),
     this.watermark,
     this.blurEffect,
@@ -231,6 +244,8 @@ class TicketcherDecoration {
     BorderDash? borderDash,
     TicketStitch? stitch,
     List<PunchHole>? punchHoles,
+    TicketStamp? stamp,
+    TicketStatus? status,
     StackEffect? stackEffect,
     TicketWatermark? watermark,
     BlurEffect? blurEffect,
@@ -257,6 +272,8 @@ class TicketcherDecoration {
       borderDash: borderDash ?? this.borderDash,
       stitch: stitch ?? this.stitch,
       punchHoles: punchHoles ?? this.punchHoles,
+      stamp: stamp ?? this.stamp,
+      status: status ?? this.status,
       stackEffect: stackEffect ?? this.stackEffect,
       watermark: watermark ?? this.watermark,
       blurEffect: blurEffect ?? this.blurEffect,
@@ -290,6 +307,8 @@ class TicketcherDecoration {
         other.borderDash == borderDash &&
         other.stitch == stitch &&
         listEquals(other.punchHoles, punchHoles) &&
+        other.stamp == stamp &&
+        other.status == status &&
         other.stackEffect == stackEffect &&
         other.watermark == watermark &&
         other.blurEffect == blurEffect &&
@@ -318,6 +337,8 @@ class TicketcherDecoration {
     borderDash,
     stitch,
     punchHoles == null ? null : Object.hashAll(punchHoles!),
+    stamp,
+    status,
     stackEffect,
     watermark,
     blurEffect,

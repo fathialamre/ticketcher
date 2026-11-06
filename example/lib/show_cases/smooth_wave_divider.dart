@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class SmoothWaveDivider extends StatelessWidget {
   const SmoothWaveDivider({super.key});
 
@@ -25,22 +27,19 @@ class SmoothWaveDivider extends StatelessWidget {
                     ),
 
                     shadow: BoxShadow(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Mono.blue,
                       blurRadius: 3,
                       offset: Offset(12, 10),
                     ),
                     divider: TicketDivider.smoothWave(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Mono.white.withValues(alpha: 0.35),
                       thickness: 2,
                       waveHeight: 6,
                       waveWidth: 12,
                     ),
-                    backgroundColor: Theme.of(context).cardColor,
+                    backgroundColor: Mono.black,
                     border: Border.fromBorderSide(
-                      BorderSide(
-                        color: Theme.of(context).primaryColor,
-                        width: 2,
-                      ),
+                      BorderSide(color: Mono.black, width: 2),
                     ),
                   ),
                   sections: [
@@ -53,15 +52,14 @@ class SmoothWaveDivider extends StatelessWidget {
                             'Circle Divider Example',
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
+                              color: Mono.onDark,
                             ),
                           ),
                           SizedBox(height: 8),
                           Text(
                             'This example shows how to use circle dividers between sections.',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                            style: TextStyle(color: Mono.onDarkMuted),
                           ),
                         ],
                       ),
@@ -75,15 +73,14 @@ class SmoothWaveDivider extends StatelessWidget {
                             'Features',
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
+                              color: Mono.onDark,
                             ),
                           ),
                           SizedBox(height: 8),
                           Text(
                             '• Customizable circle radius\n• Adjustable spacing between circles\n• Smooth integration with other ticket features',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                            style: TextStyle(color: Mono.onDarkMuted),
                           ),
                         ],
                       ),
@@ -97,15 +94,14 @@ class SmoothWaveDivider extends StatelessWidget {
                             'Usage',
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
+                              color: Mono.onDark,
                             ),
                           ),
                           SizedBox(height: 8),
                           Text(
                             'Use TicketDivider.circles() to create beautiful circle dividers between sections.',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                            style: TextStyle(color: Mono.onDarkMuted),
                           ),
                         ],
                       ),

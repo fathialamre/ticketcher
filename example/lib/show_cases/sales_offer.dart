@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class SalesOffer extends StatelessWidget {
   const SalesOffer({super.key});
 
@@ -24,22 +26,19 @@ class SalesOffer extends StatelessWidget {
                   shape: BorderShape.wave,
                 ),
                 shadow: BoxShadow(
-                  color: Colors.grey.shade200,
+                  color: Mono.blueDeep.withValues(alpha: 0.25),
                   blurRadius: 10,
                   offset: Offset(0, 10),
                 ),
                 divider: TicketDivider.wave(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Mono.blueLight,
                   thickness: 1.8,
                   waveHeight: 10,
                   waveWidth: 20,
                 ),
-                backgroundColor: Theme.of(context).cardColor,
+                backgroundColor: Mono.blue,
                 border: Border.fromBorderSide(
-                  BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 2,
-                  ),
+                  BorderSide(color: Mono.blue, width: 2),
                 ),
               ),
 
@@ -56,29 +55,29 @@ class SalesOffer extends StatelessWidget {
                             'Coffee Shop',
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.w800,
+                              color: Mono.onDark,
                             ),
                           ),
                           Text(
                             '10% off on all orders',
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w700,
+                              color: Mono.blueSoft,
                             ),
                           ),
                           Icon(
                             Icons.coffee_rounded,
                             size: 100,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Mono.white,
                           ),
                           Text(
                             'Valid until 31/05/2025',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontWeight: FontWeight.bold,
+                              color: Mono.blueSoft,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           SizedBox(height: 10),
@@ -87,16 +86,14 @@ class SalesOffer extends StatelessWidget {
                               Icon(
                                 Icons.pin_drop,
                                 size: 16,
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Mono.blueSoft,
                               ),
                               SizedBox(width: 8),
                               Text(
                                 '1000 Main St, Abu-Salim, Libya',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.secondary,
+                                  color: Mono.blueSoft,
                                 ),
                               ),
                             ],
@@ -115,15 +112,19 @@ class SalesOffer extends StatelessWidget {
                         Icon(
                           Icons.timer_outlined,
                           size: 180,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Mono.white,
                         ),
                         Text(
                           'Don\'t miss out!',
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 12, color: Mono.blueSoft),
                         ),
                         Text(
                           'Offer ends in 2 days',
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Mono.onDark,
+                          ),
                         ),
                       ],
                     ),

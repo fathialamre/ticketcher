@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class GradientCard extends StatelessWidget {
   const GradientCard({super.key});
 
@@ -26,22 +28,22 @@ class GradientCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Colors.red, Colors.black, Colors.green],
+                  colors: [Mono.blue, Mono.black, Mono.blueDeep],
                 ),
                 shadow: BoxShadow(
-                  color: Colors.grey.shade200,
+                  color: Mono.black.withValues(alpha: 0.08),
                   blurRadius: 10,
                   offset: Offset(0, 10),
                 ),
                 divider: TicketDivider.dashed(
-                  color: Colors.grey.shade100,
+                  color: Mono.white.withValues(alpha: 0.35),
                   thickness: 1.8,
                   dashWidth: 8,
                   dashSpace: 0.01,
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: Mono.white,
                 border: Border.fromBorderSide(
-                  BorderSide(color: Colors.grey.shade100, width: 2),
+                  BorderSide(color: Mono.line, width: 2),
                 ),
               ),
               sections: [
@@ -58,7 +60,7 @@ class GradientCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Mono.onDark,
                             ),
                           ),
                           Text(
@@ -66,19 +68,19 @@ class GradientCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Mono.onDark,
                             ),
                           ),
                           Icon(
                             Icons.coffee_rounded,
                             size: 100,
-                            color: Colors.white,
+                            color: Mono.onDark,
                           ),
                           Text(
                             'Valid until 31/05/2025',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.white,
+                              color: Mono.onDark,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -100,7 +102,7 @@ class GradientCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Mono.onDark,
                             ),
                           ),
                           Text(
@@ -108,19 +110,19 @@ class GradientCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Mono.onDark,
                             ),
                           ),
                           Icon(
                             Icons.coffee_rounded,
                             size: 100,
-                            color: Colors.white,
+                            color: Mono.onDark,
                           ),
                           Text(
                             'Valid until 31/05/2025',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.white,
+                              color: Mono.onDark,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -130,14 +132,14 @@ class GradientCard extends StatelessWidget {
                               Icon(
                                 Icons.pin_drop,
                                 size: 16,
-                                color: Colors.white,
+                                color: Mono.onDark,
                               ),
                               SizedBox(width: 8),
                               Text(
                                 '1000 Main St, Abu-Salim, Libya',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.white,
+                                  color: Mono.onDark,
                                 ),
                               ),
                             ],
@@ -156,15 +158,15 @@ class GradientCard extends StatelessWidget {
                         Icon(
                           Icons.timer_outlined,
                           size: 180,
-                          color: Colors.white,
+                          color: Mono.onDark,
                         ),
                         Text(
                           'Don\'t miss out!',
-                          style: TextStyle(fontSize: 12, color: Colors.white),
+                          style: TextStyle(fontSize: 12, color: Mono.onDark),
                         ),
                         Text(
                           'Offer ends in 2 days',
-                          style: TextStyle(fontSize: 12, color: Colors.white),
+                          style: TextStyle(fontSize: 12, color: Mono.onDark),
                         ),
                       ],
                     ),

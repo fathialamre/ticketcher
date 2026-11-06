@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class NotchShapesShowcase extends StatelessWidget {
   const NotchShapesShowcase({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notch Shape Variations'),
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
-      ),
-      backgroundColor: const Color(0xFFF5F5F5),
+      appBar: AppBar(title: const Text('Notch Shape Variations')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -22,7 +19,7 @@ class NotchShapesShowcase extends StatelessWidget {
             _buildTicketWithNotch(
               context,
               notchStyle: const NotchStyle.semicircle(radius: 12),
-              color: Colors.deepPurple,
+              color: Mono.blue,
               description: 'Classic circular notch shape',
               shapeName: 'Semicircle',
             ),
@@ -31,7 +28,7 @@ class NotchShapesShowcase extends StatelessWidget {
             _buildTicketWithNotch(
               context,
               notchStyle: const NotchStyle.triangle(radius: 14),
-              color: Colors.teal,
+              color: Mono.black,
               description: 'Sharp triangular cutouts',
               shapeName: 'Triangle',
             ),
@@ -40,7 +37,7 @@ class NotchShapesShowcase extends StatelessWidget {
             _buildTicketWithNotch(
               context,
               notchStyle: const NotchStyle.square(radius: 10),
-              color: Colors.orange,
+              color: Mono.blueDeep,
               description: 'Clean square-shaped notches',
               shapeName: 'Square',
             ),
@@ -49,7 +46,7 @@ class NotchShapesShowcase extends StatelessWidget {
             _buildTicketWithNotch(
               context,
               notchStyle: const NotchStyle.diamond(radius: 12),
-              color: Colors.pink,
+              color: Mono.blueNight,
               description: 'Elegant diamond-shaped cutouts',
               shapeName: 'Diamond',
             ),
@@ -69,8 +66,8 @@ class NotchShapesShowcase extends StatelessWidget {
         title,
         style: const TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          fontWeight: FontWeight.w800,
+          color: Mono.ink,
         ),
       ),
     );
@@ -87,10 +84,10 @@ class NotchShapesShowcase extends StatelessWidget {
       decoration: TicketcherDecoration(
         notchStyle: notchStyle,
         borderRadius: TicketRadius(radius: 16, corner: TicketCorner.all),
-        backgroundColor: Colors.white,
-        border: Border.all(color: color.withAlpha(77), width: 1.5),
+        backgroundColor: Mono.white,
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
         divider: TicketDivider.dashed(
-          color: color.withAlpha(128),
+          color: color.withValues(alpha: 0.5),
           thickness: 1.5,
           dashWidth: 8,
           dashSpace: 4,
@@ -105,7 +102,7 @@ class NotchShapesShowcase extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: color.withAlpha(26),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -123,14 +120,14 @@ class NotchShapesShowcase extends StatelessWidget {
                       shapeName,
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                         color: color,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       description,
-                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                      style: const TextStyle(fontSize: 13, color: Mono.ash),
                     ),
                   ],
                 ),
@@ -146,15 +143,13 @@ class NotchShapesShowcase extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Radius',
-                    style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-                  ),
+                  const Text('Radius', style: Mono.caption),
                   Text(
                     '${notchStyle.radius.toInt()}px',
                     style: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      color: Mono.ink,
                     ),
                   ),
                 ],
@@ -171,8 +166,8 @@ class NotchShapesShowcase extends StatelessWidget {
                 child: const Text(
                   'PREVIEW',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                    color: Mono.onDark,
+                    fontWeight: FontWeight.w800,
                     fontSize: 12,
                   ),
                 ),
@@ -189,10 +184,10 @@ class NotchShapesShowcase extends StatelessWidget {
       decoration: TicketcherDecoration(
         notchStyle: const NotchStyle.triangle(radius: 12),
         borderRadius: TicketRadius(radius: 16, corner: TicketCorner.all),
-        backgroundColor: Colors.indigo.shade50,
-        border: Border.all(color: Colors.indigo.withAlpha(77), width: 1.5),
+        backgroundColor: Mono.blueTint,
+        border: Border.all(color: Mono.blue.withValues(alpha: 0.3), width: 1.5),
         divider: TicketDivider.dashed(
-          color: Colors.indigo.withAlpha(128),
+          color: Mono.blue.withValues(alpha: 0.5),
           thickness: 1.5,
         ),
       ),
@@ -203,14 +198,14 @@ class NotchShapesShowcase extends StatelessWidget {
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.confirmation_number, color: Colors.indigo, size: 36),
+              Icon(Icons.confirmation_number, color: Mono.blue, size: 36),
               SizedBox(height: 8),
               Text(
                 'ADMIT',
                 style: TextStyle(
                   fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo,
+                  fontWeight: FontWeight.w700,
+                  color: Mono.blueDeep,
                   letterSpacing: 2,
                 ),
               ),
@@ -218,8 +213,8 @@ class NotchShapesShowcase extends StatelessWidget {
                 'ONE',
                 style: TextStyle(
                   fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo,
+                  fontWeight: FontWeight.w800,
+                  color: Mono.blueDeep,
                 ),
               ),
             ],
@@ -234,12 +229,16 @@ class NotchShapesShowcase extends StatelessWidget {
             children: [
               const Text(
                 'Triangle Notch',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: Mono.ink,
+                ),
               ),
               const SizedBox(height: 4),
-              Text(
+              const Text(
                 'Horizontal ticket with triangle-shaped notches',
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                style: Mono.caption,
               ),
             ],
           ),

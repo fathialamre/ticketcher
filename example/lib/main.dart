@@ -4,6 +4,7 @@ import 'package:example/show_cases/colored_ticket.dart';
 import 'package:example/show_cases/completeness_showcase.dart';
 import 'package:example/show_cases/flight.dart';
 import 'package:example/show_cases/flight_multi_section.dart';
+import 'package:example/show_cases/flip_showcase.dart';
 import 'package:example/show_cases/gradient_border_ticket.dart';
 import 'package:example/show_cases/gradient_card.dart';
 import 'package:example/show_cases/gradient_variations.dart';
@@ -16,8 +17,10 @@ import 'package:example/show_cases/sales_offer.dart';
 import 'package:example/show_cases/section_gradient_showcase.dart';
 import 'package:example/show_cases/social_media.dart';
 import 'package:example/show_cases/stacked_ticket.dart';
+import 'package:example/show_cases/stamp_showcase.dart';
 import 'package:example/show_cases/watermark_showcase.dart';
 import 'package:flutter/material.dart';
+import 'theme/gallery_mono.dart';
 import 'show_cases/circle_divider.dart';
 import 'show_cases/wave_divider.dart';
 import 'show_cases/smooth_wave_divider.dart';
@@ -38,6 +41,18 @@ class ExampleItem {
 }
 
 final List<ExampleItem> examples = [
+  ExampleItem(
+    icon: Icons.flip,
+    title: 'Flip Ticket',
+    subtitle: 'Two-sided ticket that flips in 3D',
+    page: const FlipShowcase(),
+  ),
+  ExampleItem(
+    icon: Icons.approval,
+    title: 'Status Stamps',
+    subtitle: 'USED / VOID / PAID stamps in 7 shapes, expired state',
+    page: const StampShowcase(),
+  ),
   // New Features v2.1.0
   ExampleItem(
     icon: Icons.straighten,
@@ -179,10 +194,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ticketcher Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: galleryMonoTheme(),
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
     );
@@ -199,9 +211,9 @@ class MyHomePage extends StatelessWidget {
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: 1.1,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 1.0,
         ),
         padding: const EdgeInsets.all(16),
         itemCount: examples.length,
@@ -214,6 +226,7 @@ class MyHomePage extends StatelessWidget {
 
   Widget _buildExampleCard(BuildContext context, ExampleItem example) {
     return Card(
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -222,28 +235,38 @@ class MyHomePage extends StatelessWidget {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(example.icon, size: 32, color: Colors.deepPurple),
-                  const Icon(Icons.arrow_forward_ios, size: 16),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Mono.blueTint,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(example.icon, size: 22, color: Mono.blue),
+                  ),
+                  const Icon(Icons.arrow_outward, size: 18, color: Mono.ash),
                 ],
               ),
-              const SizedBox(height: 8),
+              const Spacer(),
               Text(
                 example.title,
-                style: const TextStyle(fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.2,
+                  color: Mono.ink,
+                ),
               ),
               if (example.subtitle != null) ...[
                 const SizedBox(height: 4),
-                Text(
-                  example.subtitle!,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
+                Text(example.subtitle!, maxLines: 3, style: Mono.caption),
               ],
             ],
           ),

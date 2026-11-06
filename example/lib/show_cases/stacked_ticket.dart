@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 /// Example page demonstrating the stacked layers functionality in Ticketcher.
 class StackedTicket extends StatelessWidget {
   const StackedTicket({super.key});
@@ -14,18 +16,15 @@ class StackedTicket extends StatelessWidget {
         child: Ticketcher(
           decoration: TicketcherDecoration(
             borderRadius: TicketRadius(radius: 20, corner: TicketCorner.all),
-            backgroundColor: Theme.of(context).cardColor,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-              width: 2,
-            ),
+            backgroundColor: Mono.white,
+            border: Border.all(color: Mono.black, width: 2),
             shadow: BoxShadow(
-              color: Theme.of(context).colorScheme.primary,
+              color: Mono.black.withValues(alpha: 0.12),
               blurRadius: 3,
               offset: Offset(0, 10),
             ),
             divider: TicketDivider.dashed(
-              color: Theme.of(context).colorScheme.inversePrimary,
+              color: Mono.line,
               thickness: 1,
               dashWidth: 8,
               dashSpace: 6,
@@ -35,7 +34,7 @@ class StackedTicket extends StatelessWidget {
               count: 2,
               offset: 10,
               widthStep: 15,
-              color: Theme.of(context).colorScheme.primary.withAlpha(60),
+              color: Mono.blue,
             ),
           ),
           sections: [
@@ -47,13 +46,13 @@ class StackedTicket extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
-                      color: Theme.of(context).colorScheme.primaryContainer,
+                      color: Mono.black,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Icon(Icons.airplanemode_active),
+                          Icon(Icons.airplanemode_active, color: Mono.onDark),
                           SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,8 +61,8 @@ class StackedTicket extends StatelessWidget {
                                 "Libyan Airways",
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                                  color: Mono.onDark,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                               Row(
@@ -71,9 +70,7 @@ class StackedTicket extends StatelessWidget {
                                   Icon(
                                     Icons.access_time_outlined,
                                     size: 14,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
+                                    color: Mono.blueLight,
                                   ),
                                   SizedBox(width: 4),
                                   Row(
@@ -82,18 +79,14 @@ class StackedTicket extends StatelessWidget {
                                         "12:00 PM",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
+                                          color: Mono.onDarkMuted,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       SizedBox(
                                         height: 10,
                                         child: VerticalDivider(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
+                                          color: Mono.onDarkMuted,
                                           thickness: 1,
                                         ),
                                       ),
@@ -101,9 +94,7 @@ class StackedTicket extends StatelessWidget {
                                         "Economy - Y",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
+                                          color: Mono.onDarkMuted,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -125,13 +116,13 @@ class StackedTicket extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Column(
                           children: [
-                            Text("MJI"),
+                            Text("MJI", style: Mono.caption),
                             Text(
                               "12:00",
                               style: TextStyle(
                                 fontSize: 22,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -141,13 +132,13 @@ class StackedTicket extends StatelessWidget {
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           children: [
-                            Text("MJI"),
+                            Text("MJI", style: Mono.caption),
                             Text(
                               "12:00",
                               style: TextStyle(
                                 fontSize: 22,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -165,13 +156,13 @@ class StackedTicket extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
-                      color: Theme.of(context).colorScheme.primaryContainer,
+                      color: Mono.blueNight,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Icon(Icons.airplanemode_active),
+                          Icon(Icons.airplanemode_active, color: Mono.onDark),
                           SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,8 +171,8 @@ class StackedTicket extends StatelessWidget {
                                 "Libyan Airways",
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                                  color: Mono.onDark,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                               Row(
@@ -189,9 +180,7 @@ class StackedTicket extends StatelessWidget {
                                   Icon(
                                     Icons.access_time_outlined,
                                     size: 14,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
+                                    color: Mono.blueLight,
                                   ),
                                   SizedBox(width: 4),
                                   Row(
@@ -200,18 +189,14 @@ class StackedTicket extends StatelessWidget {
                                         "12:00 PM",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
+                                          color: Mono.onDarkMuted,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       SizedBox(
                                         height: 10,
                                         child: VerticalDivider(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
+                                          color: Mono.onDarkMuted,
                                           thickness: 1,
                                         ),
                                       ),
@@ -219,9 +204,7 @@ class StackedTicket extends StatelessWidget {
                                         "Economy - Y",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
+                                          color: Mono.onDarkMuted,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -243,13 +226,13 @@ class StackedTicket extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Column(
                           children: [
-                            Text("MJI"),
+                            Text("MJI", style: Mono.caption),
                             Text(
                               "12:00",
                               style: TextStyle(
                                 fontSize: 22,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -259,13 +242,13 @@ class StackedTicket extends StatelessWidget {
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           children: [
-                            Text("MJI"),
+                            Text("MJI", style: Mono.caption),
                             Text(
                               "12:00",
                               style: TextStyle(
                                 fontSize: 22,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                                color: Mono.ink,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],
@@ -287,8 +270,8 @@ class StackedTicket extends StatelessWidget {
                     "1350 USD",
                     style: TextStyle(
                       fontSize: 18,
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold,
+                      color: Mono.blue,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   FilledButton(
@@ -297,8 +280,8 @@ class StackedTicket extends StatelessWidget {
                       "Book Flight",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        color: Mono.onDark,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

@@ -35,3 +35,6 @@ CLAUDE.md
 
 # Publish-only exclusions: internal design docs, not package documentation
 docs/
+.claude/
+# README images load from GitHub raw URLs; no need to ship them
+screenshots/

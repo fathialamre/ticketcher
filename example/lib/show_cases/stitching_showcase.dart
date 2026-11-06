@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class StitchingShowcase extends StatelessWidget {
   const StitchingShowcase({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const teal = Color(0xFF19A8B8);
     return Scaffold(
       appBar: AppBar(title: const Text('Stitching Border')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Vertical coupon — white thread on teal, the reference look.
+            // Vertical coupon — white thread on volt blue, the reference look.
             VTicketcher(
               width: 300,
               decoration: const TicketcherDecoration(
-                backgroundColor: teal,
+                backgroundColor: Mono.blue,
                 borderRadius: TicketRadius(radius: 24),
                 stitch: TicketStitch(
-                  color: Colors.white,
+                  color: Mono.white,
                   inset: 12,
                   length: 7,
                   spacing: 7,
@@ -36,9 +37,9 @@ class StitchingShowcase extends StatelessWidget {
                       child: Text(
                         'ADMIT ONE',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Mono.onDark,
                           fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w800,
                           letterSpacing: 2,
                         ),
                       ),
@@ -52,7 +53,7 @@ class StitchingShowcase extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'No. 042 · Row C',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        style: TextStyle(color: Mono.blueSoft, fontSize: 15),
                       ),
                     ),
                   ),
@@ -61,14 +62,14 @@ class StitchingShowcase extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // Horizontal — gold thread, larger inset.
+            // Horizontal — blue thread on black, larger inset.
             Ticketcher.horizontal(
               height: 150,
               decoration: const TicketcherDecoration(
-                backgroundColor: Color(0xFF2B2B3A),
+                backgroundColor: Mono.black,
                 borderRadius: TicketRadius(radius: 18),
                 stitch: TicketStitch(
-                  color: Color(0xFFF4C95D),
+                  color: Mono.blueLight,
                   inset: 10,
                   length: 6,
                   spacing: 5,
@@ -84,9 +85,9 @@ class StitchingShowcase extends StatelessWidget {
                       '50%\nOFF',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFFF4C95D),
+                        color: Mono.blueLight,
                         fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
@@ -98,9 +99,10 @@ class StitchingShowcase extends StatelessWidget {
                     child: Text(
                       'CODE: STITCH50',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Mono.onDark,
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2,
                       ),
                     ),
                   ),
@@ -113,11 +115,11 @@ class StitchingShowcase extends StatelessWidget {
             VTicketcher(
               width: 300,
               decoration: TicketcherDecoration(
-                backgroundColor: Colors.white,
+                backgroundColor: Mono.white,
                 borderRadius: const TicketRadius(radius: 16),
-                border: Border.all(color: Colors.indigo.shade300, width: 2),
-                stitch: TicketStitch(
-                  color: Colors.indigo.shade300,
+                border: Border.all(color: Mono.black, width: 2),
+                stitch: const TicketStitch(
+                  color: Mono.ash,
                   inset: 9,
                   length: 5,
                   spacing: 5,
@@ -129,14 +131,28 @@ class StitchingShowcase extends StatelessWidget {
                   padding: EdgeInsets.all(20),
                   child: SizedBox(
                     height: 70,
-                    child: Center(child: Text('Border + stitch')),
+                    child: Center(
+                      child: Text(
+                        'Border + stitch',
+                        style: TextStyle(
+                          color: Mono.ink,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Section(
                   padding: EdgeInsets.all(20),
                   child: SizedBox(
                     height: 60,
-                    child: Center(child: Text('two independent layers')),
+                    child: Center(
+                      child: Text(
+                        'two independent layers',
+                        style: Mono.caption,
+                      ),
+                    ),
                   ),
                 ),
               ],

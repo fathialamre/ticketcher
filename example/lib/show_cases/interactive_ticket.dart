@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 class InteractiveTicket extends StatefulWidget {
   const InteractiveTicket({super.key});
 
@@ -36,7 +38,7 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
       SnackBar(
         content: Text('Action: $action'),
         duration: const Duration(seconds: 2),
-        backgroundColor: Colors.green,
+        backgroundColor: Mono.blue,
       ),
     );
   }
@@ -52,25 +54,34 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
           children: [
             // Status Card
             Card(
-              color: Colors.grey.shade100,
+              color: Mono.white,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Interaction Status',
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
+                        fontWeight: FontWeight.w800,
+                        color: Mono.ink,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text('Last tapped section: $_selectedSection'),
-                    Text('Total taps: $_tapCount'),
+                    Text(
+                      'Last tapped section: $_selectedSection',
+                      style: Mono.body,
+                    ),
+                    Text(
+                      'Total taps: $_tapCount',
+                      style: Mono.body.copyWith(
+                        color: Mono.blue,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                     if (_lastTappedAction.isNotEmpty)
-                      Text('Last action: $_lastTappedAction'),
+                      Text('Last action: $_lastTappedAction', style: Mono.body),
                   ],
                 ),
               ),
@@ -79,12 +90,12 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
             const SizedBox(height: 20),
 
             // Vertical Interactive Ticket
-            Text(
+            const Text(
               'Vertical Interactive Ticket',
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
+                fontWeight: FontWeight.w800,
+                color: Mono.ink,
               ),
             ),
             const SizedBox(height: 10),
@@ -96,16 +107,16 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
                   radius: 12,
                   corner: TicketCorner.all,
                 ),
-                backgroundColor: Colors.white,
-                border: Border.all(color: Colors.deepPurple, width: 2),
+                backgroundColor: Mono.white,
+                border: Border.all(color: Mono.black, width: 2),
                 divider: TicketDivider.dotted(
-                  color: Colors.deepPurple,
+                  color: Mono.blue,
                   thickness: 2,
                   dotSize: 4,
                   dotSpacing: 8,
                 ),
                 shadow: BoxShadow(
-                  color: Colors.grey.shade300,
+                  color: Mono.black.withValues(alpha: 0.08),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),
@@ -116,27 +127,21 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
                   onTap: () => _showSectionTapped('Header'),
                   child: Column(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.airplane_ticket,
                         size: 50,
-                        color: Colors.deepPurple,
+                        color: Mono.blue,
                       ),
                       const SizedBox(height: 10),
-                      Text(
+                      const Text(
                         'Flight Ticket',
                         style: TextStyle(
                           fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple,
+                          fontWeight: FontWeight.w800,
+                          color: Mono.ink,
                         ),
                       ),
-                      Text(
-                        'Tap to view details',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
+                      const Text('Tap to view details', style: Mono.caption),
                     ],
                   ),
                 ),
@@ -149,30 +154,32 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('From', style: TextStyle(color: Colors.grey)),
-                          Text(
+                          const Text('From', style: Mono.caption),
+                          const Text(
                             'NYC',
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
+                              color: Mono.ink,
                             ),
                           ),
-                          Text('9:00 AM'),
+                          const Text('9:00 AM', style: Mono.body),
                         ],
                       ),
-                      Icon(Icons.flight, color: Colors.deepPurple),
+                      const Icon(Icons.flight, color: Mono.blue),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('To', style: TextStyle(color: Colors.grey)),
-                          Text(
+                          const Text('To', style: Mono.caption),
+                          const Text(
                             'LAX',
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
+                              color: Mono.ink,
                             ),
                           ),
-                          Text('12:30 PM'),
+                          const Text('12:30 PM', style: Mono.body),
                         ],
                       ),
                     ],
@@ -185,15 +192,15 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     decoration: BoxDecoration(
-                      color: Colors.deepPurple,
+                      color: Mono.blue,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
+                    child: const Text(
                       'TAP TO CHECK-IN',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        color: Mono.onDark,
+                        fontWeight: FontWeight.w800,
                         fontSize: 16,
                       ),
                     ),
@@ -205,12 +212,12 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
             const SizedBox(height: 30),
 
             // Horizontal Interactive Ticket
-            Text(
+            const Text(
               'Horizontal Interactive Ticket',
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
+                fontWeight: FontWeight.w800,
+                color: Mono.ink,
               ),
             ),
             const SizedBox(height: 10),
@@ -222,15 +229,15 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
                   radius: 12,
                   corner: TicketCorner.all,
                 ),
-                backgroundColor: Colors.white,
-                border: Border.all(color: Colors.orange, width: 2),
+                backgroundColor: Mono.black,
+                border: Border.all(color: Mono.blue, width: 2),
                 divider: TicketDivider.doubleLine(
-                  color: Colors.orange,
+                  color: Mono.blueLight,
                   thickness: 1,
                   lineSpacing: 4,
                 ),
                 shadow: BoxShadow(
-                  color: Colors.grey.shade300,
+                  color: Mono.black.withValues(alpha: 0.08),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),
@@ -244,36 +251,38 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'CONCERT',
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orange,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.8,
+                          color: Mono.blueLight,
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      const Text(
                         'Rock Festival 2024',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
+                          color: Mono.onDark,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'December 25, 2024',
-                        style: TextStyle(color: Colors.grey.shade600),
+                        style: TextStyle(color: Mono.onDarkMuted),
                       ),
-                      Text(
+                      const Text(
                         'Stadium Arena',
-                        style: TextStyle(color: Colors.grey.shade600),
+                        style: TextStyle(color: Mono.onDarkMuted),
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      const Text(
                         'Tap for details',
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.orange,
+                          color: Mono.blueLight,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
@@ -286,22 +295,19 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.qr_code, size: 80, color: Colors.orange),
+                      const Icon(Icons.qr_code, size: 80, color: Mono.onDark),
                       const SizedBox(height: 8),
-                      Text(
+                      const Text(
                         'QR CODE',
                         style: TextStyle(
                           fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orange,
+                          fontWeight: FontWeight.w800,
+                          color: Mono.blueLight,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Tap to scan',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.grey.shade600,
-                        ),
+                        style: TextStyle(fontSize: 10, color: Mono.onDarkMuted),
                       ),
                     ],
                   ),
@@ -313,33 +319,33 @@ class _InteractiveTicketState extends State<InteractiveTicket> {
 
             // Instructions
             Card(
-              color: Colors.blue.shade50,
+              color: Mono.blueTint,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       children: [
-                        Icon(Icons.info, color: Colors.blue),
-                        const SizedBox(width: 8),
+                        Icon(Icons.info, color: Mono.blue),
+                        SizedBox(width: 8),
                         Text(
                           'How to use',
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            fontWeight: FontWeight.w800,
+                            color: Mono.blueDeep,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text(
+                    const Text(
                       '• Tap on any section of the tickets above\n'
                       '• Each section has its own onTap callback\n'
                       '• Watch the status update and snackbar messages\n'
                       '• Sections show visual feedback when tapped',
-                      style: TextStyle(fontSize: 14),
+                      style: Mono.body,
                     ),
                   ],
                 ),

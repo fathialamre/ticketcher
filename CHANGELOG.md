@@ -1,3 +1,32 @@
+## 2.3.0
+
+- **Flip ticket**: new `FlipTicketcher` widget with a `front` and `back` face
+  that flips in 3D. Triggers: tap, swipe (follows the finger, settles or
+  flings), both, or none; horizontal or vertical axis; optional
+  `FlipTicketcherController` (`flip`, `showFront`, `showBack`, `isFront`) and
+  `onFlip` callback. Respects reduced motion.
+- **Status stamps**: new `TicketStamp` on `TicketcherDecoration.stamp` — a
+  rubber-stamp overlay clipped to the ticket outline, pointer-transparent, with
+  a semantics label. Seven `StampShape`s (rectangle, roundedRectangle, circle,
+  oval, seal, hexagon, ribbon), three `StampBorderStyle`s (single, double,
+  dashed), optional subtitle, rotation, alignment, offset, ink texture, and an
+  optional "thump" `animateIn`. Presets `used`, `voided`, `paid`, `vip`.
+  Arabic text supported. `TicketStampMark` renders a stamp on its own.
+- **Expired state**: new `TicketcherDecoration.status` (`TicketStatus.active` /
+  `expired`). Expired tickets are greyed out, dimmed, and marked disabled for
+  screen readers; the stamp stays in full color.
+- Stamp presets (`used`, `voided`, `paid`, `vip`) accept a `color` override.
+- **New logo**: three fanned tickets in the Gallery Mono palette, with light and
+  dark variants (`screenshots/logo/`). The README switches between them with
+  the reader's color scheme.
+- **Docs**: README rewritten with a screenshot for every feature and API
+  snippets checked against the current API. The screenshots come from
+  `example/lib/readme_shots.dart` and are regenerated with
+  `example/tool/capture_readme_shots.sh`.
+- **Example app**: every showcase now uses one shared "Gallery Mono" theme
+  (black, white and volt blue) from `example/lib/theme/gallery_mono.dart`.
+- Purely additive; no breaking changes.
+
 ## 2.2.0
 
 - **Stitching border**: new `TicketStitch` on `TicketcherDecoration.stitch` — an

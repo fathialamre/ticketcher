@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketcher/ticketcher.dart';
 
+import '../theme/gallery_mono.dart';
+
 /// A showcase demonstrating the image background feature for tickets.
 ///
 /// This example demonstrates:
@@ -15,11 +17,7 @@ class ImageBackgroundShowcase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image Background Showcase'),
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
-      ),
+      appBar: AppBar(title: const Text('Image Background Showcase')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -41,15 +39,16 @@ class ImageBackgroundShowcase extends StatelessWidget {
                 ),
                 backgroundImageFit: BoxFit.cover,
                 backgroundImageOpacity: 0.7,
-                border: Border.all(color: Colors.white, width: 2),
+                backgroundColor: Mono.black,
+                border: Border.all(color: Mono.white, width: 2),
                 divider: TicketDivider.dashed(
-                  color: Colors.white,
+                  color: Mono.white,
                   thickness: 1.5,
                   dashWidth: 8,
                   dashSpace: 6,
                 ),
                 shadow: BoxShadow(
-                  color: Colors.grey.shade300,
+                  color: Mono.black.withValues(alpha: 0.15),
                   blurRadius: 10,
                   offset: const Offset(0, 5),
                 ),
@@ -63,11 +62,9 @@ class ImageBackgroundShowcase extends StatelessWidget {
                         'Summer Festival 2025',
                         style: TextStyle(
                           fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(color: Colors.black54, blurRadius: 4),
-                          ],
+                          fontWeight: FontWeight.w800,
+                          color: Mono.onDark,
+                          shadows: [Shadow(color: Mono.black, blurRadius: 4)],
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -78,15 +75,15 @@ class ImageBackgroundShowcase extends StatelessWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Mono.white.withValues(alpha: 0.9),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: const Text(
                           'VIP Access',
                           style: TextStyle(
                             fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepPurple,
+                            fontWeight: FontWeight.w800,
+                            color: Mono.blue,
                           ),
                         ),
                       ),
@@ -98,19 +95,19 @@ class ImageBackgroundShowcase extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildInfoColumn('Date', 'Aug 15, 2025', Colors.white),
+                      _buildInfoColumn('Date', 'Aug 15, 2025', Mono.onDark),
                       Container(
                         width: 1,
                         height: 50,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Mono.white.withValues(alpha: 0.5),
                       ),
-                      _buildInfoColumn('Time', '7:00 PM', Colors.white),
+                      _buildInfoColumn('Time', '7:00 PM', Mono.onDark),
                       Container(
                         width: 1,
                         height: 50,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Mono.white.withValues(alpha: 0.5),
                       ),
-                      _buildInfoColumn('Gate', 'A12', Colors.white),
+                      _buildInfoColumn('Gate', 'A12', Mono.onDark),
                     ],
                   ),
                 ),
@@ -129,10 +126,10 @@ class ImageBackgroundShowcase extends StatelessWidget {
               notchRadius: 12,
               decoration: TicketcherDecoration(
                 borderRadius: const TicketRadius(radius: 16),
-                backgroundColor: Colors.grey.shade100,
-                border: Border.all(color: Colors.grey.shade300, width: 2),
+                backgroundColor: Mono.fog,
+                border: Border.all(color: Mono.line, width: 2),
                 divider: TicketDivider.circles(
-                  color: Colors.grey.shade400,
+                  color: Mono.ash,
                   circleRadius: 3,
                   circleSpacing: 6,
                 ),
@@ -151,11 +148,9 @@ class ImageBackgroundShowcase extends StatelessWidget {
                         'Mountain Adventure',
                         style: TextStyle(
                           fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(color: Colors.black87, blurRadius: 6),
-                          ],
+                          fontWeight: FontWeight.w800,
+                          color: Mono.onDark,
+                          shadows: [Shadow(color: Mono.black, blurRadius: 6)],
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -164,10 +159,8 @@ class ImageBackgroundShowcase extends StatelessWidget {
                         'Experience the peaks',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(color: Colors.black54, blurRadius: 4),
-                          ],
+                          color: Mono.onDark,
+                          shadows: [Shadow(color: Mono.black, blurRadius: 4)],
                         ),
                       ),
                     ],
@@ -182,16 +175,12 @@ class ImageBackgroundShowcase extends StatelessWidget {
                   backgroundImageOpacity: 0.6,
                   child: Column(
                     children: [
-                      const Icon(
-                        Icons.landscape,
-                        size: 48,
-                        color: Colors.white,
-                      ),
+                      const Icon(Icons.landscape, size: 48, color: Mono.white),
                       const SizedBox(height: 12),
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.7),
+                          color: Mono.black.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Text(
@@ -199,7 +188,7 @@ class ImageBackgroundShowcase extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: Mono.white,
                           ),
                         ),
                       ),
@@ -227,8 +216,8 @@ class ImageBackgroundShowcase extends StatelessWidget {
                         'https://images.unsplash.com/photo-1502134249126-9f3755a50d78',
                       ),
                       backgroundImageFit: BoxFit.contain,
-                      backgroundColor: Colors.grey.shade800,
-                      border: Border.all(color: Colors.white, width: 2),
+                      backgroundColor: Mono.graphite,
+                      border: Border.all(color: Mono.white, width: 2),
                     ),
                     sections: [
                       const Section(
@@ -237,8 +226,8 @@ class ImageBackgroundShowcase extends StatelessWidget {
                           'Contain',
                           style: TextStyle(
                             fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            color: Mono.white,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -247,7 +236,7 @@ class ImageBackgroundShowcase extends StatelessWidget {
                         padding: EdgeInsets.all(16),
                         child: Text(
                           'Full Image\nVisible',
-                          style: TextStyle(fontSize: 12, color: Colors.white),
+                          style: TextStyle(fontSize: 12, color: Mono.white),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -264,7 +253,7 @@ class ImageBackgroundShowcase extends StatelessWidget {
                         'https://images.unsplash.com/photo-1502134249126-9f3755a50d78',
                       ),
                       backgroundImageFit: BoxFit.cover,
-                      border: Border.all(color: Colors.white, width: 2),
+                      border: Border.all(color: Mono.white, width: 2),
                     ),
                     sections: [
                       const Section(
@@ -273,11 +262,9 @@ class ImageBackgroundShowcase extends StatelessWidget {
                           'Cover',
                           style: TextStyle(
                             fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(color: Colors.black87, blurRadius: 4),
-                            ],
+                            fontWeight: FontWeight.w800,
+                            color: Mono.onDark,
+                            shadows: [Shadow(color: Mono.black, blurRadius: 4)],
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -288,10 +275,8 @@ class ImageBackgroundShowcase extends StatelessWidget {
                           'Fills\nSpace',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(color: Colors.black87, blurRadius: 4),
-                            ],
+                            color: Mono.onDark,
+                            shadows: [Shadow(color: Mono.black, blurRadius: 4)],
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -336,9 +321,10 @@ class ImageBackgroundShowcase extends StatelessWidget {
                 ),
                 backgroundImageFit: BoxFit.cover,
                 backgroundImageOpacity: 0.4,
-                border: Border.all(color: Colors.blueGrey.shade700, width: 2),
+                backgroundColor: Mono.black,
+                border: Border.all(color: Mono.black, width: 2),
                 divider: TicketDivider.smoothWave(
-                  color: Colors.white,
+                  color: Mono.white,
                   thickness: 2,
                   waveHeight: 6,
                   waveWidth: 10,
@@ -347,17 +333,17 @@ class ImageBackgroundShowcase extends StatelessWidget {
               sections: [
                 Section(
                   padding: const EdgeInsets.all(24),
-                  color: Colors.deepPurple.withOpacity(0.8),
+                  color: Mono.blue.withValues(alpha: 0.85),
                   child: const Column(
                     children: [
-                      Icon(Icons.code, size: 48, color: Colors.white),
+                      Icon(Icons.code, size: 48, color: Mono.white),
                       SizedBox(height: 12),
                       Text(
                         'Developer Conference',
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          color: Mono.white,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -366,7 +352,7 @@ class ImageBackgroundShowcase extends StatelessWidget {
                 ),
                 Section(
                   padding: const EdgeInsets.all(24),
-                  color: Colors.teal.withOpacity(0.8),
+                  color: Mono.black.withValues(alpha: 0.8),
                   child: const Column(
                     children: [
                       Text(
@@ -374,13 +360,13 @@ class ImageBackgroundShowcase extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                          color: Mono.white,
                         ),
                       ),
                       SizedBox(height: 8),
                       Text(
                         'Background image is behind this',
-                        style: TextStyle(fontSize: 12, color: Colors.white70),
+                        style: TextStyle(fontSize: 12, color: Mono.onDarkMuted),
                       ),
                     ],
                   ),
@@ -399,8 +385,8 @@ class ImageBackgroundShowcase extends StatelessWidget {
       title,
       style: const TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Colors.deepPurple,
+        fontWeight: FontWeight.w800,
+        color: Mono.ink,
       ),
     );
   }
@@ -408,7 +394,7 @@ class ImageBackgroundShowcase extends StatelessWidget {
   Widget _buildDescription(String description) {
     return Text(
       description,
-      style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
+      style: const TextStyle(fontSize: 14, color: Mono.ash),
     );
   }
 
@@ -419,7 +405,7 @@ class ImageBackgroundShowcase extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 12,
-            color: color.withOpacity(0.8),
+            color: color.withValues(alpha: 0.8),
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -428,9 +414,9 @@ class ImageBackgroundShowcase extends StatelessWidget {
           value,
           style: TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w800,
             color: color,
-            shadows: const [Shadow(color: Colors.black54, blurRadius: 3)],
+            shadows: const [Shadow(color: Mono.black, blurRadius: 3)],
           ),
         ),
       ],
@@ -447,7 +433,8 @@ class ImageBackgroundShowcase extends StatelessWidget {
         ),
         backgroundImageFit: BoxFit.cover,
         backgroundImageOpacity: opacity,
-        border: Border.all(color: Colors.grey.shade400, width: 1.5),
+        backgroundColor: Mono.black,
+        border: Border.all(color: Mono.line, width: 1.5),
       ),
       sections: [
         Section(
@@ -456,16 +443,16 @@ class ImageBackgroundShowcase extends StatelessWidget {
             '${(opacity * 100).toInt()}%',
             style: const TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [Shadow(color: Colors.black87, blurRadius: 4)],
+              fontWeight: FontWeight.w800,
+              color: Mono.onDark,
+              shadows: [Shadow(color: Mono.black, blurRadius: 4)],
             ),
             textAlign: TextAlign.center,
           ),
         ),
         const Section(
           padding: EdgeInsets.all(8),
-          child: Icon(Icons.image, color: Colors.white, size: 24),
+          child: Icon(Icons.image, color: Mono.white, size: 24),
         ),
       ],
     );
