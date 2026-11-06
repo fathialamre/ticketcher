@@ -8,6 +8,7 @@ import '../painters/hticketcher_painter.dart';
 import '../painters/image_resolver.dart';
 import 'blur_wrapper.dart';
 import 'ticket_clipper.dart';
+import 'ticket_stamp_layer.dart';
 
 /// A widget that creates a horizontal ticket with customizable sections, borders, and dividers.
 ///
@@ -299,7 +300,15 @@ class _HTicketcherState extends State<HTicketcher> {
               ),
             );
 
-            return ticketWidget;
+            return wrapTicketStatusAndStamp(
+              ticket: ticketWidget,
+              decoration: widget.decoration,
+              clipper: HTicketcherClipper(
+                notchRadius: widget.notchRadius,
+                decoration: widget.decoration,
+                sectionWidths: _sectionWidths,
+              ),
+            );
           },
         ),
       ),

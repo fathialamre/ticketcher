@@ -9,6 +9,7 @@ import '../painters/vticketcher_painter.dart';
 import '../painters/image_resolver.dart';
 import 'blur_wrapper.dart';
 import 'ticket_clipper.dart';
+import 'ticket_stamp_layer.dart';
 
 /// A widget that creates a vertical ticket with customizable sections, borders, and dividers.
 ///
@@ -316,7 +317,15 @@ class _VTicketcherState extends State<VTicketcher> {
               ),
             );
 
-            return ticketWidget;
+            return wrapTicketStatusAndStamp(
+              ticket: ticketWidget,
+              decoration: widget.decoration,
+              clipper: VTicketcherClipper(
+                notchRadius: widget.notchRadius,
+                decoration: widget.decoration,
+                sectionHeights: _sectionHeights,
+              ),
+            );
           },
         ),
       ),
