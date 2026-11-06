@@ -36,5 +36,14 @@ CLAUDE.md
 # Publish-only exclusions: internal design docs, not package documentation
 docs/
 .claude/
-# README images load from GitHub raw URLs; no need to ship them
-screenshots/
+# README images load from GitHub raw URLs. Ship only the files listed under
+# `screenshots:` in pubspec.yaml (pub.dev requires them in the archive).
+screenshots/*
+!screenshots/readme/
+screenshots/readme/*
+!screenshots/readme/cover.png
+!screenshots/readme/flip.png
+!screenshots/readme/stamps.png
+!screenshots/readme/rtl.png
+!screenshots/readme/notch_shapes.png
+!screenshots/readme/blur.png

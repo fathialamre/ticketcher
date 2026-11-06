@@ -11,16 +11,18 @@ topics:
   - event-ticket
 
 screenshots:
-  - description: "Concert ticket with wave divider"
-    path: screenshots/horizontal_1.jpeg
-  - description: "Flight boarding pass with dashed divider"
-    path: screenshots/flight.jpeg
-  - description: "Gradient background ticket"
-    path: screenshots/gradient_background.png
-  - description: "Multiple section ticket with notches"
-    path: screenshots/flight_multiple_section.jpeg
-  - description: "Holographic / glassmorphism effects"
-    path: screenshots/holograplic_effects.png
+  - description: "Ticketcher tickets, passes and coupons"
+    path: screenshots/readme/cover.png
+  - description: "FlipTicketcher: two-sided ticket that flips in 3D"
+    path: screenshots/readme/flip.png
+  - description: "TicketStamp: ink stamps in seven shapes"
+    path: screenshots/readme/stamps.png
+  - description: "Right-to-left Arabic ticket with a seal stamp"
+    path: screenshots/readme/rtl.png
+  - description: "Four notch shapes"
+    path: screenshots/readme/notch_shapes.png
+  - description: "Frosted glass blur effect"
+    path: screenshots/readme/blur.png
 
 environment:
   sdk: ^3.7.0
